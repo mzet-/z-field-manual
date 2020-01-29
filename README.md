@@ -1,2 +1,1 @@
-# z-field-manual
-Security Testing Field Manual
+# Security Testing Field Manual
