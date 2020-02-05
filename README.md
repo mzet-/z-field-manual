@@ -61,8 +61,8 @@ Possible techniques to use (in a form of attack tree):
 4.1. Hack 3rd party entity that delivers service to target (T1195)
 4.1.1. Open source Software supplier 
 4.1.2. Commercial Software supplier 
-4.1.3. Hack target's contractor 
-4.1.4. Hack company that  
+4.1.3. Hack company that provides services to the target
+4.1.4. Hack target's contractor worker
 4.2. [AND] Hack "to be acquired" company
 4.2.1. Get knowledge about near aquisitions
 4.2.1. Hack the company that is going to be acquired 
