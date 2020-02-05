@@ -28,7 +28,7 @@ List of possible goals.
 
 *Tactical goal: get IP address in target's internal network*
 
-Possible techniques to use (in a form of attack tree):
+Possible techniques (in a form of attack tree):
 
 ```
 1. [OR] Social Engineering
