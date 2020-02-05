@@ -71,3 +71,9 @@ Possible techniques to use (in a form of attack tree):
 4.3.2. Exploit the trust that was built
 ...
 ```
+
+## Internal recon ([ATT&CK: TA0007](https://attack.mitre.org/tactics/TA0001/))
+
+## Credential Access ([ATT&CK: TA0006](https://attack.mitre.org/tactics/TA0001/))
+
+## Lateral Movement ([ATT&CK: TA0008](https://attack.mitre.org/tactics/TA0001/))
