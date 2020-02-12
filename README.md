@@ -24,7 +24,7 @@ List of possible goals.
 
 ## Attack Infrastructure ([PRE-ATT&CK: TA0022](https://attack.mitre.org/tactics/TA0022/))
 
-## Getting internal IP address ([ATT&CK: TA0001](https://attack.mitre.org/tactics/TA0001/))
+## Getting Access ([ATT&CK: TA0001](https://attack.mitre.org/tactics/TA0001/))
 
 *Tactical goal: get IP address in target's internal network*
 
@@ -44,12 +44,12 @@ Possible techniques (in a form of attack tree):
 1.4. Fooling insider to reveal his credentials (T1078)
 ...
 
-2. Breaching the perimeter/DMZ
+2. [OR] Breaching the perimeter/DMZ
 2.1. Exploit Public-Facing Application (T1190)
 2.2. Exploit remote access mechanism (T1133)
 ...
 
-3. Proximity attacks
+3. [OR] Proximity attacks
 3.1. Hacking into wireless network
 3.2. Using USB drive drops (T1091)
 3.3. [OR] Breaching physical perimeter
@@ -58,7 +58,7 @@ Possible techniques (in a form of attack tree):
 ...
 
 4. [OR] Exploiting Trusted Relationship (T1199)
-4.1. Hack 3rd party entity that delivers service to target (T1195)
+4.1. [OR] Hack 3rd party entity that delivers service to target (T1195)
 4.1.1. Open source Software supplier 
 4.1.2. Commercial Software supplier 
 4.1.3. Hack company that provides services to the target
@@ -72,8 +72,43 @@ Possible techniques (in a form of attack tree):
 ...
 ```
 
-## Internal recon ([ATT&CK: TA0007](https://attack.mitre.org/tactics/TA0001/))
+## Discovery ([ATT&CK: TA0007](https://attack.mitre.org/tactics/TA0007/))
 
-## Credential Access ([ATT&CK: TA0006](https://attack.mitre.org/tactics/TA0001/))
+*Tactical goal: Understand the target environment*
 
-## Lateral Movement ([ATT&CK: TA0008](https://attack.mitre.org/tactics/TA0001/))
+### Understanding the network
+
+```
+What's the network topology? Is it flat?
+Where are egress points?
+Where are "multi-homed" boxes?
+```
+
+## Credential Access ([ATT&CK: TA0006](https://attack.mitre.org/tactics/TA0006/))
+
+*Tactical goal: Acquire valid set of credentials*
+
+## Lateral Movement ([ATT&CK: TA0008](https://attack.mitre.org/tactics/TA0008/))
+
+# Techniques (Discovery)
+
+## Network Sniffing ([ATT&CK: T1040](https://attack.mitre.org/techniques/T1040/))
+
+Sniffing:
+
+```
+```
+
+Passive OS fingerprinting:
+
+```
+# Linux
+screen -L -d -m responder -I eth0 -A -f
+
+# Windows
+Invoke-Inveigh -IP <current-box-ip> -ConsoleOutput Y -Inspect Y
+```
+
+# Techniques (Credential Access)
+
+# Techniques (Lateral Movement)
