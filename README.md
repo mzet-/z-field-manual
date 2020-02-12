@@ -1,4 +1,3 @@
-[TOC]
 
 # Security Testing Field Manual
 
@@ -114,3 +113,32 @@ Invoke-Inveigh -IP <current-box-ip> -ConsoleOutput Y -Inspect Y
 # Techniques (Credential Access)
 
 # Techniques (Lateral Movement)
+
+##
+
+### SMTP service
+
+Ports:
+
+    TCP: 25,587,465
+
+Implementations:
+
+    https://en.wikipedia.org/wiki/List_of_mail_server_software#SMTP
+
+Common misconfiguration: SMTP Open Relay
+
+```
+HELO ABC
+MAIL FROM: foo@domain.com
+RCPT TO: bar@domain.com
+DATA
+Testing for SMTP open relay issue.
+.
+QUIT
+```
+
+Noteworthy vulnerabilities:
+
+```
+```
