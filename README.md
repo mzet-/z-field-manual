@@ -1,6 +1,6 @@
 
 
-<!-- MarkdownTOC depth=2 autolink=true -->
+<!-- MarkdownTOC depth=3 autolink=true -->
 
 - [Operational Considerations](#operational-considerations)
     - [Goals](#goals)
@@ -13,9 +13,14 @@
     - [Discovery](#discovery)
     - [Credential Access](#credential-access)
     - [Lateral Movement](#lateral-movement)
+- [Techniques: Ops-Sec Considerations]
+- [Techniques: Attack Infrastructure]
 - [Techniques: Discovery](#techniques-discovery)
+    - [Passive techniques](#passive-techniques)
 - [Techniques: Credential Access](#techniques-credential-access)
 - [Techniques: Lateral Movement](#techniques-lateral-movement)
+    - [Vulnerable/misconfigured Remote Services](#vulnerablemisconfigured-remote-services)
+    - [Vulnerable/misconfigured HTTP/HTTPS Remote Services](#vulnerablemisconfigured-httphttps-remote-services)
 
 <!-- /MarkdownTOC -->
 
@@ -105,7 +110,7 @@ Possible techniques (in a form of attack tree):
 
 MITRE ATT&CK: [TA0007](https://attack.mitre.org/tactics/TA0007/)
 
-### Understanding the network
+Questions that should be asked:
 
 ```
 What's the network topology? Is it flat?
@@ -144,11 +149,13 @@ screen -L -d -m responder -I eth0 -A -f
 Invoke-Inveigh -IP <current-box-ip> -ConsoleOutput Y -Inspect Y
 ```
 
-# Techniques (Credential Access)
+# Techniques: Credential Access
 
-# Techniques (Lateral Movement)
+# Techniques: Lateral Movement
 
-## Vulnerable/misconfigured Remote Services (T1021 / T1210)
+## Vulnerable/misconfigured Remote Services 
+
+MITRE ATT&CK: T1021 / T1210
 
 ### SMTP service
 
@@ -177,7 +184,9 @@ Noteworthy vulnerabilities:
 ```
 ```
 
-## Vulnerable/misconfigured HTTP/HTTPS Services (T1021 / T1210)
+## Vulnerable/misconfigured HTTP/HTTPS Services
+
+MITRE ATT&CK: T1021 / T1210
 
 ### Apache Tomcat: default/weak credentials
 
