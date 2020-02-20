@@ -21,6 +21,7 @@
 - [Techniques: Credential Access](#techniques-credential-access)
 - [Techniques: Lateral Movement](#techniques-lateral-movement)
     - [Vulnerable/misconfigured Remote Services](#vulnerablemisconfigured-remote-services)
+        - [SMTP](#smtp-service)
     - [Vulnerable/misconfigured HTTP/HTTPS Remote Services](#vulnerablemisconfigured-httphttps-remote-services)
 
 <!-- /MarkdownTOC -->
