@@ -156,7 +156,7 @@ Rawr Scan
 Use `auxiliary/scanner/http/tomcat_mgr_login`
 ```
 
-OR (if many different ports are used):
+OR (if many different ports are used)
 	```
 Prereq: Nmap scan results imported to msf
 
