@@ -1,4 +1,17 @@
 
+
+<!-- MarkdownTOC depth=2 autolink=true -->
+
+- [Operational Considerations](#operational-considerations)
+    - [Goals](#goals)
+    - [Operation Planning](#operation-planning)
+    - [Toolbox](#toolbox)
+- [Tactical Objectives](#tactical-objectives)
+- [Techniques: Credential Access)](#techniques:-credential-access)
+- [Techniques: Lateral Movement](#techniques:-lateral-movement)
+
+<!-- /MarkdownTOC -->
+
 # Security Testing Field Manual
 
 Introduction and purpose.
