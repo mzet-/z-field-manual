@@ -147,6 +147,11 @@ Noteworthy vulnerabilities:
 
 ### Apache Tomcat: default/weak credentials
 
+Rawr Scan
+	```
+		nmap -sV --open -T4 -v7 -p80,280,443,591,593,981,1311,2031,2480,3181,4444,4445,4567,4711,4712,5104,5280,5800,5988,5989,7000,7001,7002,8008,8011,8012,8013,8014,8042,8069,8080,8081,8243,8280,8281,8531,8887,8888,9080,9443,11371,12443,16080,18091,18092 -iL live-hosts.txt -oA web
+	```
+
 ```
 Use `auxiliary/scanner/http/tomcat_mgr_login`
 ```
