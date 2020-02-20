@@ -11,9 +11,11 @@
     - [Attack Infrastructure](#attack-infrastructure)
     - [Getting Access](#getting-access)
     - [Discovery](#discovery)
+    - [Credential Access](#credential-access)
+    - [Lateral Movement](#lateral-movement)
+- [Techniques: Discovery](#techniques-discovery)
 - [Techniques: Credential Access](#techniques-credential-access)
 - [Techniques: Lateral Movement](#techniques-lateral-movement)
-- [Techniques: Discovery](#techniques-discovery)
 
 <!-- /MarkdownTOC -->
 
@@ -39,13 +41,19 @@ List of possible goals.
 
 # Tactical Objectives
 
-## Ops-Sec Considerations ([PRE-ATT&CK: TA0021](https://attack.mitre.org/tactics/TA0021/))
+## Ops-Sec Considerations
 
-## Attack Infrastructure ([PRE-ATT&CK: TA0022](https://attack.mitre.org/tactics/TA0022/))
+MITRE PRE-ATT&CK: [TA0021](https://attack.mitre.org/tactics/TA0021/)
 
-## Getting Access ([ATT&CK: TA0001](https://attack.mitre.org/tactics/TA0001/))
+## Attack Infrastructure
+
+MITRE PRE-ATT&CK: [TA0022](https://attack.mitre.org/tactics/TA0022/)
+
+## Getting Access
 
 *Tactical goal: get IP address in target's internal network*
+
+MITRE ATT&CK: [TA0001](https://attack.mitre.org/tactics/TA0001/)
 
 Possible techniques (in a form of attack tree):
 
@@ -117,7 +125,7 @@ MITRE ATT&CK: [TA0008](https://attack.mitre.org/tactics/TA0008/)
 
 # Techniques: Discovery
 
-## Network Sniffing ()
+## Passive techniques
 
 MITRE ATT&CK: [T1040](https://attack.mitre.org/techniques/T1040/)
 
@@ -126,7 +134,7 @@ Sniffing:
 ```
 ```
 
-Passive OS fingerprinting:
+OS fingerprinting:
 
 ```
 # Linux
