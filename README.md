@@ -15,6 +15,7 @@
     - [Lateral Movement](#lateral-movement)
 - [Techniques: Ops-Sec Considerations]
 - [Techniques: Attack Infrastructure]
+- [Techniques: Getting Access]
 - [Techniques: Discovery](#techniques-discovery)
     - [Passive techniques](#passive-techniques)
 - [Techniques: Credential Access](#techniques-credential-access)
