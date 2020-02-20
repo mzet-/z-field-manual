@@ -7,8 +7,13 @@
     - [Operation Planning](#operation-planning)
     - [Toolbox](#toolbox)
 - [Tactical Objectives](#tactical-objectives)
-- [Techniques: Credential Access)](#techniques-credential-access)
+    - [Ops-Sec Considerations](#ops-sec-considerations)
+    - [Attack Infrastructure](#attack-infrastructure)
+    - [Getting Access](#getting-access)
+    - [Discovery](#discovery)
+- [Techniques: Credential Access](#techniques-credential-access)
 - [Techniques: Lateral Movement](#techniques-lateral-movement)
+- [Techniques: Discovery](#techniques-discovery)
 
 <!-- /MarkdownTOC -->
 
@@ -86,9 +91,11 @@ Possible techniques (in a form of attack tree):
 ...
 ```
 
-## Discovery ([ATT&CK: TA0007](https://attack.mitre.org/tactics/TA0007/))
+## Discovery
 
 *Tactical goal: Understand the target environment*
+
+MITRE ATT&CK: [TA0007](https://attack.mitre.org/tactics/TA0007/)
 
 ### Understanding the network
 
@@ -98,15 +105,21 @@ Where are egress points?
 Where are "multi-homed" boxes?
 ```
 
-## Credential Access ([ATT&CK: TA0006](https://attack.mitre.org/tactics/TA0006/))
+## Credential Access
 
 *Tactical goal: Acquire valid set of credentials*
 
-## Lateral Movement ([ATT&CK: TA0008](https://attack.mitre.org/tactics/TA0008/))
+MITRE ATT&CK: [TA0006](https://attack.mitre.org/tactics/TA0006/)
 
-# Techniques (Discovery)
+## Lateral Movement
 
-## Network Sniffing ([ATT&CK: T1040](https://attack.mitre.org/techniques/T1040/))
+MITRE ATT&CK: [TA0008](https://attack.mitre.org/tactics/TA0008/)
+
+# Techniques: Discovery
+
+## Network Sniffing ()
+
+MITRE ATT&CK: [T1040](https://attack.mitre.org/techniques/T1040/)
 
 Sniffing:
 
