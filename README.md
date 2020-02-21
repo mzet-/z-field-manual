@@ -20,6 +20,7 @@
     - [Passive techniques](#passive-techniques)
 - [Techniques: Credential Access](#techniques-credential-access)
 - [Techniques: Lateral Movement](#techniques-lateral-movement)
+    - [Vulnerable/misconfigured Network Devices](#vulnerablemisconfigured-network-devices)
     - [Vulnerable/misconfigured Remote Services](#vulnerablemisconfigured-remote-services)
         - [SMTP](#smtp-service)
     - [Vulnerable/misconfigured HTTP/HTTPS Remote Services](#vulnerablemisconfigured-httphttps-remote-services)
@@ -154,6 +155,53 @@ Invoke-Inveigh -IP <current-box-ip> -ConsoleOutput Y -Inspect Y
 # Techniques: Credential Access
 
 # Techniques: Lateral Movement
+
+## Vulnerable/misconfigured Network Devices
+
+MITRE ATT&CK: N/A
+
+```
+# looking for telnet, SNMP, TFTP, Cisco 'SIET' port (4786)
+sudo nmap -n -Pn -sS -sU -pT:23,69,4786,4001,U:161,162 -iL scope.txt -T4 --open -oG network-devices.out
+cat network-devices.out | grep -v '161/open|filtered/udp//snmp///' | grep -v '162/open|filtered/udp//snmptrap///' | grep -v 'Status: Up' > network-devices.txt
+
+# look for SSH daemons with router/swich related banners
+nmap -n -Pn -sS -T4 -p22 -iL scope.txt -oG - --open -sV --version-intensity 0 | grep -v 'Status: Up' | tee ssh-banners.out | grep -i cisco
+also grep for: 
+OpenSSH 12.1 - Palo Alto PA Firewall
+
+# discovery of additional network devices via multicast broadcasting
+nmap --script mrinfo -e ens160 -d
+nmap -sU -p 5351 --script=nat-pmp-info 10.10.10.0/24 -d --open
+nmap --script broadcast-pim-discovery -e ens160 -d --script-args 'broadcast-pim-discovery.timeout=15'
+nmap --script='broadcast-eigrp-discovery,broadcast-igmp-discovery,broadcast-ospf2-discover' -e ens160 --script-args 'broadcast-igmp-discovery.version=all, broadcast-igmp-discovery.timeout=13' -d
+
+# looking for devices web panels:
+# (after masscan, only ports 80)
+screen -d -m /bin/bash -c $'for i in $(cat masscan-allPorts.min | grep \':80$\'); do echo "$i:"; timeout 7s curl -s -L -k -I "http://$i"; done | tee http-headers.out'
+
+# (from IP list only, only port 80)
+while read i; do echo "$i:"; timeout 7s curl -s -L -k -I "http://$i"; done < IPs.txt > http-headers.out
+screen -d -m /bin/bash -c 'while read i; do echo "$i:"; timeout 7s curl -s -L -k -I "http://$i"; done < IPs.txt > http-headers.out'
+
+# (BEST: wth URLS list already generated)
+screen -d -m /bin/bash -c 'while read i; do echo "$i:"; timeout 7s curl -s -L -k -I "$i"; done < urls.txt | tee http-headers.out'
+
+then grep for: level_15_access|ios|cisco|level_15_or_view_access
+
+TODO: 
+----
+http://vulnerabilityassessment.co.uk/Penetration%20Test.html
+find: Cisco Specific Testing
+
+
+https://gitlab.com/kalilinux/packages/cisco-global-exploiter/raw/kali/master/cge.pl
+
+https://gitlab.com/kalilinux/packages/cisco-auditing-tool/tree/kali/master
+
+http://www.vulnerabilityassessment.co.uk/cisco.htm
+-----
+```
 
 ## Vulnerable/misconfigured Remote Services 
 
