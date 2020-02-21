@@ -24,6 +24,7 @@
     - [Vulnerable/misconfigured Remote Services](#vulnerablemisconfigured-remote-services)
         - [SMTP](#smtp-service)
     - [Vulnerable/misconfigured HTTP/HTTPS Remote Services](#vulnerablemisconfigured-httphttps-remote-services)
+        - [Apache Tomcat: default/weak credentials](#apache-tomcat-defaultweak-credentials)
 
 <!-- /MarkdownTOC -->
 
