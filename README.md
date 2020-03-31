@@ -141,6 +141,11 @@ MITRE ATT&CK: [T1040](https://attack.mitre.org/techniques/T1040/)
 Sniffing:
 
 ```
+# Overview of IPv4 traffic
+tcpdump -i eth0 -w session1-all-ipv4 -nn not ip6
+
+# Overview of IPv6 traffic
+tcpdump -i eth0 -w session1-all-ipv4 -nn ip6
 ```
 
 OS fingerprinting:
@@ -151,6 +156,79 @@ screen -L -d -m responder -I eth0 -A -f
 
 # Windows
 Invoke-Inveigh -IP <current-box-ip> -ConsoleOutput Y -Inspect Y
+
+TODO:
+p0f
+```
+
+Discovery of 'hidden' (i.e. all ports filtered, no ping replies) hosts:
+
+```
+cut -d' ' -f9 Responder/logs/Analyzer-Session.log | sort -u
+```
+
+## Understanding network topology
+
+MITRE ATT&CK: N/A
+
+Reference:
+
+```
+https://nmap.org/book/host-discovery.html
+https://nmap.org/book/man-host-discovery.html
+```
+
+```
+# ping (ICMP echo request) sweeps:
+for i in $(seq 1 254); do ping -c1 192.168.1.$i | grep 'time=' | cut -d" " -f4 | cut -d":" -f1 & done
+nmap -sn 192.168.1.1-254 -oG - -PE
+
+# host discovey (default):
+nmap -n -sn == ICMP echo request,
+               TCP SYN to port 443,
+               TCP ACK to port 80,
+               ICMP timestamp request
+nmap -n -sn -T4 -iL IP-ranges.txt
+
+# comprehensive (can be slow for huge networks) (could add: --source-port 53):
+nmap -n -sn -T4 -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -iL IP-ranges.txt
+
+# host discovery + 100 top ports scan
+nmap -n -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -sS -iL IP-ranges.txt -F -oA allrangesFtcp -T4 --open
+
+# as previously but more accurate (100 ports will be scanned for each & every IP in set of provided IP ranges):
+nmap -n -Pn -sS -iL IP-ranges.txt -F -oA allrangesFtcpPn -T4 --open
+
+# summary (alive hosts/devices per subnet). One-liner version suitable only for /24 subnets:
+for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do echo "### Network $i ###";  grep "$i" <(grep 'Nmap scan report for' allrangesFtcp.nmap | cut -d' ' -f5) | sort -t '.' -k 4.1g; done
+
+# Visualising network topology (minimalistic, i.e. only 5 random alive hosts per subnet):
+for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do grep "$i" <(grep 'Nmap scan report for' allrangesFtcp.nmap | cut -d' ' -f5) | sort -t '.' -k 4.1g | shuf -n 5 -; done > 5hosts-persubnet.txt
+nmap -sS -n -F -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopology.xml
+zenmap netTopology.xml
+```
+
+Discovering additional hosts:
+
+```
+# reverse DNS:
+nmap -R -sL -T4 -iL IP-ranges.txt | sort -k 5.1
+```
+
+## Services discovery
+
+MITRE ATT&CK: [T1046](https://attack.mitre.org/techniques/T1046/)
+
+
+```
+# Comprehensive TCP port scan (num-of-alive-hosts x 65535)
+nmap -n -sS -iL IP-ranges.txt -p- -oA allrangesAll -T4 --open
+
+# Complete TCP port scan (num-of-IPs-in-scope x 65535)
+nmap -n -Pn -sS -iL IP-ranges.txt -p- -oA allrangesAll -T4 --open
+
+# Services enumeration
+nmap -n -sS -T4 -sC -sV -O -iL hostsUp-192.168.1.0.txt -oA hostsUp-192.168.1.0-vulnScan.out
 ```
 
 # Techniques: Credential Access
