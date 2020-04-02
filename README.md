@@ -24,6 +24,7 @@
 - [Techniques: Lateral Movement](#techniques-lateral-movement)
     - [Flawed Network Equipment](#flawed-network-equipment)
     - [Flawed Remote Services](#flawed-remote-services)
+        - [SMB](#smb-service)
         - [SNMP](#snmp-service)
         - [SMTP](#smtp-service)
     - [Flawed HTTP/HTTPS Remote Services](#flawed-httphttps-remote-services)
