@@ -18,6 +18,8 @@
 - [Techniques: Getting Access]
 - [Techniques: Discovery](#techniques-discovery)
     - [Passive techniques](#passive-techniques)
+    - [Understanding Network Topology](#understanding-network-topology)
+    - [Services Discovery](#services-discovery)
 - [Techniques: Credential Access](#techniques-credential-access)
 - [Techniques: Lateral Movement](#techniques-lateral-movement)
     - [Flawed Network Equipment](#flawed-network-equipment)
@@ -253,7 +255,7 @@ nmap -n -sS -T4 -sC -sV -O --open -iL hostsUp-192.168.1.0.txt -oA hostsUp-192.16
 
 # Techniques: Lateral Movement
 
-## Flawed Network Devices
+## Flawed Network Equipment
 
 MITRE ATT&CK: N/A
 
@@ -332,6 +334,7 @@ Vulnerability: ms10-054
 
 ```
 Reference: https://nmap.org/nsedoc/scripts/smb-vuln-ms10-054.html
+Notes: The script requires at least READ access right to a share on a remote machine.
 ```
 
 ### SNMP service
