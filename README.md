@@ -20,11 +20,13 @@
     - [Passive techniques](#passive-techniques)
 - [Techniques: Credential Access](#techniques-credential-access)
 - [Techniques: Lateral Movement](#techniques-lateral-movement)
-    - [Vulnerable/misconfigured Network Devices](#vulnerablemisconfigured-network-devices)
-    - [Vulnerable/misconfigured Remote Services](#vulnerablemisconfigured-remote-services)
+    - [Flawed Network Equipment](#flawed-network-equipment)
+    - [Flawed Remote Services](#flawed-remote-services)
+        - [SNMP](#snmp-service)
         - [SMTP](#smtp-service)
-    - [Vulnerable/misconfigured HTTP/HTTPS Remote Services](#vulnerablemisconfigured-httphttps-remote-services)
+    - [Flawed HTTP/HTTPS Remote Services](#flawed-httphttps-remote-services)
         - [Apache Tomcat: default/weak credentials](#apache-tomcat-defaultweak-credentials)
+    - [Flawed embedded devices](#flawed-embedded-devices)
 
 <!-- /MarkdownTOC -->
 
@@ -141,6 +143,9 @@ MITRE ATT&CK: [T1040](https://attack.mitre.org/techniques/T1040/)
 Sniffing:
 
 ```
+# {broad,multi}cast traffic excluding ARP
+tcpdump -n -i eth0 -w tcpdump-b-m-no-arp ether broadcast and ether multicast and not arp
+
 # Overview of IPv4 traffic
 tcpdump -i eth0 -w session1-all-ipv4 -nn not ip6
 
@@ -152,7 +157,7 @@ OS fingerprinting:
 
 ```
 # Linux
-screen -L -d -m responder -I eth0 -A -f
+responder -I eth0 -A -f
 
 # Windows
 Invoke-Inveigh -IP <current-box-ip> -ConsoleOutput Y -Inspect Y
@@ -199,8 +204,8 @@ nmap -n -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -sS -iL IP-ranges.tx
 # as previously but more accurate (100 ports will be scanned for each & every IP in set of provided IP ranges):
 nmap -n -Pn -sS -iL IP-ranges.txt -F -oA allrangesFtcpPn -T4 --open
 
-# summary (alive hosts/devices per subnet). One-liner version suitable only for /24 subnets:
-for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do echo "### Network $i ###";  grep "$i" <(grep 'Nmap scan report for' allrangesFtcp.nmap | cut -d' ' -f5) | sort -t '.' -k 4.1g; done
+# summary (alive hosts/devices per subnet). One-liner version suitable for /24 subnets:
+for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do echo "### Network $i.0 ###";  grep "$i" <(grep 'Nmap scan report for' allrangesFtcp.nmap | cut -d' ' -f5) | sort -u -t '.' -k 4.1g | tee "hostsUp-${i}.0.txt"; done | tee >(grep -v '###' | sort -u > hosts-fastTcp.txt)
 
 # Visualising network topology (minimalistic, i.e. only 5 random alive hosts per subnet):
 for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do grep "$i" <(grep 'Nmap scan report for' allrangesFtcp.nmap | cut -d' ' -f5) | sort -t '.' -k 4.1g | shuf -n 5 -; done > 5hosts-persubnet.txt
@@ -208,11 +213,24 @@ nmap -sS -n -F -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopology.
 zenmap netTopology.xml
 ```
 
-Discovering additional hosts:
+Discovering additional hosts/devices:
 
 ```
 # reverse DNS:
 nmap -R -sL -T4 -iL IP-ranges.txt | sort -k 5.1
+
+# discovery of additional network devices via multicasting / broadcasting
+nmap --script mrinfo -e ens160 -d
+nmap -sU -p 5351 --script=nat-pmp-info 10.10.10.0/24 -d --open
+nmap --script broadcast-pim-discovery -e ens160 -d --script-args 'broadcast-pim-discovery.timeout=15'
+nmap --script='broadcast-eigrp-discovery,broadcast-igmp-discovery,broadcast-ospf2-discover' -e ens160 --script-args 'broadcast-igmp-discovery.version=all, broadcast-igmp-discovery.timeout=13' -d
+
+TODO:
+https://nmap.org/nsedoc/scripts/wsdd-discover.html
+https://nmap.org/nsedoc/scripts/targets-ipv6-multicast-echo.html
+https://nmap.org/nsedoc/scripts/targets-ipv6-multicast-invalid-dst.html
+https://nmap.org/nsedoc/scripts/targets-ipv6-multicast-mld.html
+https://nmap.org/nsedoc/scripts/targets-ipv6-multicast-slaac.html
 ```
 
 ## Services discovery
@@ -222,20 +240,20 @@ MITRE ATT&CK: [T1046](https://attack.mitre.org/techniques/T1046/)
 
 ```
 # Comprehensive TCP port scan (num-of-alive-hosts x 65535)
-nmap -n -sS -iL IP-ranges.txt -p- -oA allrangesAll -T4 --open
+nmap -n -sS --open -iL hosts-fastTcp.txt -p- -oA hosts-fastTcp-pscan -T4
 
 # Complete TCP port scan (num-of-IPs-in-scope x 65535)
-nmap -n -Pn -sS -iL IP-ranges.txt -p- -oA allrangesAll -T4 --open
+nmap -n -Pn -sS --open -iL hosts-fastTcp.txt -p- -oA hosts-fastTcp-pscanPN -T4
 
 # Services enumeration
-nmap -n -sS -T4 -sC -sV -O -iL hostsUp-192.168.1.0.txt -oA hostsUp-192.168.1.0-vulnScan.out
+nmap -n -sS -T4 -sC -sV -O --open -iL hostsUp-192.168.1.0.txt -oA hostsUp-192.168.1.0-vscan.out
 ```
 
 # Techniques: Credential Access
 
 # Techniques: Lateral Movement
 
-## Vulnerable/misconfigured Network Devices
+## Flawed Network Devices
 
 MITRE ATT&CK: N/A
 
@@ -249,24 +267,20 @@ nmap -n -Pn -sS -T4 -p22 -iL scope.txt -oG - --open -sV --version-intensity 0 | 
 also grep for: 
 OpenSSH 12.1 - Palo Alto PA Firewall
 
-# discovery of additional network devices via multicast broadcasting
-nmap --script mrinfo -e ens160 -d
-nmap -sU -p 5351 --script=nat-pmp-info 10.10.10.0/24 -d --open
-nmap --script broadcast-pim-discovery -e ens160 -d --script-args 'broadcast-pim-discovery.timeout=15'
-nmap --script='broadcast-eigrp-discovery,broadcast-igmp-discovery,broadcast-ospf2-discover' -e ens160 --script-args 'broadcast-igmp-discovery.version=all, broadcast-igmp-discovery.timeout=13' -d
-
 # looking for devices web panels:
 # (after masscan, only ports 80)
 screen -d -m /bin/bash -c $'for i in $(cat masscan-allPorts.min | grep \':80$\'); do echo "$i:"; timeout 7s curl -s -L -k -I "http://$i"; done | tee http-headers.out'
-
 # (from IP list only, only port 80)
-while read i; do echo "$i:"; timeout 7s curl -s -L -k -I "http://$i"; done < IPs.txt > http-headers.out
-screen -d -m /bin/bash -c 'while read i; do echo "$i:"; timeout 7s curl -s -L -k -I "http://$i"; done < IPs.txt > http-headers.out'
-
+while read i; do timeout 2s curl -s -w "%{remote_ip}" -L -I "http://$i" & done < hosts-fastTcp.txt > http-headers.out
+while read i; do timeout 2s curl -s -w "%{remote_ip}" -L -k -I "https://$i" & done < hosts-fastTcp.txt > https-headers.out
+screen /bin/bash -c 'while read i; do timeout 2s curl -s -w "%{remote_ip}" -L -k -I "https://$i" & done < hosts-fastTcp.txt > https-headers.out'
 # (BEST: wth URLS list already generated)
 screen -d -m /bin/bash -c 'while read i; do echo "$i:"; timeout 7s curl -s -L -k -I "$i"; done < urls.txt | tee http-headers.out'
+then grep for: level_15_access|ios|cisco|level_15_or_view_access|level_1_or_view_access
 
-then grep for: level_15_access|ios|cisco|level_15_or_view_access
+# looking for TLS certificates CNs
+wget https://gist.githubusercontent.com/mzet-/4c29137ab6b642f8f84d0fcd2f14403b/raw/088e89b21dbbcb49baefe1c7aa1590eeafc99a18/tlsScrape.sh
+./tlsScrape.sh IP-ranges.txt
 
 TODO: 
 ----
@@ -282,9 +296,53 @@ http://www.vulnerabilityassessment.co.uk/cisco.htm
 -----
 ```
 
-## Vulnerable/misconfigured Remote Services 
+## Flawed Remote Services 
 
 MITRE ATT&CK: T1021 / T1210
+
+### SMB service
+
+Ports:
+
+    TCP: 135,139,445
+    UDP: 137
+
+Enumeration:
+
+```
+nmap -n -sU -sS -Pn -pT:135,139,445,5985,5986,47001,U:137 -sV --script=default,smb-enum-* -iL smb-services.txt -d | tee windows-null-sessions.out
+enum4linux <IP>
+```
+
+Vulnerability: ms08-067
+
+```
+Reference: https://nmap.org/nsedoc/scripts/smb-vuln-ms08-067.html 
+Affected: Windows Server 2000, Windows Server 2003, and Windows XP
+
+Discovery:
+nmap -sS -sU --script smb-vuln-ms08-067.nse -pT:445,139,U:137 -iL smb-services.txt --open -d | tee smb-vuln-ms08-067.out
+
+Exploitation:
+msf5 > use exploit/windows/smb/ms08_067_netapi
+set RHOSTS <IP>
+```
+
+Vulnerability: ms10-054
+
+```
+Reference: https://nmap.org/nsedoc/scripts/smb-vuln-ms10-054.html
+```
+
+### SNMP service
+
+Ports:
+
+    UDP: 161,162
+
+Overview:
+
+    https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol
 
 ### SMTP service
 
@@ -313,7 +371,7 @@ Noteworthy vulnerabilities:
 ```
 ```
 
-## Vulnerable/misconfigured HTTP/HTTPS Services
+## Flawed HTTP/HTTPS Services
 
 MITRE ATT&CK: T1021 / T1210
 
@@ -336,3 +394,5 @@ $ cat Apache-Tomcat-Default-Passwords.mdown | tr -d ' ' | awk -F'|' '{print $2":
 
 $ while read line; do echo -n "$line : "; for i in $(cat PAYLOADS/tomcat-defaults.txt); do curl -H "Authorization: Basic $(echo -n "$i" | base64)" -s -o /dev/null -w "%{http_code}" --url "$line"; echo; done; done < tomcat-urls.txt > tomcats-results.txt
 ```
+
+## Flawed embedded devices
