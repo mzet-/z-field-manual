@@ -20,6 +20,7 @@
     - [Passive techniques](#passive-techniques)
     - [Understanding Network Topology](#understanding-network-topology)
     - [Services Discovery](#services-discovery)
+    - [HTTP/HTTPS Services Discovery](#httphttps-services-discovery)
 - [Techniques: Credential Access](#techniques-credential-access)
 - [Techniques: Lateral Movement](#techniques-lateral-movement)
     - [Flawed Network Equipment](#flawed-network-equipment)
@@ -247,7 +248,7 @@ https://nmap.org/nsedoc/scripts/targets-ipv6-multicast-slaac.html
 
 MITRE ATT&CK: [T1046](https://attack.mitre.org/techniques/T1046/)
 
-Additional scans to detected additional services:
+Additional scans to service discovery purposes:
 
 ```
 In:
@@ -270,7 +271,7 @@ Chosen 'incremental' scans:
 nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(rawrPorts) -oA pscans/wholeRange-rawrPN -T4
 
 # scan 100 ports positioned 1001 - 1101 in popularity:
-masscan -iL IP-ranges.txt -p$(topNports 100 1001) --rate 1000 -p -oX pscans/masscan-offset1000-top100
+masscan -iL IP-ranges.txt -p$(topNports 100 1001) --rate 1000 -oX pscans/masscan-offset1000-top100.xml
 ```
 
 Initial enumeration:
@@ -280,6 +281,31 @@ In:
 allServices.txt - list of port numbers that were discovered in tested scope
 
 nmap -n -sS -T4 -sC -sV -O --open -iL hostsUp.txt -oA vscans/hostsUp.out
+```
+
+## HTTP/HTTPS Services Discovery
+
+Identifying web-based services:
+
+```
+TODO: httprobe
+```
+
+Visual discovery of interesting web-based applications:
+
+```
+Prereq:
+gnmap2service.sh - https://gist.github.com/mzet-/7ea36cd74cf62a91fe7f5f07641188a6
+Arch / Kali: extra/xorg-server-xvfb / xvfb
+https://github.com/michenriksen/aquatone/releases/latest
+OR
+https://github.com/maaaaz/webscreenshot
+
+gnmap2service.sh all-vulnScan.out.gnmap | tee urls0.txt
+
+python webscreenshot.py -v -r chromium --no-xserver -i ../urls0.txt
+OR
+cat urls0.txt | ./aquatone -threads 5 -out aquatone-IPs.out/
 ```
 
 ## Other techniques
