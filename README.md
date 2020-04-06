@@ -187,6 +187,13 @@ https://nmap.org/book/man-host-discovery.html
 ```
 
 ```
+In:
+IP-ranges.txt - file with IPs in scope
+
+Out:
+hostsUp.txt - initial list of alive IPs discovered in tested scope
+allServices.txt - initial list of port numbers that were discovered in tested scope
+
 # ping (ICMP echo request) sweeps:
 for i in $(seq 1 254); do ping -c1 192.168.1.$i | grep 'time=' | cut -d" " -f4 | cut -d":" -f1 & done
 nmap -sn 192.168.1.1-254 -oG - -PE
@@ -240,17 +247,44 @@ https://nmap.org/nsedoc/scripts/targets-ipv6-multicast-slaac.html
 
 MITRE ATT&CK: [T1046](https://attack.mitre.org/techniques/T1046/)
 
+Additional scans to detected additional services:
 
 ```
-# Comprehensive TCP port scan (num-of-alive-hosts x 65535)
-nmap -n -sS --open -iL hosts-fastTcp.txt -p- -oA hosts-fastTcp-pscan -T4
+In:
+IP-ranges.txt - file with IPs in scope
+hostsUp.txt - initial list of alive IPs discovered in tested scope
 
-# Complete TCP port scan (num-of-IPs-in-scope x 65535)
-nmap -n -Pn -sS --open -iL hosts-fastTcp.txt -p- -oA hosts-fastTcp-pscanPN -T4
+Out:
+allServices.txt - refined list of port numbers that were discovered in tested scope
 
-# Services enumeration
-nmap -n -sS -T4 -sC -sV -O --open -iL hostsUp-192.168.1.0.txt -oA hostsUp-192.168.1.0-vscan.out
+# Full scan of whole IP range in scope:
+nmap -n -Pn -sS --open -iL IP-ranges.txt -p- -oA pscans/wholeRange-allPN -T4 --max-hostgroup 8
+
+# Typical scans of already detected hosts:
+nmap -n -Pn -sS --open -iL hostsUp.txt --top-ports 1024 -oA pscans/hostsUp-top1024 -T4
+nmap -n -Pn -sS --open -iL hostsUp.txt -p- -oA pscans/hostsUp-all -T4 --max-hostgroup 8
+
+Chosen 'incremental' scans:
+
+#
+nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(rawrPorts) -oA pscans/wholeRange-rawrPN -T4
+
+# scan 100 ports positioned 1001 - 1101 in popularity:
+masscan -iL IP-ranges.txt -p$(topNports 100 1001) --rate 1000 -p -oX pscans/masscan-offset1000-top100
 ```
+
+Initial enumeration:
+
+```
+In:
+allServices.txt - list of port numbers that were discovered in tested scope
+
+nmap -n -sS -T4 -sC -sV -O --open -iL hostsUp.txt -oA vscans/hostsUp.out
+```
+
+## Other techniques
+
+### MS-RPC
 
 # Techniques: Credential Access
 
@@ -307,8 +341,13 @@ MITRE ATT&CK: T1021 / T1210
 
 Ports:
 
-    TCP: 135,139,445
+    TCP: 139,445
     UDP: 137
+
+Specifications:
+
+    https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-cifs/
+    https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-smb/
 
 Enumeration:
 
