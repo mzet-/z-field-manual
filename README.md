@@ -289,6 +289,7 @@ Prereq:
 
  - [gnmap2urls.sh](scripts/gnmap2urls.sh)
  - Arch / Kali: `extra/xorg-server-xvfb / xvfb` package
+ - [httprobe](https://github.com/tomnomnom/httprobe/releases/latest)
  - [Aquatone](https://github.com/michenriksen/aquatone/releases/latest) OR [webscreenshot.py](https://github.com/maaaaz/webscreenshot)
 
 Identifying web-based services:
@@ -374,10 +375,22 @@ Specifications:
     https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-cifs/
     https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-smb/
 
-Enumeration:
+Discovery:
+
+Basic enumeration:
 
 ```
-nmap -n -sU -sS -Pn -pT:139,445,U:137 -sV --script=default,smb-enum-* -iL smb-services.txt -d | tee windows-null-sessions.out
+nmap -n -sU -sS -Pn -pT:139,445,U:137 -sV --script=smb-os-discovery,smb-protocols,smb-security-mode,smb-system-info,smb2-capabilities,smb2-security-mode,smb2-time -iL smb-services.txt | tee smb-services-enumeration.out
+
+Follow up:
+https://nmap.org/nsedoc/scripts/smb-brute.html
+https://nmap.org/nsedoc/scripts/smb-enum-domains.html
+https://nmap.org/nsedoc/scripts/smb-enum-groups.html
+https://nmap.org/nsedoc/scripts/smb-enum-processes.html
+https://nmap.org/nsedoc/scripts/smb-enum-services.html
+https://nmap.org/nsedoc/scripts/smb-enum-sessions.html
+https://nmap.org/nsedoc/scripts/smb-enum-shares.html
+https://nmap.org/nsedoc/scripts/smb-enum-users.html
 ```
 
 Vulnerability: ms08-067
