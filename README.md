@@ -18,6 +18,7 @@
 - [Techniques: Getting Access]
 - [Techniques: Discovery](#techniques-discovery)
     - [Passive techniques](#passive-techniques)
+    - [Identifying Core Network Technology](#identifying-core-network-technology)
     - [Understanding Network Topology](#understanding-network-topology)
     - [Services Discovery](#services-discovery)
     - [HTTP/HTTPS Services Discovery](#httphttps-services-discovery)
@@ -26,6 +27,9 @@
     - [Flawed Network Equipment](#flawed-network-equipment)
     - [Flawed Remote Services](#flawed-remote-services)
         - [SMB](#smb-service)
+        - [RDP](#rdp-service)
+        - [MS-SQL](#ms-sql-service)
+        - [Other Windows services](#other-windows-services)
         - [SNMP](#snmp-service)
         - [SMTP](#smtp-service)
     - [Flawed HTTP/HTTPS Remote Services](#flawed-httphttps-remote-services)
@@ -174,6 +178,12 @@ Discovery of 'hidden' (i.e. all ports filtered, no ping replies) hosts:
 
 ```
 cut -d' ' -f9 Responder/logs/Analyzer-Session.log | sort -u
+```
+
+## Identifying Core Network Technology
+
+```
+TODO
 ```
 
 ## Understanding network topology
@@ -375,7 +385,16 @@ Specifications:
     https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-cifs/
     https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-smb/
 
-Discovery:
+Discovery (directly from the wire):
+
+```
+```
+
+Discovery (from previous scans):
+
+```
+TODO
+```
 
 Basic enumeration:
 
@@ -412,6 +431,30 @@ Vulnerability: ms10-054
 ```
 Reference: https://nmap.org/nsedoc/scripts/smb-vuln-ms10-054.html
 Notes: The script requires at least READ access right to a share on a remote machine.
+```
+
+### RDP service
+
+```
+TODO
+```
+
+### MS-SQL service
+
+```
+TODO
+```
+
+### Other Windows services
+
+Background:
+
+    https://support.microsoft.com/en-us/help/832017/service-overview-and-network-port-requirements-for-windows
+
+Discovery:
+
+```
+nmap -n -sU -sS -Pn -pT:135,139,445,5985,5986,47001,U:137 -T4 --open
 ```
 
 ### SNMP service
