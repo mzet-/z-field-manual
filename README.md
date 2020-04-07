@@ -285,6 +285,12 @@ nmap -n -sS -T4 -sC -sV -O --open -iL hostsUp.txt -oA vscans/hostsUp.out
 
 ## HTTP/HTTPS Services Discovery
 
+Prereq:
+
+ - [gnmap2urls.sh](scripts/gnmap2urls.sh)
+ - Arch / Kali: `extra/xorg-server-xvfb / xvfb` package
+ - [Aquatone](https://github.com/michenriksen/aquatone/releases/latest) OR [webscreenshot.py](https://github.com/maaaaz/webscreenshot)
+
 Identifying web-based services:
 
 ```
@@ -294,14 +300,7 @@ TODO: httprobe
 Visual discovery of interesting web-based applications:
 
 ```
-Prereq:
-gnmap2service.sh - https://gist.github.com/mzet-/7ea36cd74cf62a91fe7f5f07641188a6
-Arch / Kali: extra/xorg-server-xvfb / xvfb
-https://github.com/michenriksen/aquatone/releases/latest
-OR
-https://github.com/maaaaz/webscreenshot
-
-gnmap2service.sh all-vulnScan.out.gnmap | tee urls0.txt
+gnmap2urls.sh all-vulnScan.out.gnmap | tee urls0.txt
 
 python webscreenshot.py -v -r chromium --no-xserver -i ../urls0.txt
 OR
@@ -378,8 +377,7 @@ Specifications:
 Enumeration:
 
 ```
-nmap -n -sU -sS -Pn -pT:135,139,445,5985,5986,47001,U:137 -sV --script=default,smb-enum-* -iL smb-services.txt -d | tee windows-null-sessions.out
-enum4linux <IP>
+nmap -n -sU -sS -Pn -pT:139,445,U:137 -sV --script=default,smb-enum-* -iL smb-services.txt -d | tee windows-null-sessions.out
 ```
 
 Vulnerability: ms08-067
@@ -465,3 +463,7 @@ $ while read line; do echo -n "$line : "; for i in $(cat PAYLOADS/tomcat-default
 ```
 
 ## Flawed embedded devices
+
+```
+TODO
+```
