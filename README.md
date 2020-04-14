@@ -210,7 +210,11 @@ https://nmap.org/book/host-discovery.html
 https://nmap.org/book/man-host-discovery.html
 ```
 
-Approach:
+Prereq:
+
+ - [observer.sh](scripts/observer.sh)
+
+Objectives:
 
 ```
 In:
@@ -218,13 +222,7 @@ IP-ranges.txt - file with IPs in scope
 
 Out:
 hostsUp.txt - initial list of alive IPs discovered in tested scope
-allServices.txt - initial list of port numbers that were discovered in tested scope
-
-0.
-1.
-2.
-3.
-...
+allPorts.txt - initial list of port numbers that were seen opened in tested scope
 ```
 
 One-time host sweeps:
@@ -268,8 +266,8 @@ nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -p- -oA pscans/all-full-rand-contin
 # scan 'rawr' ports (where 'rawrPorts' is Bash function returning list of rawr ports):
 nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(rawrPorts) -oA pscans/all-rawrPN -T4 --max-hostgroup 16
 
-# full scope - next top 3000 ports - scan:
-masscan -iL IP-ranges.txt -p$(topNports 3000 100) --rate 1000 -oX pscans/masscan-offset100-top3000.xml
+# full scope - next top 3000 ports (in batches of 100 ports):
+screen /bin/bash -c 'for i in $(seq 1 30); do masscan -iL IP-ranges.txt -p$(topNports 100 $((i*100))) --rate 1000 -oX pscans/masscan-offset$((i*100))-top100.xml; done'
 
 # full port range scan of already discovered hosts:
 nmap -n -sS --open -iL hostsUp.txt -p- -oA pscans/hostsUp-all -T4 --max-hostgroup 16
@@ -351,39 +349,15 @@ zenmap netTopology.xml
 
 MITRE ATT&CK: [T1046](https://attack.mitre.org/techniques/T1046/)
 
-Additional scans to service discovery purposes:
+Objectives:
 
 ```
 In:
-IP-ranges.txt - file with IPs in scope
-hostsUp.txt - initial list of alive IPs discovered in tested scope
+hostsUp.txt - list of alive IPs discovered in tested IP space
+allPorts.txt - ports seen opened in tested IP space
 
 Out:
-allServices.txt - refined list of port numbers that were discovered in tested scope
-
-# Full scan of whole IP range in scope:
-nmap -n -Pn -sS --open -iL IP-ranges.txt -p- -oA pscans/wholeRange-allPN -T4 --max-hostgroup 8
-
-# Typical scans of already detected hosts:
-nmap -n -Pn -sS --open -iL hostsUp.txt --top-ports 1024 -oA pscans/hostsUp-top1024 -T4
-nmap -n -Pn -sS --open -iL hostsUp.txt -p- -oA pscans/hostsUp-all -T4 --max-hostgroup 8 --randomize-hosts
-
-Chosen 'incremental' scans:
-
-# scan 'rawr' ports (where 'rawrPorts' is Bash function returning list of rawr ports):
-nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(rawrPorts) -oA pscans/wholeRange-rawrPN -T4
-
-# scan 100 ports positioned 1001 - 1101 in popularity:
-masscan -iL IP-ranges.txt -p$(topNports 100 1001) --rate 1000 -oX pscans/masscan-offset1000-top100.xml
-```
-
-Initial enumeration:
-
-```
-In:
-allServices.txt - list of port numbers that were discovered in tested scope
-
-nmap -n -sS -T4 -sC -sV -O --open -iL hostsUp.txt -oA vscans/hostsUp.out
+hostsUp-vscan.{nmap,gnmap,xml} - nmap's initial enumeration (`-A`) of all servies in scope
 ```
 
 ## HTTP/HTTPS Services Discovery
