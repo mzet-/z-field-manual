@@ -19,6 +19,9 @@
 - [Techniques: Discovery](#techniques-discovery)
     - [Passive techniques](#passive-techniques)
     - [Active Reconnaissance](#active-reconnaissance)
+        - [Scanning](#scanning)
+        - [DNS queries](#dns-queries)
+        - [Protocols-specific broadcasts/multicasts](#protocols-specific-broadcastsmulticasts)
     - [Identifying Core Network Technologies](#identifying-core-network-technologies)
     - [Understanding Network Topology](#understanding-network-topology)
     - [Services Discovery](#services-discovery)
@@ -196,7 +199,7 @@ TODO
 
 ## Active Reconnaissance
 
-### Port scanning
+### Scanning
 
 MITRE ATT&CK: [T1018](https://attack.mitre.org/techniques/T1018/)
 
@@ -267,7 +270,7 @@ DNS brute-force:
 TODO
 ```
 
-### Protocol-specific broadcasts/multicasts
+### Protocols-specific broadcasts/multicasts
 
 ```
 # discovery of additional network devices via multicasting / broadcasting
