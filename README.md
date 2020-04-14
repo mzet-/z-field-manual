@@ -18,7 +18,8 @@
 - [Techniques: Getting Access]
 - [Techniques: Discovery](#techniques-discovery)
     - [Passive techniques](#passive-techniques)
-    - [Identifying Core Network Technology](#identifying-core-network-technology)
+    - [Active Reconnaissance](#active-reconnaissance)
+    - [Identifying Core Network Technologies](#identifying-core-network-technologies)
     - [Understanding Network Topology](#understanding-network-topology)
     - [Services Discovery](#services-discovery)
     - [HTTP/HTTPS Services Discovery](#httphttps-services-discovery)
@@ -77,7 +78,7 @@ MITRE ATT&CK: [TA0001](https://attack.mitre.org/tactics/TA0001/)
 Possible techniques (in a form of attack tree):
 
 ```
-1. [OR] Social Engineering
+1. [OR] (remote) Social Engineering
 1.1. [OR] Delivery of phishing email/message
 1.1.1. Malicious link (T1192)
 1.1.2. Malicious attachment (T1193)
@@ -87,6 +88,7 @@ Possible techniques (in a form of attack tree):
 1.3.1. by fooling him (e.g. run it for me; print doc from this USB)
 1.3.2. by bribing him
 1.3.3. by blackmailing him
+1.3.4. by "embedding" him first into target company
 1.4. Fooling insider to reveal his credentials (T1078)
 ...
 
@@ -95,7 +97,7 @@ Possible techniques (in a form of attack tree):
 2.2. Exploit remote access mechanism (T1133)
 ...
 
-3. [OR] Proximity attacks
+3. [OR] Close access operations
 3.1. Hacking into wireless network
 3.2. Using USB drive drops (T1091)
 3.3. [OR] Breaching physical perimeter
@@ -180,15 +182,21 @@ Discovery of 'hidden' (i.e. all ports filtered, no ping replies) hosts:
 cut -d' ' -f9 Responder/logs/Analyzer-Session.log | sort -u
 ```
 
-## Identifying Core Network Technology
+## Identifying Core Network Technologies
+
+Reference:
+
+```
+https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions
+```
 
 ```
 TODO
 ```
 
-## Understanding network topology
+## Active Reconnaissance
 
-MITRE ATT&CK: N/A
+MITRE ATT&CK: [T1018](https://attack.mitre.org/techniques/T1018/)
 
 Reference:
 
@@ -196,6 +204,8 @@ Reference:
 https://nmap.org/book/host-discovery.html
 https://nmap.org/book/man-host-discovery.html
 ```
+
+Approach:
 
 ```
 In:
@@ -205,6 +215,16 @@ Out:
 hostsUp.txt - initial list of alive IPs discovered in tested scope
 allServices.txt - initial list of port numbers that were discovered in tested scope
 
+0.
+1.
+2.
+3.
+...
+```
+
+One-time host sweeps:
+
+```
 # ping (ICMP echo request) sweeps:
 for i in $(seq 1 254); do ping -c1 192.168.1.$i | grep 'time=' | cut -d" " -f4 | cut -d":" -f1 & done
 nmap -sn 192.168.1.1-254 -oG - -PE
@@ -218,20 +238,20 @@ nmap -n -sn -T4 -iL IP-ranges.txt
 
 # comprehensive (can be slow for huge networks) (could add: --source-port 53):
 nmap -n -sn -T4 -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -iL IP-ranges.txt
+```
+
+
+
+nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -p- -oA pscans/all-full-rand-continous --randomize-hosts --max-hostgroup 4
+
+
+
 
 # host discovery + 100 top ports scan
 nmap -n -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -sS -iL IP-ranges.txt -F -oA allrangesFtcp -T4 --open
 
 # as previously but more accurate (100 ports will be scanned for each & every IP in set of provided IP ranges):
 nmap -n -Pn -sS -iL IP-ranges.txt -F -oA allrangesFtcpPn -T4 --open
-
-# summary (alive hosts/devices per subnet). One-liner version suitable for /24 subnets:
-for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do echo "### Network $i.0 ###";  grep "$i" <(grep 'Nmap scan report for' allrangesFtcp.nmap | cut -d' ' -f5) | sort -u -t '.' -k 4.1g | tee "hostsUp-${i}.0.txt"; done | tee >(grep -v '###' | sort -u > hosts-fastTcp.txt)
-
-# Visualising network topology (minimalistic, i.e. only 5 random alive hosts per subnet):
-for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do grep "$i" <(grep 'Nmap scan report for' allrangesFtcp.nmap | cut -d' ' -f5) | sort -t '.' -k 4.1g | shuf -n 5 -; done > 5hosts-persubnet.txt
-nmap -sS -n -F -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopology.xml
-zenmap netTopology.xml
 ```
 
 Discovering additional hosts/devices:
@@ -254,6 +274,34 @@ https://nmap.org/nsedoc/scripts/targets-ipv6-multicast-mld.html
 https://nmap.org/nsedoc/scripts/targets-ipv6-multicast-slaac.html
 ```
 
+## Understanding network topology
+
+MITRE ATT&CK: N/A
+
+Summary of alive hosts/devices per subnet (one-liner for /24 subnets):
+
+```
+In:
+IP-ranges.txt - file with IP ranges in scope
+allFastOnetime.nmap - result of full range fast (-F) scan
+
+for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do echo "### Network $i.0 ###";  grep "$i" <(grep 'Nmap scan report for' allFastOnetime.nmap | cut -d' ' -f5) | sort -u -t '.' -k 4.1g | tee "hostsUp-${i}.0.txt"; done | tee >(grep -v '###' | sort -u > hosts-fastTcp.txt)
+```
+
+Visualising network topology (for brevity displaying only 5 random alive hosts per subnet):
+
+```
+In:
+IP-ranges.txt - file with IP ranges in scope
+allFastOnetime.nmap - result of full range fast (-F) scan
+
+for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do grep "$i" <(grep 'Nmap scan report for' allFastOnetime.nmap | cut -d' ' -f5) | sort -t '.' -k 4.1g | shuf -n 5 -; done > 5hosts-persubnet.txt
+
+nmap -sS -n -F -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopology.xml
+
+zenmap netTopology.xml
+```
+
 ## Services discovery
 
 MITRE ATT&CK: [T1046](https://attack.mitre.org/techniques/T1046/)
@@ -273,11 +321,11 @@ nmap -n -Pn -sS --open -iL IP-ranges.txt -p- -oA pscans/wholeRange-allPN -T4 --m
 
 # Typical scans of already detected hosts:
 nmap -n -Pn -sS --open -iL hostsUp.txt --top-ports 1024 -oA pscans/hostsUp-top1024 -T4
-nmap -n -Pn -sS --open -iL hostsUp.txt -p- -oA pscans/hostsUp-all -T4 --max-hostgroup 8
+nmap -n -Pn -sS --open -iL hostsUp.txt -p- -oA pscans/hostsUp-all -T4 --max-hostgroup 8 --randomize-hosts
 
 Chosen 'incremental' scans:
 
-#
+# scan 'rawr' ports (where 'rawrPorts' is Bash function returning list of rawr ports):
 nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(rawrPorts) -oA pscans/wholeRange-rawrPN -T4
 
 # scan 100 ports positioned 1001 - 1101 in popularity:
@@ -301,6 +349,7 @@ Prereq:
  - Arch / Kali: `extra/xorg-server-xvfb / xvfb` package
  - [httprobe](https://github.com/tomnomnom/httprobe/releases/latest)
  - [Aquatone](https://github.com/michenriksen/aquatone/releases/latest) OR [webscreenshot.py](https://github.com/maaaaz/webscreenshot)
+ - [OPTIONALLY] [Eyeballer](https://github.com/bishopfox/eyeballer)
 
 Identifying web-based services:
 
