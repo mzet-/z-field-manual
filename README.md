@@ -245,15 +245,47 @@ nmap -n -sn -T4 -iL IP-ranges.txt
 nmap -n -sn -T4 -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -iL IP-ranges.txt
 ```
 
-
-nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -p- -oA pscans/all-full-rand-continous --randomize-hosts --max-hostgroup 4
+One-time, fast scan for detecting of first batch of alive hosts:
 
 ```
-# host discovery + 100 top ports scan
-nmap -n -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -sS -iL IP-ranges.txt -F -oA allrangesFtcp -T4 --open
+# initial scan:
+nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -F -oA pscans/all-fast-onetime
 
-# as previously but more accurate (100 ports will be scanned for each & every IP in set of provided IP ranges):
-nmap -n -Pn -sS -iL IP-ranges.txt -F -oA allrangesFtcpPn -T4 --open
+# alternative for larger networks:
+nmap -n -PN -sS -iL IP-ranges.txt -T4 --open --top-ports 50 -oA pscans/all-fast-onetime
+
+# store initial list of alive hosts and ports that have been observed as opened:
+./gnxparse.py -p pscans/all-fast-onetime.xml | grep -v 'Port' > allPorts.txt
+./gnxparse.py -ips pscans/all-fast-onetime.xml | grep -v 'IPv4' > hostsUp.txt
+```
+
+Long-run "scanning jobs" with frequent updates of results at `pscans/`:
+
+```
+# Continous, randomized, full IP space, full port range scan with small host groups (for frequent update of results): 
+nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -p- -oA pscans/all-full-rand-continous --randomize-hosts --max-hostgroup 4
+
+# scan 'rawr' ports (where 'rawrPorts' is Bash function returning list of rawr ports):
+nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(rawrPorts) -oA pscans/all-rawrPN -T4 --max-hostgroup 16
+
+# full scope - next top 3000 ports - scan:
+masscan -iL IP-ranges.txt -p$(topNports 3000 100) --rate 1000 -oX pscans/masscan-offset100-top3000.xml
+
+# full port range scan of already discovered hosts:
+nmap -n -sS --open -iL hostsUp.txt -p- -oA pscans/hostsUp-all -T4 --max-hostgroup 16
+```
+
+Periodical runs based on the (incremental) findings at `pscans/`:
+
+```
+# fetch newly discovered ports and hosts from 'pscans/':
+./observer.sh pscans/
+
+# full IP space scan of previously seen (and not yet 'horizontally' scanned) ports:
+nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(cat vscans/delta-ports-* | tr '\n' ',') -oA pscans/all-deltaPorts-$(date +%F_%H:%M) -T4
+
+# full port range scan of previously discovered (and not yet fully scanned) hosts:
+screen /bin/bash -c 'nmap -n -sS --open -iL <(cat vscans/delta-hosts-*) -p- -oA pscans/deltaHosts-all-$(date +%F_%H:%M) -T4'
 ```
 
 ### DNS queries
