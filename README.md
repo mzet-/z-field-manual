@@ -196,6 +196,8 @@ TODO
 
 ## Active Reconnaissance
 
+### Port scanning
+
 MITRE ATT&CK: [T1018](https://attack.mitre.org/techniques/T1018/)
 
 Reference:
@@ -241,12 +243,9 @@ nmap -n -sn -T4 -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -iL IP-range
 ```
 
 
-
 nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -p- -oA pscans/all-full-rand-continous --randomize-hosts --max-hostgroup 4
 
-
-
-
+```
 # host discovery + 100 top ports scan
 nmap -n -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -sS -iL IP-ranges.txt -F -oA allrangesFtcp -T4 --open
 
@@ -254,12 +253,23 @@ nmap -n -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -sS -iL IP-ranges.tx
 nmap -n -Pn -sS -iL IP-ranges.txt -F -oA allrangesFtcpPn -T4 --open
 ```
 
-Discovering additional hosts/devices:
+### DNS queries
+
+Reverse DNS:
 
 ```
-# reverse DNS:
 nmap -R -sL -T4 -iL IP-ranges.txt | sort -k 5.1
+```
 
+DNS brute-force:
+
+```
+TODO
+```
+
+### Protocol-specific broadcasts/multicasts
+
+```
 # discovery of additional network devices via multicasting / broadcasting
 nmap --script mrinfo -e ens160 -d
 nmap -sU -p 5351 --script=nat-pmp-info 10.10.10.0/24 -d --open
