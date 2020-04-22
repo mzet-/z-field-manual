@@ -156,14 +156,18 @@ MITRE ATT&CK: [T1040](https://attack.mitre.org/techniques/T1040/)
 Sniffing:
 
 ```
-# {broad,multi}cast traffic excluding ARP
-tcpdump -n -i eth0 -w tcpdump-b-m-no-arp ether broadcast and ether multicast and not arp
+# {broad,multi}cast traffic excluding ARP:
+tcpdump -nn -i eth0 -w tcpdump-b-m-no-arp.pcap ether broadcast and ether multicast and not arp
 
-# Overview of IPv4 traffic
-tcpdump -i eth0 -w session1-all-ipv4 -nn not ip6
+# Overview of IPv4 traffic:
+tcpdump -i eth0 -w session1-all-ipv4.pcap -nn not ip6 and not port 22
+# Full packet capture of IPv4 traffic:
+tcpdump -X -s0 -i eth0 -w session1-all-ipv4-full-content.pcap -nn not ip6 and not port 22
 
-# Overview of IPv6 traffic
-tcpdump -i eth0 -w session1-all-ipv4 -nn ip6
+# Overview of IPv6 traffic:
+tcpdump -i eth0 -w session1-all-ipv6.pcap -nn ip6
+# Full packet capture of IPv6 traffic:
+tcpdump -i eth0 -w session1-all-ipv6-full-content.pcap -nn ip6
 ```
 
 OS fingerprinting:
@@ -182,7 +186,15 @@ p0f
 Discovery of 'hidden' (i.e. all ports filtered, no ping replies) hosts:
 
 ```
+# IPs seen be responder:
 cut -d' ' -f9 Responder/logs/Analyzer-Session.log | sort -u
+cut -d' ' -f12 Responder/logs/Responder-Session.log | sort -u
+
+# IPs seen by tcpdump:
+tcpdump -nn -r <SESSION_FILE> -l | grep -o -E '[0-9]+(\.[0-9]+){3}' | sort -u
+
+# verify if it is already in discovered hosts ('hostsUp.txt') file:
+grep -v -f hostsUp.txt <(process returning IP list)
 ```
 
 ## Identifying Core Network Technologies
@@ -283,7 +295,7 @@ Periodical runs based on the (incremental) findings at `pscans/`:
 nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(cat vscans/delta-ports-* | tr '\n' ',') -oA pscans/all-deltaPorts-$(date +%F_%H:%M) -T4
 
 # full port range scan of previously discovered (and not yet fully scanned) hosts:
-screen /bin/bash -c 'nmap -n -sS --open -iL <(cat vscans/delta-hosts-*) -p- -oA pscans/deltaHosts-all-$(date +%F_%H:%M) -T4'
+nmap -n -sS --open -iL vscans/delta-hosts-* -p- -oA pscans/deltaHosts-all-$(date +%F_%H:%M) -T4'
 ```
 
 ### DNS queries
@@ -326,9 +338,9 @@ Summary of alive hosts/devices per subnet (one-liner for /24 subnets):
 ```
 In:
 IP-ranges.txt - file with IP ranges in scope
-allFastOnetime.nmap - result of full range fast (-F) scan
+pscans/all-fast-onetime.nmap - result of full range fast (-F) scan
 
-for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do echo "### Network $i.0 ###";  grep "$i" <(grep 'Nmap scan report for' allFastOnetime.nmap | cut -d' ' -f5) | sort -u -t '.' -k 4.1g | tee "hostsUp-${i}.0.txt"; done | tee >(grep -v '###' | sort -u > hosts-fastTcp.txt)
+for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do echo "### Network $i.0 ###";  grep "$i" <(grep 'Nmap scan report for' pscans/all-fast-onetime.nmap | cut -d' ' -f5) | sort -u -t '.' -k 4.1g | tee "hostsUp-${i}.0.txt"; done | tee >(grep -v '###' | sort -u > hosts-fastTcp.txt)
 ```
 
 Visualising network topology (for brevity displaying only 5 random alive hosts per subnet):
@@ -336,9 +348,9 @@ Visualising network topology (for brevity displaying only 5 random alive hosts p
 ```
 In:
 IP-ranges.txt - file with IP ranges in scope
-allFastOnetime.nmap - result of full range fast (-F) scan
+pscans/all-fast-onetime.nmap - result of full range fast (-F) scan
 
-for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do grep "$i" <(grep 'Nmap scan report for' allFastOnetime.nmap | cut -d' ' -f5) | sort -t '.' -k 4.1g | shuf -n 5 -; done > 5hosts-persubnet.txt
+for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do grep "$i" <(grep 'Nmap scan report for' pscans/all-fast-onetime.nmap | cut -d' ' -f5) | sort -t '.' -k 4.1g | shuf -n 5 -; done > 5hosts-persubnet.txt
 
 nmap -sS -n -F -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopology.xml
 
@@ -358,6 +370,8 @@ allPorts.txt - ports seen opened in tested IP space
 
 Out:
 hostsUp-vscan.{nmap,gnmap,xml} - nmap's initial enumeration (`-A`) of all servies in scope
+
+nmap -n -sS -A --script=vulners --open -iL hostsUp.txt -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/vscan-hosts<N>-ports<N> -T4 --max-hostgroup 16
 ```
 
 ## HTTP/HTTPS Services Discovery
@@ -456,18 +470,19 @@ Specifications:
 Discovery (directly from the wire):
 
 ```
+nmap -sS -Pn -n -p445 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee smbServices.txt
 ```
 
 Discovery (from previous scans):
 
 ```
-TODO
+python scripts/nparser.py -f vscanlatest -p445 -l | tee smbServices.txt
 ```
 
 Basic enumeration:
 
 ```
-nmap -n -sU -sS -Pn -pT:139,445,U:137 -sV --script=smb-os-discovery,smb-protocols,smb-security-mode,smb-system-info,smb2-capabilities,smb2-security-mode,smb2-time -iL smb-services.txt | tee smb-services-enumeration.out
+nmap -n -sU -sS -Pn -pT:139,445,U:137 -sV --script=smb-os-discovery,smb-protocols,smb-security-mode,smb-system-info,smb2-capabilities,smb2-security-mode,smb2-time -iL smbServices.txt | tee smb-services-enumeration.out
 
 Follow up:
 https://nmap.org/nsedoc/scripts/smb-brute.html
