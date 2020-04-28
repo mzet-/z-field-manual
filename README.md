@@ -159,6 +159,10 @@ Sniffing:
 # {broad,multi}cast traffic excluding ARP:
 tcpdump -nn -i eth0 -w tcpdump-b-m-no-arp.pcap ether broadcast and ether multicast and not arp
 
+# Sniffs the network for incoming broadcast communication and attempts to decode the received packets.
+# https://nmap.org/nsedoc/scripts/broadcast-listener.html
+nmap --script broadcast-listener -e eth0 --script-args=broadcast-listener.timeout=30
+
 # Overview of IPv4 traffic:
 tcpdump -i eth0 -w session1-all-ipv4.pcap -nn not ip6 and not port 22
 # Full packet capture of IPv4 traffic:
@@ -370,8 +374,24 @@ allPorts.txt - ports seen opened in tested IP space
 
 Out:
 hostsUp-vscan.{nmap,gnmap,xml} - nmap's initial enumeration (`-A`) of all servies in scope
+```
 
-nmap -n -sS -A --script=vulners --open -iL hostsUp.txt -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/vscan-hosts<N>-ports<N> -T4 --max-hostgroup 16
+Initial vuln scan:
+
+```
+nmap -n -sS -A --script=vulners --open -iL hostsUp.txt -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/base-vscan -T4 --max-hostgroup 16
+```
+
+Additional scans after discovering new hosts and/or ports:
+
+```
+nmap -n -Pn -sS -A --script=vulners --open -iL IP-ranges.txt -p$(cat vscans/delta-ports-* | tr '\n' ',') -oA vscans/base-vscan-delta-$(date +%F_%H:%M) -T4
+```
+
+Merge results:
+
+```
+for i in $(ls vscans/*.xml); do echo -n "$i,"; done | head -c -1 |  xargs ./gnxmerge.py -s | tee vscans/vscanlatest-$(date +%F_%H:%M).xml
 ```
 
 ## HTTP/HTTPS Services Discovery
@@ -479,10 +499,10 @@ Discovery (from previous scans):
 python scripts/nparser.py -f vscanlatest -p445 -l | tee smbServices.txt
 ```
 
-Basic enumeration:
+Additional enumeration:
 
 ```
-nmap -n -sU -sS -Pn -pT:139,445,U:137 -sV --script=smb-os-discovery,smb-protocols,smb-security-mode,smb-system-info,smb2-capabilities,smb2-security-mode,smb2-time -iL smbServices.txt | tee smb-services-enumeration.out
+nmap -n -sU -sS -Pn -pT:139,445,U:137 -sV --script=smb-os-discovery,smb-protocols,smb-security-mode,smb-system-info,smb2-capabilities,smb2-security-mode,smb2-time -iL smbServices.txt | tee vscans/smb-services-enumeration.out
 
 Follow up:
 https://nmap.org/nsedoc/scripts/smb-brute.html
@@ -514,6 +534,36 @@ Vulnerability: ms10-054
 ```
 Reference: https://nmap.org/nsedoc/scripts/smb-vuln-ms10-054.html
 Notes: The script requires at least READ access right to a share on a remote machine.
+
+Discovery:
+nmap  -p 445 <target> --script=smb-vuln-ms10-054 --script-args unsafe -d
+nmap -sS -sU --script smb-vuln-ms10-054.nse --script-args unsafe -pT:445,139,U:137 -iL smb-services.txt --open -d | tee smb-vuln-ms10-054.out
+# grep for 'true' in smb-vuln-ms10-054.out
+```
+
+Vulnerability: ms10-06
+
+```
+Notes: 
+Originally used by Stuxnet
+In order for the check to work it needs access to at least one shared printer on the remote system
+Reference: https://nmap.org/nsedoc/scripts/smb-vuln-ms10-061.html
+
+Discovery:
+nmap -sS -sU --script smb-vuln-ms10-061.nse -pT:445,139,U:137 -iL smb-services.txt --open -d | tee smb-vuln-ms10-061.out
+```
+
+Vulnerability: ms17-01
+
+```
+Notes:
+EternalBlue (exploited by WannaCry)
+Needs connection to IPC$ share
+Tested on Windows XP, 2003, 7, 8, 8.1, 10, 2008, 2012 and 2016
+Reference: https://nmap.org/nsedoc/scripts/smb-vuln-ms17-010.html
+
+Discovery:
+nmap -sS -sU --script smb-vuln-ms17-010 --max-hostgroup 3 -pT:445,139,U:137 -iL smb-services.txt --open -d | tee smb-vuln-ms17-010.out
 ```
 
 ### RDP service
@@ -524,9 +574,42 @@ TODO
 
 ### MS-SQL service
 
+Ports:
+
+    TCP: 1433
+    UDP: 1434
+    Other: https://docs.microsoft.com/en-us/sql/sql-server/install/configure-the-windows-firewall-to-allow-sql-server-access?view=sql-server-ver15
+
+Reference:
+
 ```
-TODO
+https://nmap.org/nsedoc/lib/mssql.html
+http://travisaltman.com/pen-test-and-hack-microsoft-sql-server-mssql/
 ```
+
+Discovery:
+
+```
+# from the wire:
+nmap -sS -Pn -n -p1433 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee mssqlServices.txt
+udp-proto-scanner.pl --probe_name ms-sql <IPs>
+nmap --script broadcast-ms-sql-discover
+
+# from previous scans:
+python nparser.py -f vscans/vscanlatest -p1433 -l | cut -d: -f1 |tee mssqlServices.txt
+```
+
+Basic enumeration:
+
+    nmap -sS -Pn -n -p1433 -iL mssqlServices.txt --script ms-sql-info,ms-sql-ntlm-info
+
+Check for empty passwords:
+
+    nmap -p 1433 --script ms-sql-empty-password -iL mssqlServices.txt -v
+
+Brute force attack:
+
+    hydra -s 1433 -t 4 -T 8 -L ~/PAYLOADS/PASSWD/mssql-users.txt -P ~/PAYLOADS/PASSWD/mssql-passwds.txt -M mssqlServices.txt mssql
 
 ### Other Windows services
 

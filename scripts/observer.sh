@@ -22,19 +22,21 @@ for i in $(ls ${DIR}*.xml); do
 
     # parse xml file for ports and store it
     ./gnxparse.py -p "$i.shadow" | grep -v "Port" >> "$TMP_PORT_FILE"
-    sort -u -o "$TMP_PORT_FILE" "$TMP_PORT_FILE"
 
     # parse xml file for hosts and store it
     ./gnxparse.py -ips "$i.shadow" | grep -v "IPv4" >> "$TMP_HOST_FILE"
-    sort -u -o "$TMP_HOST_FILE" "$TMP_HOST_FILE"
 
     rm "$i.shadow"
 done
 
+# Remove duplicates
+sort -u -o "$TMP_PORT_FILE" "$TMP_PORT_FILE"
+sort -u -o "$TMP_HOST_FILE" "$TMP_HOST_FILE"
+
 echo; echo "Discovered new ports: "
 
 # store ports that not have yet been seen previously
-DIFF="$(grep -v -f "$KNOWN_PORTS" "$TMP_PORT_FILE")"
+DIFF="$(grep -x -v -f "$KNOWN_PORTS" "$TMP_PORT_FILE")"
 
 # if new ports have been discoverd store it in delta file and append to KNOWN_PORTS file
 [ -n "$DIFF" ] && (echo "$DIFF" | tee -a $KNOWN_PORTS | tee vscans/delta-ports-$(date +%F_%H:%M))
@@ -42,7 +44,7 @@ DIFF="$(grep -v -f "$KNOWN_PORTS" "$TMP_PORT_FILE")"
 echo; echo "Discovered new hosts: "
 
 # store hosts that not have yet been seen previously
-DIFF_HOSTS="$(grep -v -f "$KNOWN_HOSTS" "$TMP_HOST_FILE")"
+DIFF_HOSTS="$(grep -x -v -f "$KNOWN_HOSTS" "$TMP_HOST_FILE")"
 
 # if new hosts have been discoverd store it in delta file and append to KNOWN_HOSTS file
 [ -n "$DIFF_HOSTS" ] && (echo "$DIFF_HOSTS" | tee -a $KNOWN_HOSTS | tee vscans/delta-hosts-$(date +%F_%H:%M))
