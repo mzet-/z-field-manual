@@ -33,6 +33,7 @@
         - [SMB](#smb-service)
         - [RDP](#rdp-service)
         - [MS-SQL](#ms-sql-service)
+        - [WinRM](#winrm)
         - [Other Windows services](#other-windows-services)
         - [SNMP](#snmp-service)
         - [SMTP](#smtp-service)
@@ -610,6 +611,8 @@ Check for empty passwords:
 Brute force attack:
 
     hydra -s 1433 -t 4 -T 8 -L ~/PAYLOADS/PASSWD/mssql-users.txt -P ~/PAYLOADS/PASSWD/mssql-passwds.txt -M mssqlServices.txt mssql
+
+### WinRM service
 
 ### Other Windows services
 
