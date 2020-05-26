@@ -210,8 +210,10 @@ Reference:
 https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions
 ```
 
+LAN ARP scan to get an idea of network equipment's vendors (based on MAC):
+
 ```
-TODO
+nmap -n -sn -PR 192.168.0.0/24 | grep -E -v 'Host is up|Starting Nmap|Nmap done:' | while read -r ip; do read -r mac; echo -e "IP: $(cut -d' ' -f5 <<< $ip);\t $mac"; done
 ```
 
 ## Active Reconnaissance
@@ -225,6 +227,7 @@ Reference:
 ```
 https://nmap.org/book/host-discovery.html
 https://nmap.org/book/man-host-discovery.html
+https://nmap.org/book/nping-man-briefoptions.html
 ```
 
 Prereq:
@@ -277,8 +280,8 @@ nmap -n -PN -sS -iL IP-ranges.txt -T4 --open --top-ports 50 -oA pscans/all-fast-
 Long-run "scanning jobs" with frequent updates of results at `pscans/`:
 
 ```
-# Continous, randomized, full IP space, full port range scan with small host groups (for frequent update of results): 
-nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -p- -oA pscans/all-full-rand-continous --randomize-hosts --max-hostgroup 4
+# Continuous, randomized, full IP space, full port range scan jobs with small host groups (for frequent update of results): 
+nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -p- -oA pscans/all-full-rand-job-1 --randomize-hosts --max-hostgroup 4
 
 # scan 'rawr' ports (where 'rawrPorts' is Bash function returning list of rawr ports):
 nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(rawrPorts) -oA pscans/all-rawrPN -T4 --max-hostgroup 16
@@ -343,9 +346,12 @@ Summary of alive hosts/devices per subnet (one-liner for /24 subnets):
 ```
 In:
 IP-ranges.txt - file with IP ranges in scope
-pscans/all-fast-onetime.nmap - result of full range fast (-F) scan
+pscans/*.xml - all hosts discovered so far
 
-for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do echo "### Network $i.0 ###";  grep "$i" <(grep 'Nmap scan report for' pscans/all-fast-onetime.nmap | cut -d' ' -f5) | sort -u -t '.' -k 4.1g | tee "hostsUp-${i}.0.txt"; done | tee >(grep -v '###' | sort -u > hosts-fastTcp.txt)
+Out:
+hostsUp-${i}.0.txt - file per each subnet with alive IPs
+
+for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do echo "### Network $i.0 ###";  grep "$i" <(for f in $(ls pscans/*.xml); do ./gnxparse.py -ips $f 2>/dev/null; done) | sort -u -t '.' -k 4.1g | tee "hostsUp-${i}.0.txt"; done
 ```
 
 Visualising network topology (for brevity displaying only 5 random alive hosts per subnet):
@@ -355,9 +361,9 @@ In:
 IP-ranges.txt - file with IP ranges in scope
 pscans/all-fast-onetime.nmap - result of full range fast (-F) scan
 
-for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do grep "$i" <(grep 'Nmap scan report for' pscans/all-fast-onetime.nmap | cut -d' ' -f5) | sort -t '.' -k 4.1g | shuf -n 5 -; done > 5hosts-persubnet.txt
+for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do grep "$i" <(for f in $(ls pscans/*.xml); do ./gnxparse.py -ips $f 2>/dev/null; done) | sort -u -t '.' -k 4.1g | shuf -n 5 -; done | tee 5hosts-persubnet.txt
 
-nmap -sS -n -F -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopology.xml
+nmap -PN --send-ip -sUS -n -F -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopology.xml
 
 zenmap netTopology.xml
 ```
@@ -380,19 +386,25 @@ hostsUp-vscan.{nmap,gnmap,xml} - nmap's initial enumeration (`-A`) of all servie
 Initial vuln scan:
 
 ```
-nmap -n -sS -A --script=vulners --open -iL hostsUp.txt -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/base-vscan -T4 --max-hostgroup 16
+nmap -n -sUS -A --script=vulners --open -iL hostsUp.txt -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/base-vscan -T4 --max-hostgroup 16
 ```
 
-Additional scans after discovering new hosts and/or ports:
+Additional scans after discovering new hosts:
 
 ```
-nmap -n -Pn -sS -A --script=vulners --open -iL IP-ranges.txt -p$(cat vscans/delta-ports-* | tr '\n' ',') -oA vscans/base-vscan-delta-$(date +%F_%H:%M) -T4
+nmap -n -Pn -sUS -A --script=vulners --open -iL vscans/delta-hosts-* -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/base-delta-hosts-$(date +%F_%H-%M) -T4
+```
+
+Additional scans after discovering new ports:
+
+```
+nmap -n -Pn -sUS -A --script=vulners --open -iL IP-ranges.txt -p$(cat vscans/delta-ports-* | tr '\n' ',') -oA vscans/base-delta-ports-$(date +%F_%H-%M) -T4
 ```
 
 Merge results:
 
 ```
-for i in $(ls vscans/*.xml); do echo -n "$i,"; done | head -c -1 |  xargs ./gnxmerge.py -s | tee vscans/vscanlatest-$(date +%F_%H:%M).xml
+for i in $(ls vscans/*.xml); do echo -n "$i,"; done | head -c -1 |  xargs ./gnxmerge.py -s | tee vscans/vscanlatest-$(date +%F_%H-%M).xml
 ```
 
 ## HTTP/HTTPS Services Discovery
