@@ -300,10 +300,12 @@ Periodical runs based on the (incremental) findings at `pscans/`:
 ./observer.sh pscans/
 
 # full IP space scan of previously seen (and not yet 'horizontally' scanned) ports:
-nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(cat vscans/delta-ports-* | tr '\n' ',') -oA pscans/all-deltaPorts-$(date +%F_%H:%M) -T4
+nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(cat allPorts.txt | tr '\n' ',') -oA pscans/all-deltaPorts-$(date +%F_%H-%M) -T4
+# OR (only specific delta):
+nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(cat vscans/delta-ports-* | tr '\n' ',') -oA pscans/all-deltaPorts-$(date +%F_%H-%M) -T4
 
 # full port range scan of previously discovered (and not yet fully scanned) hosts:
-nmap -n -sS --open -iL vscans/delta-hosts-* -p- -oA pscans/deltaHosts-all-$(date +%F_%H:%M) -T4'
+nmap -n -sS --open -iL vscans/delta-hosts-* -p- -oA pscans/deltaHosts-all-$(date +%F_%H-%M) -T4'
 ```
 
 ### DNS queries
@@ -341,7 +343,7 @@ https://nmap.org/nsedoc/scripts/targets-ipv6-multicast-slaac.html
 
 MITRE ATT&CK: N/A
 
-Summary of alive hosts/devices per subnet (one-liner for /24 subnets):
+Summary of alive hosts/devices per subnet:
 
 ```
 In:
@@ -351,7 +353,11 @@ pscans/*.xml - all hosts discovered so far
 Out:
 hostsUp-${i}.0.txt - file per each subnet with alive IPs
 
+# version for /24 subnets
 for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do echo "### Network $i.0 ###";  grep "$i" <(for f in $(ls pscans/*.xml); do ./gnxparse.py -ips $f 2>/dev/null; done) | sort -u -t '.' -k 4.1g | tee "hostsUp-${i}.0.txt"; done
+
+# version for /16 subnets
+for i in $(cat IP-ranges16.txt | cut -d'.' -f1,2); do echo "### Network $i.0.0 ###";  grep "$i" <(for f in $(ls pscans/*.xml); do ./gnxparse.py -ips $f 2>/dev/null; done) | sort -u -t '.' -k 4.1g | tee "hostsUp-${i}.0.0.txt"; done
 ```
 
 Visualising network topology (for brevity displaying only 5 random alive hosts per subnet):
