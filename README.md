@@ -19,7 +19,8 @@
 - [Techniques: Discovery](#techniques-discovery)
     - [Passive techniques](#passive-techniques)
     - [Active Reconnaissance](#active-reconnaissance)
-        - [Scanning](#scanning)
+        - [Scanning: TCP](#scanning-tcp)
+        - [Scanning: UDP](#scanning-udp)
         - [DNS queries](#dns-queries)
         - [Protocols-specific broadcasts/multicasts](#protocols-specific-broadcastsmulticasts)
     - [Identifying Core Network Technologies](#identifying-core-network-technologies)
@@ -218,7 +219,7 @@ nmap -n -sn -PR 192.168.0.0/24 | grep -E -v 'Host is up|Starting Nmap|Nmap done:
 
 ## Active Reconnaissance
 
-### Scanning
+### Scanning: TCP
 
 MITRE ATT&CK: [T1018](https://attack.mitre.org/techniques/T1018/)
 
@@ -307,6 +308,26 @@ nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(cat vscans/delta-ports-* | tr '\n' 
 # full port range scan of previously discovered (and not yet fully scanned) hosts:
 nmap -n -sS --open -iL vscans/delta-hosts-* -p- -oA pscans/deltaHosts-all-$(date +%F_%H-%M) -T4'
 ```
+
+### Scanning: UDP
+
+Prereq:
+
+```
+https://raw.githubusercontent.com/portcullislabs/udp-proto-scanner/master/udp-proto-scanner.conf
+https://raw.githubusercontent.com/portcullislabs/udp-proto-scanner/master/udp-proto-scanner.pl
+```
+
+Probing for popular UDP-based services:
+
+```
+ranges2IPs IP-ranges.txt > IP-list.txt
+udp-proto-scanner.pl --file IP-list.txt | tee all-udp-proto-scanner.out
+```
+
+Nmap UDP scan:
+
+    nmap -n -sU --top-ports 500 -PN --open --reason -T4 -iL IP-ranges.txt -oA udp-all-fast-pscan
 
 ### DNS queries
 
