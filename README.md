@@ -390,9 +390,19 @@ pscans/all-fast-onetime.nmap - result of full range fast (-F) scan
 
 for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do grep "$i" <(for f in $(ls pscans/*.xml); do ./gnxparse.py -ips $f 2>/dev/null; done) | sort -u -t '.' -k 4.1g | shuf -n 5 -; done | tee 5hosts-persubnet.txt
 
-nmap -PN --send-ip -sUS -n -F -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopology.xml
+# no host discovery, no scans just (ICMP) traceroute:
+nmap -n -T4 -PN -sn --traceroute -iL 5hosts-persubnet.txt -oX netTopologyICMP.xml
 
-zenmap netTopology.xml
+# alternatives (TCP or UDP based) tracerouting:
+# Comment:
+# top 100 port scan is performed (-F)
+# Nmap will initiate (TCP / UDP based) traceroute
+# only if at least one of scanned ports are opened
+# if not it will fallback to ICMP traceroute
+nmap -PN -sS -n -F -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopologyTCP.xml
+nmap -PN -sU -n -F -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopologyUDP.xml
+
+zenmap netTopology{ICMP,TCP,UDP}.xml
 ```
 
 ## Services discovery
