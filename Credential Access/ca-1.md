@@ -85,4 +85,4 @@ https://github.com/SecureAuthCorp/impacket
 
 ## OPSEC considerations
 
-## Countermeasures
+## Counter-countermeasures
