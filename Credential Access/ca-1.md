@@ -83,4 +83,6 @@ https://www.fox-it.com/en/insights/blogs/blog/inside-windows-network/
 https://github.com/SecureAuthCorp/impacket
 ```
 
-## Countermeasures and OPSEC considerations
+## OPSEC considerations
+
+## Countermeasures
