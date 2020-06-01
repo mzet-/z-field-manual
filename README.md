@@ -28,6 +28,9 @@
     - [Services Discovery](#services-discovery)
     - [HTTP/HTTPS Services Discovery](#httphttps-services-discovery)
 - [Techniques: Credential Access](#techniques-credential-access)
+    - [LLMNR/mDNS/NBNS poisonning and SMB relay](Credential Access/ca-1.md)
+    - [DNS Poisoning via DHCPv6 and SMB Relay](Credential Access/ca-2.md)
+    - [ARP + DNS Poisoning and SMB Relay](Credential Access/ca-3.md)
 - [Techniques: Lateral Movement](#techniques-lateral-movement)
     - [Flawed Network Equipment](#flawed-network-equipment)
     - [Flawed Remote Services](#flawed-remote-services)
@@ -425,13 +428,13 @@ hostsUp-vscan.{nmap,gnmap,xml} - nmap's initial enumeration (`-A`) of all servie
 Initial vuln scan:
 
 ```
-nmap -n -sUS -A --script=vulners --open -iL hostsUp.txt -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/base-vscan -T4 --max-hostgroup 16
+nmap -n -PN -sS -A --script=vulners --open -iL hostsUp.txt -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/base-vscan -T4 --max-hostgroup 16
 ```
 
 Additional scans after discovering new hosts:
 
 ```
-nmap -n -Pn -sUS -A --script=vulners --open -iL vscans/delta-hosts-* -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/base-delta-hosts-$(date +%F_%H-%M) -T4
+nmap -n -PN -sS -A --script=vulners --open -iL vscans/delta-hosts-* -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/base-delta-hosts-$(date +%F_%H-%M) -T4
 ```
 
 Additional scans after discovering new ports:
@@ -505,7 +508,7 @@ Responder.py -I eth0 -wrf
 Responder.py -I eth0 -wfFbv
 ```
 
-PowerShell ADIDNS/LLMNR/mDNS/NBNS poisonning:
+PowerShell DNS/LLMNR/mDNS/NBNS poisonning:
 
 ```
 # details:
@@ -615,7 +618,7 @@ http://www.vulnerabilityassessment.co.uk/cisco.htm
 
 MITRE ATT&CK: T1021 / T1210
 
-### SMB service: Exploitation
+### SMB service
 
 Ports:
 

@@ -5,6 +5,14 @@
 
 MITRE ATT&CK mapping: [T1557.001](https://attack.mitre.org/beta/techniques/T1557/001/)
 
+Reference:
+
+```
+LLMNR protocol: https://en.wikipedia.org/wiki/Link-Local_Multicast_Name_Resolution
+mDNS protocol: https://en.wikipedia.org/wiki/Multicast_DNS
+NBNS protocol: https://en.wikipedia.org/wiki/NetBIOS_over_TCP/IP#Name_service
+```
+
 ## Procedures
 
 ### Classic Responder LLMNR/mDNS/NBNS poisonning
