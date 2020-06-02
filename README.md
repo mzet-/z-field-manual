@@ -785,6 +785,14 @@ Overview:
 
     https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol
 
+Discovery:
+
+```
+# from the wire:
+udp-proto-scanner.pl --probe_name SNMPv3GetRequest --file IP-list.txt | tee snmpServices.out
+cat snmpServices.out | extractIPs > snmpServices.txt
+```
+
 Enumeration (Nmap):
 
     # list Nmap's SNMP discovery scripts from https://github.com/leebaird/discover project:
