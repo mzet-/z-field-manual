@@ -789,7 +789,7 @@ Enumeration (Nmap):
 
     # list Nmap's SNMP discovery scripts from https://github.com/leebaird/discover project:
     wget https://raw.githubusercontent.com/leebaird/discover/master/nse.sh
-    grep 'nmap -iL $name/161.txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]')
+    grep 'nmap -iL $name/161.txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]'
     
     # run scan:
     nmap -n -T4 -sU -p161 --script <SCRIPTS> -iL snmpServices.txt
