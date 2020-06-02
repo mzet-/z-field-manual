@@ -41,6 +41,7 @@
         - [Other Windows services](#other-windows-services)
         - [SNMP](#snmp-service)
         - [SMTP](#smtp-service)
+        - [NTP](#ntp-service)
     - [Flawed HTTP/HTTPS Remote Services](#flawed-httphttps-remote-services)
         - [Apache Tomcat: default/weak credentials](#apache-tomcat-defaultweak-credentials)
     - [Flawed embedded devices](#flawed-embedded-devices)
