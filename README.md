@@ -805,6 +805,9 @@ Enumeration (Nmap):
 Enumeration (Metasploit):
 
 ```
+wget https://raw.githubusercontent.com/leebaird/discover/master/resource/161-udp-snmp.rc
+sed -i "s|setg RHOSTS.*|setg RHOSTS file:snmpServices.txt|g" 161-udp-snmp.rc
+msfconsole -r 161-udp-snmp.rc
 ```
 
 Brute forcing for weak community strings:
