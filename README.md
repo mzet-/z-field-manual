@@ -748,7 +748,7 @@ nmap --script broadcast-ms-sql-discover
 python nparser.py -f vscans/vscanlatest -p1433 -l | cut -d: -f1 |tee mssqlServices.txt
 ```
 
-Basic enumeration:
+Enumeration:
 
     nmap -sS -Pn -n -p1433 -iL mssqlServices.txt --script ms-sql-info,ms-sql-ntlm-info
 
@@ -784,6 +784,44 @@ Overview:
 
     https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol
 
+Enumeration (Nmap):
+
+    # list Nmap's SNMP discovery scripts from https://github.com/leebaird/discover project:
+    wget https://raw.githubusercontent.com/leebaird/discover/master/nse.sh
+    grep 'nmap -iL $name/161.txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]')
+    
+    # run scan:
+    nmap -n -T4 -sU -p161 --script <SCRIPTS> -iL snmpServices.txt
+
+Enumeration (Metasploit):
+
+```
+```
+
+Brute forcing for weak community strings:
+
+```
+# Spray with most common community strings:
+onesixtyone -d -c <(echo -n -e "public\nprivate\nmanager") -i snmpServices.txt
+
+# Check with Nmap's builtin community strings:
+nmap -n -T4 -sU --script snmp-brute -iL snmpServices.txt
+
+# Other lists:
+https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/SNMP/common-snmp-community-strings.txt
+# About ~3000 entries:
+https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/SNMP/snmp.txt
+onesixtyone -d -c common-snmp-community-strings.txt -i snmpServices.txt
+```
+
+Extract SNMP related information:
+
+    snmpwalk -c <COMMUNITY_STRING> -v1 <IP>
+
+Known vulnerabilities:
+
+    https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20170629-snmp
+
 ### SMTP service
 
 Ports:
@@ -809,6 +847,30 @@ QUIT
 Noteworthy vulnerabilities:
 
 ```
+```
+
+### NTP service
+
+Ports:
+
+    UDP: 123
+
+Discovery:
+
+```
+# from the wire:
+udp-proto-scanner.pl --probe_name NTPRequest <IPs>
+udp-proto-scanner.pl --probe_name ntp <IPs>
+```
+
+Enumeration:
+
+```
+nmap -n -T4 -sU -p123 --script=ntp-info,ntp-monlist -iL ntpServices.txt
+
+wget https://raw.githubusercontent.com/leebaird/discover/master/resource/123-udp-ntp.rc
+sed -i "s|setg RHOSTS.*|setg RHOSTS file:ntpServices.txt|g" 123-udp-ntp.rc
+msfconsole -r 123-udp-ntp.rc
 ```
 
 ## Flawed HTTP/HTTPS Services
