@@ -2,10 +2,21 @@
 <!-- MarkdownTOC depth=3 autolink=true -->
 
 - [Getting Inside](#getting-inside)
-    - Direct Access
-         - [Breaching the Perimeter](#breaching-the-perimeter)
-         - [Gain valid credentials](#breaching-the-perimeter)
-    - Social Engineering
+    - Attacking Perimeter
+         - Exploit Public-Facing Application (T1190)
+         - Access via External Remote Services (T1133)
+             - Using publicly leaked credentials 
+             - Brute forcing credentials
+             - Steal credentials
+                 - Social engineer an employee of the target to reveal credentials 
+                 - Compromise employee's laptop to gain credentials 
+    - Social Engineering (remote)
+         - Cloning authentication pages on doppelganger domains
+         - Phishing (T1566)
+             - Email
+                 - Malicious attachment (T1566.001)
+                 - Link to malicious site (T1566.002)
+             - 3rd party service (T1566.003)
     - Trust Exploitation
          - Dirve-by Compromise (T1189)
          - Supply Chain Compromise (T1195)
@@ -22,6 +33,9 @@
     - Close Access Operations
          - Wireless network compromise
          - USB drive drops (T1091)
+         - Plant drop-in device in target's network (T1200)
+             - Breach physical perimeter to get access to network
+             - "Task" insider to plant the device
 
 <!-- /MarkdownTOC -->
 
