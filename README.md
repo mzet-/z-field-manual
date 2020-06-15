@@ -159,6 +159,8 @@ MITRE ATT&CK: [TA0008](https://attack.mitre.org/tactics/TA0008/)
 
 MITRE ATT&CK: [T1040](https://attack.mitre.org/techniques/T1040/)
 
+Atomic Red Team test: [T1040 - Network Sniffing](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1040/T1040.md)
+
 Sniffing:
 
 ```
@@ -843,6 +845,25 @@ Ports:
 Implementations:
 
     https://en.wikipedia.org/wiki/List_of_mail_server_software#SMTP
+
+Discovery:
+
+```
+from the wire:
+nmap -sS -Pn -n -p25,587,465 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee smtpServices.txt
+```
+
+Enumeration:
+
+```
+wget https://raw.githubusercontent.com/leebaird/discover/master/nse.sh
+grep 'nmap -iL $name/smtp.txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]'
+nmap -n -T4 -sS -p25,587,465 --script <SCRIPTS> -iL smtpServices.txt -oA vscans/smtp-enum
+
+wget https://raw.githubusercontent.com/leebaird/discover/master/resource/25-smtp.rc
+sed -i "s|setg RHOSTS.*|setg RHOSTS file:smtpServices.txt|g" 25-smtp.rc
+msfconsole -r 25-smtp.rc | tee vscans/smtp-enum.out
+```
 
 Common misconfiguration: SMTP Open Relay
 
