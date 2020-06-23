@@ -10,7 +10,7 @@
     - Move Laterally
          - [Flawed Network Equipment](#flawed-network-equipment)
          - [Flawed Remote Services](#flawed-remote-services) (T1210)
-             - [SMB](#smb-service)
+             - [SMB](Lateral%20Movement/lm-flawed-services.md#smb-service)
              - [RDP](#rdp-service)
              - [MS-SQL](#ms-sql-service)
              - [WinRM](#winrm)
