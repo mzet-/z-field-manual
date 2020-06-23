@@ -11,16 +11,16 @@
          - [Flawed Network Equipment](#flawed-network-equipment)
          - [Flawed Remote Services](#flawed-remote-services) (T1210)
              - [SMB](Lateral%20Movement/lm-flawed-services.md#smb-service)
-             - [RDP](#rdp-service)
-             - [MS-SQL](#ms-sql-service)
-             - [WinRM](#winrm)
-             - [Other Windows services](#other-windows-services)
-             - [SNMP](#snmp-service)
-             - [SMTP](#smtp-service)
-             - [NTP](#ntp-service)
-         - [Flawed HTTP/HTTPS Remote Services](#flawed-httphttps-remote-services)
+             - [RDP](Lateral%20Movement/lm-flawed-services.md#rdp-service)
+             - [MS-SQL](Lateral%20Movement/lm-flawed-services.md#ms-sql-service)
+             - [WinRM](Lateral%20Movement/lm-flawed-services.md#winrm)
+             - [Other Windows services](Lateral%20Movement/lm-flawed-services.md#other-windows-services)
+             - [SNMP](Lateral%20Movement/lm-flawed-services.md#snmp-service)
+             - [SMTP](Lateral%20Movement/lm-flawed-services.md#smtp-service)
+             - [NTP](Lateral%20Movement/lm-flawed-services.md#ntp-service)
+         - Flawed HTTP/HTTPS Remote Services
              - [Apache Tomcat: default/weak credentials](#apache-tomcat-defaultweak-credentials)
-         - [Flawed embedded devices](#flawed-embedded-devices)
+         - Flawed embedded devices
          - Feature Abuse
     - Escalate
 
