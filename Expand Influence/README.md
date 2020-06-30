@@ -8,8 +8,8 @@
             - [DNS Poisoning via DHCPv6 and SMB Relay](Credential%20Access/ca-2.md)
             - [ARP + DNS Poisoning and SMB Relay](Credential%20Access/ca-3.md)
     - Move Laterally
-         - [Flawed Network Equipment](#flawed-network-equipment)
-         - [Flawed Remote Services](#flawed-remote-services) (T1210)
+         - [Flawed Network Equipment](Lateral%20Movement/lm-flawed-network-equipment.md)
+         - [Flawed Remote Services](Lateral%20Movement/lm-flawed-services.md) (T1210)
              - [SMB](Lateral%20Movement/lm-flawed-services.md#smb-service)
              - [RDP](Lateral%20Movement/lm-flawed-services.md#rdp-service)
              - [MS-SQL](Lateral%20Movement/lm-flawed-services.md#ms-sql-service)
@@ -18,8 +18,8 @@
              - [SNMP](Lateral%20Movement/lm-flawed-services.md#snmp-service)
              - [SMTP](Lateral%20Movement/lm-flawed-services.md#smtp-service)
              - [NTP](Lateral%20Movement/lm-flawed-services.md#ntp-service)
-         - Flawed HTTP/HTTPS Remote Services
-             - [Apache Tomcat: default/weak credentials](#apache-tomcat-defaultweak-credentials)
+         - [Flawed HTTP Remote Services](Lateral%20Movement/lm-flawed-http-services.md)
+             - [Apache Tomcat: default/weak credentials](Lateral%20Movement/lm-flawed-http-services.md#apache-tomcat-defaultweak-credentials)
          - Flawed embedded devices
          - Feature Abuse
     - Escalate
