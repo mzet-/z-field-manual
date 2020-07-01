@@ -14,8 +14,10 @@
                 - krbtgt account (golden ticket)
                 - service account (silver ticket)
         - Feature Abuse
-            - Windows AdminSDHolder ACL abuse
-    - C2
+            - Windows AD ACL abuse
+                - AdminSDHolder ACL manipulation
+                - Adding DCSync rights to Domain object
+    - C2 (TA0011)
 
 <!-- /MarkdownTOC -->
 
