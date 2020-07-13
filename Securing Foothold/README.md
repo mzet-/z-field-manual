@@ -17,6 +17,10 @@
             - Windows AD ACL abuse
                 - AdminSDHolder ACL manipulation
                 - Adding DCSync rights to Domain object
+            - Windows SecurityDescriptors 
+                - WMI
+                - PS Remoting
+                - Remote Registry
     - C2 (TA0011)
 
 <!-- /MarkdownTOC -->
