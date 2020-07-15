@@ -1,25 +1,5 @@
 
-
-<!-- MarkdownTOC depth=3 autolink=true -->
-
-- [Operational Considerations](#operational-considerations)
-    - [Goals](#goals)
-    - [Operation Planning](#operation-planning)
-    - [Toolbox](#toolbox)
-- [Tactical Objectives](#tactical-objectives)
-    - [Ops-Sec Considerations](#ops-sec-considerations)
-    - [Attack Infrastructure](#attack-infrastructure)
-    - [Getting Access](#getting-access)
-    - [Discovery](#discovery)
-    - [Credential Access](#credential-access)
-    - [Lateral Movement](#lateral-movement)
-- [Techniques: Ops-Sec Considerations]
-- [Techniques: Attack Infrastructure]
-- [Techniques: Getting Access]
-
-<!-- /MarkdownTOC -->
-
-# Security Testing Field Manual
+# CNE Field Manual
 
 Introduction and purpose.
 
@@ -37,45 +17,22 @@ List of possible goals.
 3. Select appropriate tachniques (and choose suitable tools) to achieve your tactical goals
 ```
 
-## Toolbox
-
 # Tactical Objectives
 
-## Ops-Sec Considerations
+## Attack Trees
 
-MITRE PRE-ATT&CK: [TA0021](https://attack.mitre.org/tactics/TA0021/)
+[Intelligence Gathering](Intelligence%20Gathering/README.md)
 
-## Attack Infrastructure
+[Getting Inside Attack Tree](Getting%20Inside/README.md)
 
-MITRE PRE-ATT&CK: [TA0022](https://attack.mitre.org/tactics/TA0022/)
+[Discovery](Discovery/README.md)
 
-## Getting Access
+[Expanding Influence Attack Tree](Expand%20Influence/README.md)
 
-*Tactical goal: get IP address in target's internal network*
+[Securing Foothold Attack Tree](Securing%20Foothold/README.md)
 
-MITRE ATT&CK: [TA0001](https://attack.mitre.org/tactics/TA0001/)
+## Cheat Sheets
 
-## Discovery
+[Metasploit](cheat-sheets/metasploit.md)
 
-*Tactical goal: Understand the target environment*
-
-MITRE ATT&CK: [TA0007](https://attack.mitre.org/tactics/TA0007/)
-
-Questions that should be asked:
-
-```
-What's the network topology? Is it flat?
-Where are egress points?
-Where are "multi-homed" boxes?
-```
-
-## Credential Access
-
-*Tactical goal: Acquire valid set of credentials*
-
-MITRE ATT&CK: [TA0006](https://attack.mitre.org/tactics/TA0006/)
-
-## Lateral Movement
-
-MITRE ATT&CK: [TA0008](https://attack.mitre.org/tactics/TA0008/)
-
+## Toolbox
