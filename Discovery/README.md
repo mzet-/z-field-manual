@@ -8,8 +8,9 @@
         - [Scanning: UDP](discovery-net-recon.md#scanning-udp)
         - [DNS queries](discovery-net-recon.md#dns-queries)
         - [Protocols-specific broadcasts/multicasts](discovery-net-recon.md#protocols-specific-broadcastsmulticasts)
-    - [Identifying Core Network Technologies](discovery-core-technology.md)
+    - [Identifying Core Technologies](discovery-core-technology.md)
     - [Understanding Network Topology](discovery-net-topology.md)
+    - [Identifying Network Equipment](discovery-net-equipment.md)
     - [Services Discovery](discovery-services.md)
     - [HTTP/HTTPS Services Discovery](discovery-http-services.md)
 

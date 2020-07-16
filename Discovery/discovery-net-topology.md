@@ -24,19 +24,26 @@ for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do echo "### Network $i.0 ###
 for i in $(cat IP-ranges16.txt | cut -d'.' -f1,2); do echo "### Network $i.0.0 ###";  grep "$i" <(for f in $(ls pscans/*.xml); do ./gnxparse.py -ips $f 2>/dev/null; done) | sort -u -t '.' -k 4.1g | tee "hostsUp-${i}.0.0.txt"; done
 ```
 
-Visualising network topology (for brevity displaying only 5 random alive hosts per subnet):
+Visualising network topology:
 
 ```
 In:
 IP-ranges.txt - file with IP ranges in scope
 pscans/all-fast-onetime.nmap - result of full range fast (-F) scan
 
+# pick at random 5 hosts per each subnet
 for i in $(cat IP-ranges.txt | cut -d'.' -f1,2,3); do grep "$i" <(for f in $(ls pscans/*.xml); do ./gnxparse.py -ips $f 2>/dev/null; done) | sort -u -t '.' -k 4.1g | shuf -n 5 -; done | tee 5hosts-persubnet.txt
-
-# no host discovery, no scans just (ICMP) traceroute:
 nmap -n -T4 -PN -sn --traceroute -iL 5hosts-persubnet.txt -oX netTopologyICMP.xml
 
-# alternatives (TCP or UDP based) tracerouting:
+# traceroute all hosts that repond to pings:
+nmap -n -T4 -PN -sn --traceroute -iL hostsPings.txt -oX netTopologyICMP.xml --script targets-traceroute --script-args newtargets
+
+zenmap netTopologyICMP.xml
+```
+
+Alternatives (TCP or UDP based) tracerouting:
+
+```
 # Comment:
 # top 100 port scan is performed (-F)
 # Nmap will initiate (TCP / UDP based) traceroute
@@ -47,7 +54,7 @@ nmap -PN -sU -n -F -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopol
 # TCP and UDP combined. Scans top 16 TCP ports and 16 UDP ports, falls back to ICMP if scanned ports are closed:
 nmap -PN -sUS -n --top-ports 16 -T4 -iL 5hosts-persubnet.txt --traceroute --open -oX netTopologyTCP-UDP.xml
 
-zenmap netTopology{ICMP,TCP,UDP,TCP-UDP}.xml
+zenmap netTopology{TCP,UDP,TCP-UDP}.xml
 ```
 
 ## OPSEC considerations

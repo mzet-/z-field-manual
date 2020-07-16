@@ -47,9 +47,11 @@ nmap -n -sn == ICMP echo request,
                TCP ACK to port 80,
                ICMP timestamp request
 nmap -n -sn -T4 -iL IP-ranges.txt
+nmap -n -sn -T4 -iL IP-ranges.txt -oG - | grep -v Nmap | cut -d' ' -f2 > hostsUp.txt > hostsPings.txt
 
 # comprehensive (can be slow for huge networks) (could add: --source-port 53):
 nmap -n -sn -T4 -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -iL IP-ranges.txt
+nmap -n -sn -T4 -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -iL IP-ranges.txt -oG - | grep -v Nmap | cut -d' ' -f2 > hostsUp.txt
 ```
 
 One-time, fast scan for detecting of first batch of alive hosts:
@@ -122,7 +124,8 @@ Nmap UDP scan:
 Reverse DNS:
 
 ```
-nmap -R -sL -T4 -iL IP-ranges.txt | sort -k 5.1
+nmap -R -sL -T4 -iL IP-ranges.txt | sort -k 5.1 | grep -o -E '\(.+\)' | extractIPs >> hostsUp.txt
+sort -u hostsUp.txt -o hostsUp.txt
 ```
 
 DNS brute-force:
