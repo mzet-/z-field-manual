@@ -17,6 +17,7 @@
              - [Other Windows services](Lateral%20Movement/lm-flawed-services.md#other-windows-services)
              - [SNMP](Lateral%20Movement/lm-flawed-services.md#snmp-service)
              - [SMTP](Lateral%20Movement/lm-flawed-services.md#smtp-service)
+             - [VoIP protocol suite](Lateral%20Movement/lm-flawed-services.md#voip-protocol-suite)
              - [NTP](Lateral%20Movement/lm-flawed-services.md#ntp-service)
          - [Flawed HTTP Remote Services](Lateral%20Movement/lm-flawed-http-services.md)
              - [Apache Tomcat: default/weak credentials](Lateral%20Movement/lm-flawed-http-services.md#apache-tomcat-defaultweak-credentials)

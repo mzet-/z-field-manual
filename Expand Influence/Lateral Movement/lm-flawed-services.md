@@ -31,10 +31,16 @@ Discovery (from previous scans):
 python scripts/nparser.py -f vscanlatest -p445 -l | tee smbServices.txt
 ```
 
-Additional enumeration:
+Additional enumeration: SMB protocol versions
 
 ```
-nmap -n -sU -sS -Pn -pT:139,445,U:137 -sV --script=smb-os-discovery,smb-protocols,smb-security-mode,smb-system-info,smb2-capabilities,smb2-security-mode,smb2-time -iL smbServices.txt | tee vscans/smb-services-enumeration.out
+nmap -n --script=smb-protocols -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoVersions
+```
+
+Additional enumeration: SMB general info
+
+```
+nmap -n -sU -sS -Pn -pT:139,445,U:137 -sV --script=smb-os-discovery,smb-security-mode,smb-system-info,smb2-capabilities,smb2-security-mode,smb2-time -T4 -iL smbServices.txt -oA vscans/smbServices-enumOverview.out
 
 Follow up:
 https://nmap.org/nsedoc/scripts/smb-brute.html
@@ -50,7 +56,7 @@ https://nmap.org/nsedoc/scripts/smb-enum-users.html
 Writable shares:
 
 ```
-nmap -n --script=smb-enum-shares -p445 -iL smbServices.txt -oA vscans/smbEnumShares
+nmap -n --script=smb-enum-shares -T4 -p445 -iL smbServices.txt -oA vscans/smbEnumShares
 ```
 
 Vulnerability: ms08-067
@@ -106,8 +112,52 @@ nmap -sS -sU --script smb-vuln-ms17-010 --max-hostgroup 3 -pT:445,139,U:137 -iL 
 
 ### RDP service
 
+Discovery (directly from the wire):
+
 ```
-TODO
+nmap -sS -Pn -n -T4 -p3389 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee rdpServices.txt
+```
+
+Discovery (from previous scans):
+
+```
+python scripts/nparser.py -f vscanlatest -p3389 -l | tee rdpServices.txt
+```
+
+Enumeration (Nmap):
+
+    # list Nmap's SNMP discovery scripts from https://github.com/leebaird/discover project:
+    wget https://raw.githubusercontent.com/leebaird/discover/master/nse.sh
+    grep 'nmap -iL $name/3389.txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]'
+    
+    # run scan:
+    nmap -n -T4 -sS -p3389 --script <SCRIPTS> -iL rdpServices.txt
+
+Enumeration (Metasploit):
+
+```
+wget https://raw.githubusercontent.com/leebaird/discover/master/resource/3389-rdp.rc
+sed -i "s|setg RHOSTS.*|setg RHOSTS file:rdpServices.txt|g" 3389-rdp.rc
+<modify '3389-rdp.rc' to disable not desired modules>
+msfconsole -r 3389-rdp.rc
+```
+
+Vulnerability: ms12_020
+
+```
+use auxiliary/scanner/rdp/ms12_020_check
+set RHOSTS file:rdpServices.txt
+run
+```
+
+Vulnerability: CVE-2019-0708 aka 'Bluekeep'
+
+```
+use auxiliary/scanner/rdp/cve_2019_0708_bluekeep
+set RDP_CLIENT_IP <my-IP>
+set RHOSTS file:hostsUp.txt
+set THREADS 7
+run
 ```
 
 ### MS-SQL service
@@ -266,6 +316,63 @@ QUIT
 Noteworthy vulnerabilities:
 
 ```
+```
+
+### POP3 / IMAP
+
+### VoIP protocol suite
+
+SIP Ports:
+
+    TCP: 5060
+    UDP: 5060
+
+Skinny Client Control Protocol (SCCP) (Cisco proprietary protocol):
+
+    TCP: 2000
+
+Reference:
+
+    https://en.wikipedia.org/wiki/Voice_over_IP
+    https://en.wikipedia.org/wiki/Session_Initiation_Protocol
+
+Implementations:
+
+    https://en.wikipedia.org/wiki/List_of_SIP_software
+
+Discovery (directly from the wire):
+
+    nmap -sS -Pn -n -T4 -p5060 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee sipServices.txt 
+
+Discovery (from previous scans):
+
+```
+python scripts/nparser.py -f vscanlatest -p5060 -l | tee sipServices.txt
+```
+
+Enumeration (Nmap):
+
+    # list Nmap's SNMP discovery scripts from https://github.com/leebaird/discover project:
+    wget https://raw.githubusercontent.com/leebaird/discover/master/nse.sh
+    grep 'nmap -iL $name/5060.txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]'
+    
+    # run scan:
+    nmap -n -T4 -sU -p5060 --script <SCRIPTS> -iL sipServices.txt
+
+Enumeration (Metasploit):
+
+```
+wget https://raw.githubusercontent.com/leebaird/discover/master/resource/5060-sip.rc
+sed -i "s|setg RHOSTS.*|setg RHOSTS file:sipServices.txt|g" 5060-sip.rc
+msfconsole -r 5060-sip.rc
+```
+
+Other tools / attacks:
+
+```
+https://hub.packtpub.com/how-to-attack-an-infrastructure-using-voip-exploitation-tutorial/
+https://github.com/EnableSecurity/sipvicious
+https://github.com/fozavci/viproy-voipkit
 ```
 
 ### NTP service
