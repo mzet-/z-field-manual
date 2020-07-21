@@ -10,19 +10,31 @@ MITRE ATT&CK mapping: N/A
 ### Additional tools
 
  - [gnmap2urls.sh](scripts/gnmap2urls.sh)
+ - [http-fingerprints-min.lua](scripts/http-fingerprints-min.lua)
  - Arch / Kali: `extra/xorg-server-xvfb / xvfb` package
  - [httprobe](https://github.com/tomnomnom/httprobe/releases/latest), [meg](https://github.com/tomnomnom/meg)
  - [webintel.py](https://github.com/danamodio/webintel)
  - [Aquatone](https://github.com/michenriksen/aquatone/releases/latest) OR [webscreenshot.py](https://github.com/maaaaz/webscreenshot)
  - [nikto vuln db file](https://raw.githubusercontent.com/sullo/nikto/master/program/databases/db_tests)
  - [OPTIONALLY] [Eyeballer](https://github.com/bishopfox/eyeballer)
+ - [OPTIONALLY] [ffuf](https://github.com/ffuf/ffuf)
 
 ### Discovery
 
 Identifying web-based services (directly from the wire):
 
 ```
-TODO: httprobe
+# ports 80 and 443 only:
+cat hostsUp.txt | ./httprobe -c 17 | tee httprobe-hostsUp-80-443.out
+
+# ports 8080 and 8000 and 8443:
+cat hostsUp.txt | ./httprobe -s -c 17 -p http:8080 -p http:8000 -p https:8443 | tee httprobe-hostsUp-8080-8000-8443.out
+
+# additional ports:
+cat hostsUp.txt | ./httprobe -s -c 17 -p http:81 -p http:591 -p http:2082 -p http:2087 -p http:2095 -p http:2096 -p http:3000 -p http:8001 -p http:8008 -p http:8083 -p http:8834 -p http:8888 | tee httprobe-hostsUp-large.out
+
+# merge results:
+cat httprobe-* > urls-all.txt
 ```
 
 Identifying web-based services (from previous scans):
@@ -47,9 +59,22 @@ Scraping certificate 'Common Name' string from TLS enabled services:
 scripts/
 ```
 
+"One request" web app fingerprinting:
+
+    python webintel.py -t 7 -iL urls-all.txt | tee webintel-all.out
+    OR (from previous scans):
+    python webintel.py -t 7 -iL urls-all.txt | tee webintel-all.out
+
 ### Vulnerability discovery
 
-    nmap -n -PN -sS -sV --version-intensity 2 --script=http-enum --script-args=http-enum.fingerprintfile=./http-fingerprints.lua,http-fingerprints.nikto-db-path=./db_nikto_tests100 -T4 -iL http-ips.txt -p80,443,$(cat http-ports.txt | tr '\n' ',') -oA vscans/http-nikto-vuln-scan
+    # get nikto vuln db file
+    wget https://raw.githubusercontent.com/sullo/nikto/master/program/databases/db_tests -O nikto_db_tests
+
+    # transform URL list to hosts (http-ips.txt) and ports (http-ports.txt) lists:
+    cat urls-all.txt | tee >(awk -F '//' '{print $2}' | cut -d':' -f1 > http-ips.txt) >(awk -F '//' '{print $2}' | awk -F':' '{print $2}' | grep . | sort -u > http-ports.txt)
+
+    # conduct http vuln scan on all previously identified http-based services:
+    nmap -n -PN -sS -sV --version-intensity 2 --script=http-enum --script-args=http-enum.fingerprintfile=./scripts/http-fingerprints-min.lua,http-fingerprints.nikto-db-path=./nikto_db_tests -T4 -iL http-ips.txt -p80,443,$(cat http-ports.txt | tr '\n' ',') -oA vscans/http-nikto-vuln-scan
 
 ### Web-based authentication panels
 
