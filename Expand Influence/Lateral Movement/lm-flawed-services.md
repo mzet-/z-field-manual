@@ -34,7 +34,7 @@ python scripts/nparser.py -f vscanlatest -p445 -l | tee smbServices.txt
 Additional enumeration: SMB protocol versions
 
 ```
-nmap -n --script=smb-protocols -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoVersions
+nmap -n -sS -sV -T4 --open --script=smb-protocols -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoVersions
 ```
 
 Additional enumeration: SMB general info
