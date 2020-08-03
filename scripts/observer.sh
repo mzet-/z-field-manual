@@ -2,12 +2,22 @@
 # Requires:
 # https://bitbucket.org/memoryresident/gnxtools/raw/fde3449ff2756686e001ac4f7a45849a187f3710/gnxparse.py
 
+# directory with nmap xml files to parse
+DIR="$1"
+
+# [OPTIONAL] prefix of the files to which results will be appended ($FILE-allPorts.txt & $FILE-hostsUp.txt)
+FILE="$2"
+
+PREFIX="$DIR"
+
+# [OPTIONAL] append results to other files
+[ -n "$FILE" ] && PREFIX="$FILE"
+
 # already discovered services
-DIR=$1
-KNOWN_PORTS='allPorts.txt'
-KNOWN_HOSTS='hostsUp.txt'
-TMP_PORT_FILE='/tmp/allPortsNow.txt'
-TMP_HOST_FILE='/tmp/hostsUpNow.txt'
+KNOWN_PORTS="$(basename $PREFIX)-allPorts.txt"
+KNOWN_HOSTS="$(basename $PREFIX)-hostsUp.txt"
+TMP_PORT_FILE="/tmp/$(basename $PREFIX)-allPortsNow.txt"
+TMP_HOST_FILE="/tmp/$(basename $PREFIX)-hostsUpNow.txt"
 
 [ -f "$TMP_PORT_FILE" ] && rm "$TMP_PORT_FILE"
 
@@ -21,9 +31,11 @@ for i in $(ls ${DIR}*.xml); do
     [ "$(grep '</nmaprun>' "$i.shadow")" ] || echo '</nmaprun>' >> "$i.shadow"
 
     # parse xml file for ports and store it
+    [ ! -f "$KNOWN_PORTS" ] && ./gnxparse.py -p "$i.shadow" | grep -v "Port" >> "$KNOWN_PORTS"
     ./gnxparse.py -p "$i.shadow" | grep -v "Port" >> "$TMP_PORT_FILE"
 
     # parse xml file for hosts and store it
+    [ ! -f "$KNOWN_HOSTS" ] && ./gnxparse.py -ips "$i.shadow" | grep -v "IPv4" >> "$KNOWN_HOSTS"
     ./gnxparse.py -ips "$i.shadow" | grep -v "IPv4" >> "$TMP_HOST_FILE"
 
     rm "$i.shadow"
@@ -39,7 +51,7 @@ echo; echo "Discovered new ports: "
 DIFF="$(grep -x -v -f "$KNOWN_PORTS" "$TMP_PORT_FILE")"
 
 # if new ports have been discoverd store it in delta file and append to KNOWN_PORTS file
-[ -n "$DIFF" ] && (echo "$DIFF" | tee -a $KNOWN_PORTS | tee vscans/delta-ports-$(date +%F_%H:%M))
+[ -n "$DIFF" ] && (echo "$DIFF" | tee -a $KNOWN_PORTS | tee $DIR/delta-ports-$(date +%F_%H:%M))
 
 echo; echo "Discovered new hosts: "
 
@@ -47,4 +59,4 @@ echo; echo "Discovered new hosts: "
 DIFF_HOSTS="$(grep -x -v -f "$KNOWN_HOSTS" "$TMP_HOST_FILE")"
 
 # if new hosts have been discoverd store it in delta file and append to KNOWN_HOSTS file
-[ -n "$DIFF_HOSTS" ] && (echo "$DIFF_HOSTS" | tee -a $KNOWN_HOSTS | tee vscans/delta-hosts-$(date +%F_%H:%M))
+[ -n "$DIFF_HOSTS" ] && (echo "$DIFF_HOSTS" | tee -a $KNOWN_HOSTS | tee $DIR/delta-hosts-$(date +%F_%H:%M))

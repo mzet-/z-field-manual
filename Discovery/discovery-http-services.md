@@ -76,9 +76,33 @@ scripts/
     # conduct http vuln scan on all previously identified http-based services:
     nmap -n -PN -sS -sV --version-intensity 2 --script=http-enum --script-args=http-enum.fingerprintfile=./scripts/http-fingerprints-min.lua,http-fingerprints.nikto-db-path=./nikto_db_tests -T4 -iL http-ips.txt -p80,443,$(cat http-ports.txt | tr '\n' ',') -oA vscans/http-nikto-vuln-scan
 
+
+[snallygaster](https://github.com/hannob/snallygaster) (run in parallel)
+
+```
+TODO
+```
+
 ### Web-based authentication panels
 
-Default credentials:
+Default credentials: Nmap
+
+```
+# get Nmap's aternative default account db :
+wget https://raw.githubusercontent.com/nnposter/nndefaccts/master/http-default-accounts-fingerprints-nndefaccts.lua
+
+# transform URL list to hosts (http-ips.txt) and ports (http-ports.txt) lists:
+cat urls-all.txt | tee >(awk -F '//' '{print $2}' | cut -d':' -f1 > http-ips.txt) >(awk -F '//' '{print $2}' | awk -F':' '{print $2}' | grep . | sort -u > http-ports.txt)
+
+# check for default web-based accounts:
+nmap -n -PN -sS -sV --version-intensity 2 --script http-default-accounts --script-args http-default-accounts.fingerprintfile=./http-default-accounts-fingerprints-nndefaccts.lua -T4 -iL http-ips.txt -p80,443,$(cat http-ports.txt | tr '\n' ',') -oA vscans/http-def-accounts
+```
+
+Default credentials: changeme
+
+# note: when providing file to 'changeme' full path is required:
+changeme '/home/pt/httprobe-all.txt' -v -t 20 | tee changeme-http-urls.out
+changeme '/home/pt/vscans/nmap.xml' --category http -v -t 20 | tee changeme-http-urls.out
 
 Weak/simple credentials:
 

@@ -227,6 +227,10 @@ Discovery:
 
 ```
 # from the wire:
+wget https://raw.githubusercontent.com/portcullislabs/udp-proto-scanner/master/udp-proto-scanner.conf
+wget https://raw.githubusercontent.com/portcullislabs/udp-proto-scanner/master/udp-proto-scanner.pl; chmod +x ./udp-proto-scanner.pl
+
+ranges2IPs IP-ranges.txt > IP-list.txt
 udp-proto-scanner.pl --probe_name SNMPv3GetRequest --file IP-list.txt | tee snmpServices.out
 cat snmpServices.out | extractIPs > snmpServices.txt
 ```
