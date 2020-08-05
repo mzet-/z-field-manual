@@ -35,6 +35,7 @@ Additional enumeration: SMB protocol versions
 
 ```
 nmap -n -sS -sV -T4 --open --script=smb-protocols -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoVersions
+nmap -n -sS -sV -T4 --open --script=smb-security-mode -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoSigning
 ```
 
 Additional enumeration: SMB general info
@@ -379,6 +380,48 @@ https://github.com/EnableSecurity/sipvicious
 https://github.com/fozavci/viproy-voipkit
 ```
 
+### Network storage/backup services
+
+Ports:
+
+    TCP: 21 (FTP)
+    UDP: 69 (TFTP)
+    TCP: 2049 (NFS)
+    TCP: 3260 (iSCSI)
+    TCP: 873 (rsync)
+    TCP: 10000 (NDMP)
+    TCP: 30000 (NDMPS)
+
+    TCP: 9418 (Git)
+    TCP: 3690 (SVN)
+
+    TCP: 80,443 (HTTP/DAV aka WebDAV)
+
+Discovery (directly from the wire):
+
+    nmap -sS -Pn -n -T4 -p21,2049,3260,873,10000,30000,9418,3690 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee netstorageServices.txt
+
+Discovery (from previous scans):
+
+```
+python scripts/nparser.py -f vscanlatest -p21,2049,3260,873,10000,30000,9418,3690 -l | tee netstorageServices.txt
+```
+
+Enumeration (Nmap):
+
+    # list Nmap's SNMP discovery scripts from https://github.com/leebaird/discover project:
+    wget https://raw.githubusercontent.com/leebaird/discover/master/nse.sh
+    grep -E 'nmap -iL \$name/(21|2049|3260|873|10000|30000|9418|3690).txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]'
+    
+    # run scan:
+    nmap -n -PN -T4 --open -sS -sV -p21,2049,3260,873,10000,30000,9418,3690 --script <SCRIPTS> -iL netstorageServices.txt -oA vscans/netstorageServices-vscan
+
+Enumeration (Metasploit):
+
+```
+TODO
+```
+
 ### NTP service
 
 Ports:
@@ -401,6 +444,54 @@ nmap -n -T4 -sU -p123 --script=ntp-info,ntp-monlist -iL ntpServices.txt
 wget https://raw.githubusercontent.com/leebaird/discover/master/resource/123-udp-ntp.rc
 sed -i "s|setg RHOSTS.*|setg RHOSTS file:ntpServices.txt|g" 123-udp-ntp.rc
 msfconsole -r 123-udp-ntp.rc
+```
+
+### NoSQL services
+
+Ports:
+
+    TCP: multiple ports
+
+Currently looks for:
+
+```
+mongodb
+cassandra
+redis
+splunk
+elasticsearch
+couchDB
+```
+
+Discovery (directly from the wire):
+
+    nmap -sS -Pn -n -T4 -p27017,27018,27019,7199,7000,7001,9042,9160,61620,61621,6379,16379,26379,9997,8089,9200,9300,5984 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee nosqlServices.txt 
+
+Discovery (from previous scans):
+
+```
+python scripts/nparser.py -f vscanlatest -p27017,27018,27019,7199,7000,7001,9042,9160,61620,61621,6379,16379,26379,9997,8089,9200,9300,5984 -l | tee nosqlServices.txt
+```
+
+Enumeration (Nmap):
+
+    # list Nmap's SNMP discovery scripts from https://github.com/leebaird/discover project:
+    wget https://raw.githubusercontent.com/leebaird/discover/master/nse.sh
+    grep -E 'nmap -iL \$name/(27017|27018|27019|7199|7000|7001|9042|9160|61620|61621|6379|16379|26379|9997|8089|9200|9300|5984).txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]'
+    
+    # run scan:
+    nmap -n -PN -T4 -sS -sV --open -p27017,27018,27019,7199,7000,7001,9042,9160,61620,61621,6379,16379,26379,9997,8089,9200,9300,5984 --script <SCRIPTS> -iL nosqlServices.txt -oA vscans/nosqlServices-vscan
+
+Enumeration (Metasploit):
+
+```
+TODO
+```
+
+Other tools / attacks:
+
+```
+TODO
 ```
 
 ## OPSEC considerations

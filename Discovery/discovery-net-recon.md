@@ -126,7 +126,7 @@ Nmap UDP scan:
 Reverse DNS:
 
 ```
-nmap -R -sL -T4 -iL IP-ranges.txt | sort -k 5.1 | grep -o -E '\(.+\)' | extractIPs >> hostsUp.txt
+nmap -R -sL -T4 -iL IP-ranges.txt | sort -k 5.1 | grep -o -E '\(.+\)' | extractIPs | tee -a hostsUp.txt
 sort -u hostsUp.txt -o hostsUp.txt
 ```
 
