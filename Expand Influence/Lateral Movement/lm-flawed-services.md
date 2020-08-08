@@ -103,12 +103,20 @@ Vulnerability: ms17-01
 ```
 Notes:
 EternalBlue (exploited by WannaCry)
-Needs connection to IPC$ share
+Prereq:
+  SMBv1 needs to be supported
+  Needs connection to IPC$ share
 Tested on Windows XP, 2003, 7, 8, 8.1, 10, 2008, 2012 and 2016
-Reference: https://nmap.org/nsedoc/scripts/smb-vuln-ms17-010.html
+Reference:
+  https://nmap.org/nsedoc/scripts/smb-vuln-ms17-010.html
+  https://github.com/cldrn/nmap-nse-scripts/wiki/Notes-about-smb-vuln-ms17-010
 
 Discovery:
-nmap -sS -sU --script smb-vuln-ms17-010 --max-hostgroup 3 -pT:445,139,U:137 -iL smb-services.txt --open -d | tee smb-vuln-ms17-010.out
+nmap -sS --script smb-vuln-ms17-010 --max-hostgroup 3 -p445 -iL smbServices.txt --open -d -v | tee smb-vuln-ms17-010.out
+nmap -sS -sU --script smb-vuln-ms17-010 --max-hostgroup 3 -pT:445,139,U:137 -iL smbServices.txt --open -d -v | tee smb-vuln-ms17-010.out
+
+# if anonymous access to IPC$ is not allowed:
+nmap -sS --script smb-vuln-ms17-010 --script-args='smbdomain="<domain>",smbusername="<user>",smbpassword=<passwd>' -pT:445 -iL smbServices.txt --open -v | tee smb-vuln-ms10-061.out
 ```
 
 ### RDP service
@@ -391,6 +399,7 @@ Ports:
     TCP: 873 (rsync)
     TCP: 10000 (NDMP)
     TCP: 30000 (NDMPS)
+    TCP: 548 (AFP aka AppleTalk aka Netatalk)
 
     TCP: 9418 (Git)
     TCP: 3690 (SVN)
@@ -399,19 +408,19 @@ Ports:
 
 Discovery (directly from the wire):
 
-    nmap -sS -Pn -n -T4 -p21,2049,3260,873,10000,30000,9418,3690 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee netstorageServices.txt
+    nmap -sS -Pn -n -T4 -p21,2049,3260,873,10000,30000,9418,3690,548 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee netstorageServices.txt
 
 Discovery (from previous scans):
 
 ```
-python scripts/nparser.py -f vscanlatest -p21,2049,3260,873,10000,30000,9418,3690 -l | tee netstorageServices.txt
+python scripts/nparser.py -f vscanlatest -p21,2049,3260,873,10000,30000,9418,3690,548 -l | tee netstorageServices.txt
 ```
 
 Enumeration (Nmap):
 
     # list Nmap's SNMP discovery scripts from https://github.com/leebaird/discover project:
     wget https://raw.githubusercontent.com/leebaird/discover/master/nse.sh
-    grep -E 'nmap -iL \$name/(21|2049|3260|873|10000|30000|9418|3690).txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]'
+    grep -E 'nmap -iL \$name/(21|2049|3260|873|10000|30000|9418|3690|548).txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]'
     
     # run scan:
     nmap -n -PN -T4 --open -sS -sV -p21,2049,3260,873,10000,30000,9418,3690 --script <SCRIPTS> -iL netstorageServices.txt -oA vscans/netstorageServices-vscan
@@ -461,11 +470,12 @@ redis
 splunk
 elasticsearch
 couchDB
+neo4j (https://neo4j.com/docs/operations-manual/current/configuration/ports/)
 ```
 
 Discovery (directly from the wire):
 
-    nmap -sS -Pn -n -T4 -p27017,27018,27019,7199,7000,7001,9042,9160,61620,61621,6379,16379,26379,9997,8089,9200,9300,5984 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee nosqlServices.txt 
+    nmap -sS -Pn -n -T4 -p27017,27018,27019,7199,7000,7001,9042,9160,61620,61621,6379,16379,26379,9997,8089,9200,9300,5984,6362-6372,7474,7473,7687,5000,6000,2003,2004,3637 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee nosqlServices.txt 
 
 Discovery (from previous scans):
 
