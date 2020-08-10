@@ -11,6 +11,8 @@
     - [Identifying Core Technologies](discovery-core-technology.md)
     - [Understanding Network Topology](discovery-net-topology.md)
     - [Identifying Network Equipment](discovery-net-equipment.md)
+        - [Generic probes](discovery-net-equipment.md#generic-probes)
+        - [MikroTik specific probes](discovery-net-equipment.md#mikrotik-specific-probes)
     - [Services Discovery](discovery-services.md)
     - [HTTP/HTTPS Services Discovery](discovery-http-services.md)
 

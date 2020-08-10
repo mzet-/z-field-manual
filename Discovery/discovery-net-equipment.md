@@ -7,6 +7,8 @@ MITRE ATT&CK mapping: N/A
 
 ## Procedures
 
+### Generic probes
+
 Trickery to extract from Nmap's `--traceroute` only routers (i.e. network nodes that decremented TTL):
 
 ```
@@ -58,6 +60,41 @@ https://gitlab.com/kalilinux/packages/cisco-auditing-tool/tree/kali/master
 
 http://www.vulnerabilityassessment.co.uk/cisco.htm
 ```
+
+### MikroTik specific probes
+
+Example hardware:
+
+    https://mikrotik.com/product/RB3011UiAS-RM
+    Architecture: ARM
+
+Operating System: `RouterOS`
+
+    Arch: i386 based on Linux v3.3.5 kernel
+    https://wiki.mikrotik.com/wiki/Manual:RouterOS_features
+    https://wiki.mikrotik.com/wiki/Manual:Upgrading_RouterOS#Version_numbering
+    https://mikrotik.com/download/changelogs
+
+Possible Attack Surface: **TCP 8291 port**
+
+Management port (used by MikroTik's Winbox GUI desktop application).
+
+Possible Attack Surface: **TCP 8728 port**
+
+RouterOS API protocol.
+
+    https://wiki.mikrotik.com/wiki/Manual:API
+    https://nmap.org/nsedoc/scripts/mikrotik-routeros-brute.html
+
+Possible Attack Surface: **UDP 5678 port**
+
+MikroTik Neighbor Discovery Protocol (MNDP).
+
+    https://raw.githubusercontent.com/nmap/nmap/a035e8e2f7b058a2cc45bc4d42aeb56e2186696f/scripts/broadcast-mndp-discover.nse
+
+Noteworthy vulnerabilities:
+
+    https://www.tenable.com/security/research/tra-2019-07
 
 ## OPSEC considerations
 
