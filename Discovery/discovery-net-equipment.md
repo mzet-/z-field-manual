@@ -92,9 +92,11 @@ MikroTik Neighbor Discovery Protocol (MNDP).
 
     https://raw.githubusercontent.com/nmap/nmap/a035e8e2f7b058a2cc45bc4d42aeb56e2186696f/scripts/broadcast-mndp-discover.nse
 
-Noteworthy vulnerabilities:
+Noteworthy vulnerabilities/tools:
 
+    https://www.exploit-db.com/exploits/45578
     https://www.tenable.com/security/research/tra-2019-07
+    https://github.com/tenable/routeros
 
 ## OPSEC considerations
 
