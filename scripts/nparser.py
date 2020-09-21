@@ -7,13 +7,30 @@
 # cat /usr/share/nmap/nmap-service-probes | grep -v '^[#].*' | grep -v '^[[:space:]]*$' | grep match | cut -d' ' -f2 | sort -u
 # TODO:Use generic name 'https' for possible names of https services:
 # https
-# https\?
-# ssl/https-alt
-# ssl\|http
-# ssl\|https
-# ssl\|https\?
+# https-alt
+# https?
+# https-alt?
+# ssl|http
+# ssl|https
+# ssl|https?
+# ssl|https-alt
+# ssl|https-alt?
 # .+-https
-# .+-https\?
+# .+-https?
+# ssl|.+-http
+# ssl|.+-https
+# ssl|.+-http?
+# ssl|.+-https?
+#
+# For 'http':
+# http
+# http?
+# http-alt
+# http-alt?
+# http-proxy
+# http-proxy?
+# .+-http
+# .+-http?
 #
 # TODO: UDP support
 # TODO: colors
@@ -22,6 +39,9 @@ import argparse
 import re
 import os
 import sys
+
+def prep_http_regex():
+    return r'([0-9][0-9]*)/open/[a-z][a-z]*//http'
 
 def find_services(gnfile, services):
     results = []
@@ -32,7 +52,12 @@ def find_services(gnfile, services):
                 ip = re.findall( r'[0-9]+(?:\.[0-9]+){3}', line)[0]
 
                 for service in services:
-                    rx = re.compile(r'([0-9][0-9]*)/open/[a-z][a-z]*//' + service)
+                    if service == "http":
+                        regex_pattern = prep_http_regex()
+                        rx = re.compile(regex_pattern)
+                    else:
+                        rx = re.compile(r'([0-9][0-9]*)/open/[a-z][a-z]*//' + service)
+
                     try:
                         matches = rx.findall(line)
 
@@ -47,7 +72,6 @@ def find_services(gnfile, services):
             except:
                 continue
 
-    print(results)
     return results
 
 def find_ports(gnfile, ports):
@@ -163,6 +187,3 @@ if __name__ == "__main__":
 
     if hosts and args.list == None:
         display_hosts(filename + ".nmap", hosts)
-    else:
-        for host in hosts:
-            print(host)

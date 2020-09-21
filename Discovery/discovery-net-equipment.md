@@ -26,6 +26,7 @@ cat network-devices.out | grep -v '161/open|filtered/udp//snmp///' | grep -v '16
 
 # look for SSH daemons with router/swich related banners
 nmap -n -Pn -sS -T4 -p22 -iL scope.txt -oG - --open -sV --version-intensity 0 | grep -v 'Status: Up' | tee ssh-banners.out
+cat ssh-banners.out | cut -d' ' -f2 | grep -v -i nmap | tee sshServices.txt
 
 # grep for strings: 
 'cisco|OpenSSH 12.1'
@@ -97,6 +98,7 @@ Noteworthy vulnerabilities/tools:
     https://www.exploit-db.com/exploits/45578
     https://www.tenable.com/security/research/tra-2019-07
     https://github.com/tenable/routeros
+    https://seclists.org/fulldisclosure/2020/Aug/21
 
 ## OPSEC considerations
 

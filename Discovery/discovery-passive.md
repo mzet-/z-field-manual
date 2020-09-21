@@ -47,8 +47,7 @@ Discovery of 'hidden' (i.e. all ports filtered, no ping replies) hosts:
 
 ```
 # IPs seen be responder:
-cut -d' ' -f9 Responder/logs/Analyzer-Session.log | sort -u
-cut -d' ' -f12 Responder/logs/Responder-Session.log | sort -u
+cat /usr/share/responder/logs/Responder-Session.log | extractIPs | sort -u
 
 # IPs seen by tcpdump:
 tcpdump -nn -r <SESSION_FILE> -l | grep -o -E '[0-9]+(\.[0-9]+){3}' | sort -u

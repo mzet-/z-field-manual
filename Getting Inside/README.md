@@ -3,13 +3,15 @@
 
 - [Getting Inside](#getting-inside)
     - Attacking Perimeter
-         - Exploit Public-Facing Application (T1190)
-         - Access via External Remote Services (T1133)
+         - Exploit public-facing application (T1190)
+             - Exploit common-of-the-shelf application
+             - Exploit custom-written web service
+         - Access via external remote services (T1133)
              - Using publicly leaked credentials 
              - Brute forcing credentials
              - Steal credentials
                  - Social engineer an employee of the target to reveal credentials 
-                 - Compromise employee's laptop to gain credentials 
+                 - Compromise employee's laptop/mobile to gain credentials 
     - Social Engineering (remote)
          - Cloning authentication pages on doppelganger domains
          - Phishing (T1566)

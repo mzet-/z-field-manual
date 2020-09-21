@@ -63,7 +63,7 @@ One-time, fast scan for detecting of first batch of alive hosts:
 nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -F -oA pscans/all-fast-onetime
 
 # alternative for larger networks:
-nmap -n -PN -sS -iL IP-ranges.txt -T4 --open --top-ports 50 -oA pscans/all-fast-onetime
+nmap -n -PN -sS -iL IP-ranges.txt -T4 --open --top-ports 50 --max-hostgroup 128 -oA pscans/all-fast-onetime
 
 # store initial list of alive hosts and ports that have been observed as opened:
 ./gnxparse.py -p pscans/all-fast-onetime.xml | grep -v 'Port' > allPorts.txt
@@ -126,7 +126,7 @@ Nmap UDP scan:
 Reverse DNS:
 
 ```
-nmap -R -sL -T4 -iL IP-ranges.txt | sort -k 5.1 | grep -o -E '\(.+\)' | extractIPs | tee -a hostsUp.txt
+nmap -R -sL -T4 -iL IP-ranges.txt | sort -k 5.1 | tee revDNS.out | grep -o -E '\(.+\)' | extractIPs | tee -a hostsUp.txt
 sort -u hostsUp.txt -o hostsUp.txt
 ```
 

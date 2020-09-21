@@ -31,3 +31,5 @@
 <!-- /MarkdownTOC -->
 
 # Expanding Influence
+
+Repository of techniques and associated procedures for expanding the influence in target network environment.

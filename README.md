@@ -19,17 +19,25 @@ List of possible goals.
 
 # Tactical Objectives
 
-## Attack Trees
+## Intelligence Gathering
 
-[Intelligence Gathering](Intelligence%20Gathering/README.md)
-
-[Getting Inside Attack Tree](Getting%20Inside/README.md)
+[External Recon](Intelligence%20Gathering/README.md)
 
 [Discovery](Discovery/README.md)
 
+## Attack Trees
+
+[Getting Inside Attack Tree](Getting%20Inside/README.md)
+
+[Getting Windows domain privileges attack tree](Expand%20Influence/AT-0x02.md)
+
+[Escalating Windows domain privileges attack tree]
+
 [Expanding Influence Attack Tree](Expand%20Influence/README.md)
 
-[Securing Foothold Attack Tree](Securing%20Foothold/README.md)
+## Survivability
+
+[Securing Foothold](Securing%20Foothold/README.md)
 
 ## Cheat Sheets
 
