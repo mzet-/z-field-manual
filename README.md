@@ -29,7 +29,7 @@ List of possible goals.
 
 [Getting Inside Attack Tree](Getting%20Inside/README.md)
 
-[Getting Windows domain privileges attack tree](Expand%20Influence/AT-0x02.md)
+[Getting Windows domain privileges attack tree](Expand%20Influence/AT-0x02/README.md)
 
 [Escalating Windows domain privileges attack tree]
 
