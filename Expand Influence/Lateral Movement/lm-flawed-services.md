@@ -513,6 +513,51 @@ Other tools / attacks:
 TODO
 ```
 
+### Legacy remote shells
+
+Ports:
+
+    TCP: 23 (telnet),177 (XDMCP),512 (rexec),513 (rlogin),514 (RSH)
+    UDP: 177 (XDMCP)
+
+
+Overview:
+
+    -
+
+Discovery (directly from the wire):
+
+    nmap -sS -Pn -n -T4 -p23,177,512,513,514 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee legacyshellsServices.txt
+
+Discovery (from previous scans):
+
+```
+python scripts/nparser.py -f vscanlatest -p23,177,512,513,514 -l | tee legacyshellsServices.txt
+```
+
+Enumeration (Nmap):
+
+```
+nmap -sU -p 177 --script xdmcp-discover <ip>
+```
+
+Enumeration (custom):
+
+```
+telnet <ip>
+rexec <ip>
+rlogin <ip>
+rsh <ip>
+```
+
+Brute forcing:
+
+```
+nmap -p 512 --script rexec-brute <ip>
+
+nmap -p 513 --script rlogin-brute <ip>
+```
+
 ## OPSEC considerations
 
 ## Counter-countermeasures
