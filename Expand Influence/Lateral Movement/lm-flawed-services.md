@@ -308,7 +308,8 @@ Discovery:
 
 ```
 from the wire:
-nmap -sS -Pn -n -p25,587,465 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee smtpServices.txt
+nmap -sS -Pn -n -p25,587,465 -iL IP-ranges.txt --open -oA pscans/smtp-discovery
+cat pscans/smtp-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee smtpServices.txt
 ```
 
 Enumeration:
@@ -417,7 +418,8 @@ Ports:
 
 Discovery (directly from the wire):
 
-    nmap -sS -Pn -n -T4 -p21,2049,3260,873,10000,30000,9418,3690,548 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee netstorageServices.txt
+    nmap -sS -Pn -n -T4 --open -p21,2049,3260,873,10000,30000,9418,3690,548 -iL IP-ranges.txt -oA pscans/net-storage-discovery
+    cat pscans/net-storage-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee netstorageServices.txt
 
 Discovery (from previous scans):
 
@@ -484,7 +486,8 @@ neo4j (https://neo4j.com/docs/operations-manual/current/configuration/ports/)
 
 Discovery (directly from the wire):
 
-    nmap -sS -Pn -n -T4 -p27017,27018,27019,7199,7000,7001,9042,9160,61620,61621,6379,16379,26379,9997,8089,9200,9300,5984,6362-6372,7474,7473,7687,5000,6000,2003,2004,3637 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee nosqlServices.txt 
+    nmap -sS -Pn -n -T4 -p27017,27018,27019,7199,7000,7001,9042,9160,61620,61621,6379,16379,26379,9997,8089,9200,9300,5984,6362-6372,7474,7473,7687,5000,6000,2003,2004,3637 -iL IP-ranges.txt --open -oA pscans/nosql-discovery 
+    cat pscans/nosql-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee nosqlServices.txt 
 
 Discovery (from previous scans):
 
@@ -513,6 +516,47 @@ Other tools / attacks:
 TODO
 ```
 
+### SSH
+
+Ports:
+
+    TCP: 22
+
+
+Overview:
+
+    -
+
+Discovery (directly from the wire):
+
+    nmap -sS -Pn -n -T4 -p22 -iL IP-ranges.txt --open -oA pscans/ssh-discovery
+    cat pscans/ssh-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee sshServices.txt
+
+Discovery (from previous scans):
+
+```
+python scripts/nparser.py -f vscanlatest -p22 -l | tee sshServices.txt
+```
+
+Enumeration (Nmap):
+
+```
+TODO
+```
+
+Enumeration (custom):
+
+```
+TODO
+```
+
+Brute forcing:
+
+```
+TODO
+```
+
+
 ### Legacy remote shells
 
 Ports:
@@ -527,7 +571,8 @@ Overview:
 
 Discovery (directly from the wire):
 
-    nmap -sS -Pn -n -T4 -p23,177,512,513,514 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee legacyshellsServices.txt
+    nmap -sS -Pn -n -T4 -p23,177,512,513,514 -iL IP-ranges.txt --open -oA pscans/legacy-shells-discovery
+    cat pscans/legacy-shells-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee legacyshellsServices.txt
 
 Discovery (from previous scans):
 

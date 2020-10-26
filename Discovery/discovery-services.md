@@ -11,17 +11,18 @@ Objectives:
 
 ```
 In:
-hostsUp.txt - list of alive IPs discovered in tested IP space
-allPorts.txt - ports seen opened in tested IP space
+hostsUp.txt - list of alive IPs discovered in tested IP space to the date
+allPorts.txt - ports seen opened in tested IP space to the date
 
 Out:
-hostsUp-vscan.{nmap,gnmap,xml} - nmap's initial enumeration (`-A`) of all servies in scope
+vscan-1/base-vscan.{nmap,gnmap,xml} - nmap's initial enumeration (`-A`) of all services in scope to the date
 ```
 
-Initial vuln scan:
+Vuln scan snapshot:
 
 ```
-nmap -n -PN -sS -A --script=vulners --open -iL hostsUp.txt -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/base-vscan -T4 --max-hostgroup 16
+mkdir vscan-1; cp hostsUp.txt vscan-1/; cp allPorts.txt vscan-1/;
+nmap -n -PN -sS -A --script=vulners --open -iL vscan-1/hostsUp.txt -p$(cat vscan-1/allPorts.txt | tr '\n' ',') -oA vscan-1/base-vscan -T4 --max-hostgroup 24
 ```
 
 Additional scans after discovering new hosts:

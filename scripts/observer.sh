@@ -11,13 +11,27 @@ FILE="$2"
 PREFIX="$DIR"
 
 # [OPTIONAL] append results to other files
-[ -n "$FILE" ] && PREFIX="$FILE"
+if [ -n "$FILE" ]; then
+    PREFIX="$FILE"
 
-# already discovered services
-KNOWN_PORTS="$(basename $PREFIX)-allPorts.txt"
-KNOWN_HOSTS="$(basename $PREFIX)-hostsUp.txt"
-TMP_PORT_FILE="/tmp/$(basename $PREFIX)-allPortsNow.txt"
-TMP_HOST_FILE="/tmp/$(basename $PREFIX)-hostsUpNow.txt"
+    # already known services
+    KNOWN_PORTS="$(basename $PREFIX)-allPorts.txt"
+    KNOWN_HOSTS="$(basename $PREFIX)-hostsUp.txt"
+
+    # services discovered in current run
+    TMP_PORT_FILE="/tmp/$(basename $PREFIX)-allPortsNow.txt"
+    TMP_HOST_FILE="/tmp/$(basename $PREFIX)-hostsUpNow.txt"
+
+else
+   # already known services
+   KNOWN_PORTS="allPorts.txt"
+   KNOWN_HOSTS="hostsUp.txt"
+
+   # services discovered in current run
+   TMP_PORT_FILE="/tmp/allPortsNow.txt"
+   TMP_HOST_FILE="/tmp/hostsUpNow.txt"
+fi
+
 
 [ -f "$TMP_PORT_FILE" ] && rm "$TMP_PORT_FILE"
 

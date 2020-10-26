@@ -22,6 +22,7 @@
              - [Network storage/backup services](Lateral%20Movement/lm-flawed-services.md#network-storagebackup-services)
              - [VoIP protocol suite](Lateral%20Movement/lm-flawed-services.md#voip-protocol-suite)
              - [NTP](Lateral%20Movement/lm-flawed-services.md#ntp-service)
+             - [SSH](Lateral%20Movement/lm-flawed-services.md#ssh)
              - [Legacy remote shells](Lateral%20Movement/lm-flawed-services.md#legacy-remote-shells)
          - [Flawed HTTP Remote Services](Lateral%20Movement/lm-flawed-http-services.md)
              - [Apache Tomcat: default/weak credentials](Lateral%20Movement/lm-flawed-http-services.md#apache-tomcat-defaultweak-credentials)
