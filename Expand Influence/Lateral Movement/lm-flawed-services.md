@@ -260,7 +260,7 @@ Enumeration (Nmap):
     grep 'nmap -iL $name/161.txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]'
     
     # run scan:
-    nmap -n -T4 -sU -p161 --script <SCRIPTS> -iL snmpServices.txt
+    nmap -n -T4 -sU -p161 --script <SCRIPTS> -iL snmpServices.txt -oA vscans/snmp-enum
 
 Enumeration (Metasploit):
 
@@ -336,9 +336,10 @@ Testing for SMTP open relay issue.
 QUIT
 ```
 
-Noteworthy vulnerabilities:
+Useful links:
 
 ```
+https://www.blackhillsinfosec.com/how-to-test-for-open-mail-relays/
 ```
 
 ### POP3 / IMAP
