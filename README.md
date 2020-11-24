@@ -25,15 +25,25 @@ List of possible goals.
 
 [Discovery](Discovery/README.md)
 
-## Attack Trees
+## Getting Foothold
 
 [Getting Inside Attack Tree](Getting%20Inside/README.md)
 
-[Getting Windows domain privileges attack tree](Expand%20Influence/AT-0x02/README.md)
+Attack (sub) trees:
 
-[Escalating Windows domain privileges attack tree]
+    TODO
+
+## Expanding Influence
 
 [Expanding Influence Attack Tree](Expand%20Influence/README.md)
+
+Attack (sub) trees:
+
+[Escalating Windows domain privileges]
+
+[Window host privilege escalation]
+
+[Linux/UNIX host privilege escalation]
 
 ## Survivability
 
