@@ -125,6 +125,9 @@ Discovery (directly from the wire):
 
 ```
 nmap -sS -Pn -n -T4 -p3389 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee rdpServices.txt
+
+nmap -sS -Pn -n -T4 -p3389 -iL IP-ranges.txt --open -oA pscans/rdp-discovery
+cat pscans/rdp-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee rdpServices.txt
 ```
 
 Discovery (from previous scans):
@@ -135,7 +138,7 @@ python scripts/nparser.py -f vscanlatest -p3389 -l | tee rdpServices.txt
 
 Enumeration (Nmap):
 
-    # list Nmap's SNMP discovery scripts from https://github.com/leebaird/discover project:
+    # list Nmap's RDP discovery scripts from https://github.com/leebaird/discover project:
     wget https://raw.githubusercontent.com/leebaird/discover/master/nse.sh
     grep 'nmap -iL $name/3389.txt' nse.sh | grep -o -P -e '--script=.*?[[:space:]]'
     
