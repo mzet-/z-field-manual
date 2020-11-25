@@ -53,7 +53,7 @@ Attack (sub) trees:
 
 ## Survivability
 
-Collection of techniques and associated procedures (from following categories: (Persistence, C2, Evasion) used to support and maintain undisturbed operation workflow.
+Collection of techniques and associated procedures (from following categories: Persistence, C2, Evasion) used to support and maintain undisturbed operation workflow.
 
 [Securing Foothold](Securing%20Foothold/README.md)
 
