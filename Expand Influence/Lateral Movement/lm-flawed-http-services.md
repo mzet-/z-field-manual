@@ -40,6 +40,16 @@ wget https://raw.githubusercontent.com/vulnersCom/nmap-vulners/master/http-vulne
 wget https://raw.githubusercontent.com/vulnersCom/nmap-vulners/master/http-vulners-paths.txt
 
 # TODO: launch
+mv http-vulners-regex.nse res/
+cd /usr/share/nmap/scripts
+ln -s "$HOME/res/http-vulners-regex.nse"
+nmap --script-updatedb
+
+# -sV is required as Nmap need to determine if provided ports different then 80,443 are really http-based services
+# other alternative would be to change portrule to match particular port on fly (as here: https://github.com/InfosecMatter/default-http-login-hunter)
+# http-vulners-regex - constructs CPEs for http-based services
+# vulners - queries API at https://vulners.com for known CVEs for given CPEs
+nmap -n -PN -sS -sV --open --script=http-vulners-regex,vulners -p$(cat http-ports.txt | tr '\n' ',') -iL http-ips.txt -oA vscans/http-vulners-regex
 ```
 
 [snallygaster](https://github.com/hannob/snallygaster) (run in parallel)
@@ -60,7 +70,7 @@ wget https://raw.githubusercontent.com/nnposter/nndefaccts/master/http-default-a
 cat urls-all.txt | tee >(awk -F '//' '{print $2}' | cut -d':' -f1 > http-ips.txt) >(awk -F '//' '{print $2}' | awk -F':' '{print $2}' | grep . | sort -u > http-ports.txt)
 
 # check for default web-based accounts:
-nmap -n -PN -sS -sV --version-intensity 2 --script http-default-accounts --script-args http-default-accounts.fingerprintfile=./http-default-accounts-fingerprints-nndefaccts.lua -T4 -iL http-ips.txt -p80,443,$(cat http-ports.txt | tr '\n' ',') -oA vscans/http-def-accounts
+nmap -n -PN -sS -sV --open --version-intensity 2 --script http-default-accounts --script-args http-default-accounts.fingerprintfile=./http-default-accounts-fingerprints-nndefaccts.lua -T4 -iL http-ips.txt -p80,443,$(cat http-ports.txt | tr '\n' ',') -oA vscans/http-def-accounts
 ```
 
 Default credentials: changeme
