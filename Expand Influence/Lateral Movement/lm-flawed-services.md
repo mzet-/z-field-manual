@@ -22,7 +22,8 @@ Specifications:
 Discovery (directly from the wire):
 
 ```
-nmap -sS -Pn -n -p445 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee smbServices.txt
+nmap -sS -Pn -n -p445 -iL IP-ranges.txt -oG - --open -oA pscans/smb-discovery
+cat pscans/smb-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee smbServices.txt
 ```
 
 Discovery (from previous scans):
@@ -34,8 +35,8 @@ python scripts/nparser.py -f vscanlatest -p445 -l | tee smbServices.txt
 Additional enumeration: SMB protocol versions
 
 ```
-nmap -n -sS -sV -T4 --open --script=smb-protocols -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoVersions
-nmap -n -sS -sV -T4 --open --script=smb-security-mode -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoSigning
+nmap -n -PN -sS -sV -T4 --open --script=smb-protocols -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoVersions
+nmap -n -PN -sS -sV -T4 --open --script=smb-security-mode -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoSigning
 ```
 
 Additional enumeration: SMB general info
@@ -67,7 +68,7 @@ Reference: https://nmap.org/nsedoc/scripts/smb-vuln-ms08-067.html
 Affected: Windows Server 2000, Windows Server 2003, and Windows XP
 
 Discovery:
-nmap -sS -sU --script smb-vuln-ms08-067.nse -pT:445,139,U:137 -iL smb-services.txt --open -d | tee smb-vuln-ms08-067.out
+nmap -sS -sU --script smb-vuln-ms08-067.nse -pT:445,139,U:137 -iL smbServices.txt --open -d | tee smb-vuln-ms08-067.out
 
 Exploitation:
 msf5 > use exploit/windows/smb/ms08_067_netapi
@@ -82,7 +83,7 @@ Notes: The script requires at least READ access right to a share on a remote mac
 
 Discovery:
 nmap  -p 445 <target> --script=smb-vuln-ms10-054 --script-args unsafe -d
-nmap -sS -sU --script smb-vuln-ms10-054.nse --script-args unsafe -pT:445,139,U:137 -iL smb-services.txt --open -d | tee smb-vuln-ms10-054.out
+nmap -sS -sU --script smb-vuln-ms10-054.nse --script-args unsafe -pT:445,139,U:137 -iL smbServices.txt --open -d | tee smb-vuln-ms10-054.out
 # grep for 'true' in smb-vuln-ms10-054.out
 ```
 
@@ -95,7 +96,7 @@ In order for the check to work it needs access to at least one shared printer on
 Reference: https://nmap.org/nsedoc/scripts/smb-vuln-ms10-061.html
 
 Discovery:
-nmap -sS -sU --script smb-vuln-ms10-061.nse -pT:445,139,U:137 -iL smb-services.txt --open -d | tee smb-vuln-ms10-061.out
+nmap -sS -sU --script smb-vuln-ms10-061.nse -pT:445,139,U:137 -iL smbServices.txt --open -d | tee smb-vuln-ms10-061.out
 ```
 
 Vulnerability: ms17-01
@@ -124,8 +125,6 @@ nmap -sS --script smb-vuln-ms17-010 --script-args='smbdomain="<domain>",smbusern
 Discovery (directly from the wire):
 
 ```
-nmap -sS -Pn -n -T4 -p3389 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee rdpServices.txt
-
 nmap -sS -Pn -n -T4 -p3389 -iL IP-ranges.txt --open -oA pscans/rdp-discovery
 cat pscans/rdp-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee rdpServices.txt
 ```
@@ -614,6 +613,127 @@ nmap -p 512 --script rexec-brute <ip>
 
 nmap -p 513 --script rlogin-brute <ip>
 ```
+
+### BMC/IPMI
+
+Ports:
+
+    UDP: 623
+    TCP: 623
+
+
+Overview:
+
+    -
+
+Discovery (directly from the wire):
+
+    nmap -sS -Pn -n -T4 -p623 -iL IP-ranges.txt --open -oA pscans/ipmi-tcp-discovery
+    cat pscans/ipmi-tcp-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee ipmi-tcpServices.txt
+
+Discovery (from previous scans):
+
+```
+python scripts/nparser.py -f vscanlatest -p623 -l | tee ipmi-tcpServices.txt
+```
+
+Enumeration (Nmap):
+
+```
+nmap -sU -p 623 --script ipmi-version <ip>
+```
+
+### Printers
+
+Ports:
+
+    TCP: 515,631,9100
+
+
+Overview:
+
+    -
+
+Discovery (directly from the wire):
+
+    nmap -sS -Pn -n -T4 -p515,631,9100 -iL IP-ranges.txt --open -oA pscans/printer-discovery
+    cat pscans/printer-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee printersServices.txt
+
+Discovery (from previous scans):
+
+```
+python scripts/nparser.py -f vscanlatest -p515,631,9100 -l | tee printersServices.txt
+```
+
+### Java-based services
+
+Ports:
+
+    TCP (Java Debug Wire Protocol): 3999,5000,5005,8000,8453,8787-8788,9001,18000
+
+Overview:
+
+    -
+
+Discovery (directly from the wire):
+
+    # Java Debug Wire Protocol:
+    nmap -sS -Pn -n -T4 -p3999,5000,5005,8000,8453,8787-8788,9001,18000 -iL IP-ranges.txt --open -oA pscans/java-wire-debugger-discovery
+    cat pscans/java-wire-debugger-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee java-wire-debugger-discoveryServices.txt
+
+Discovery (from previous scans):
+
+```
+# Java Debug Wire Protocol:
+python scripts/nparser.py -f vscanlatest -p3999,5000,5005,8000,8453,8787-8788,9001,18000 -l | tee printersServices.txt
+```
+
+### VNC
+
+Ports:
+
+    TCP (Java Debug Wire Protocol): 3999,5000,5005,8000,8453,8787-8788,9001,18000
+
+Overview:
+
+    -
+
+Discovery (directly from the wire):
+
+    # Java Debug Wire Protocol:
+    nmap -sS -Pn -n -T4 -p3999,5000,5005,8000,8453,8787-8788,9001,18000 -iL IP-ranges.txt --open -oA pscans/java-wire-debugger-discovery
+    cat pscans/java-wire-debugger-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee java-wire-debugger-discoveryServices.txt
+
+Discovery (from previous scans):
+
+```
+# Java Debug Wire Protocol:
+python scripts/nparser.py -f vscanlatest -p3999,5000,5005,8000,8453,8787-8788,9001,18000 -l | tee printersServices.txt
+```
+
+### Oracle
+
+Ports:
+
+    TCP (Java Debug Wire Protocol): 3999,5000,5005,8000,8453,8787-8788,9001,18000
+
+Overview:
+
+    -
+
+Discovery (directly from the wire):
+
+    # Java Debug Wire Protocol:
+    nmap -sS -Pn -n -T4 -p3999,5000,5005,8000,8453,8787-8788,9001,18000 -iL IP-ranges.txt --open -oA pscans/java-wire-debugger-discovery
+    cat pscans/java-wire-debugger-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee java-wire-debugger-discoveryServices.txt
+
+Discovery (from previous scans):
+
+```
+# Java Debug Wire Protocol:
+python scripts/nparser.py -f vscanlatest -p3999,5000,5005,8000,8453,8787-8788,9001,18000 -l | tee printersServices.txt
+```
+
 
 ## OPSEC considerations
 
