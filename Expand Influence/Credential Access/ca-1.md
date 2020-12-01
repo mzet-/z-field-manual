@@ -68,7 +68,7 @@ Prereq for success:
 1. SMB signing must not be enforced (i.e. one of the machines in the conversation must have `message_signing: disabled (dangerous, but default)` as a result of `nmap --script smb-security-mode -p445 192.168.12.0`)
 2. For optimal impact (i.e. RCE) owner of the credetnials that are being relayed must have Local Admin privileges on target machine
 
-### With Responder + impacket's ntlmrealyx/smbrealyx
+**With Responder + impacket's ntlmrealyx/smbrealyx**
 
 In `Responder.conf`:
 
@@ -101,7 +101,7 @@ Reference:
     https://threat.tevora.com/quick-tip-skip-cracking-responder-hashes-and-replay-them/
     https://speakerdeck.com/ropnop/fun-with-ldap-kerberos-and-msrpc-in-ad-environments
 
-### With Inveigh 
+**With Inveigh**
 
 Capabilities:
 
