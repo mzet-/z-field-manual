@@ -10,7 +10,7 @@ MITRE ATT&CK mapping: N/A
 ### Additional tools
 
  - Arch / Kali: `extra/xorg-server-xvfb / xvfb` package
- - [httprobe](https://github.com/tomnomnom/httprobe/releases/latest), [meg](https://github.com/tomnomnom/meg)
+ - [httprobe](https://github.com/tomnomnom/httprobe/releases/latest), [meg](https://github.com/tomnomnom/meg), [httpx](https://github.com/projectdiscovery/httpx/releases/latest)
  - [webintel.py](https://github.com/danamodio/webintel)
  - [Aquatone](https://github.com/michenriksen/aquatone/releases/latest) OR [webscreenshot.py](https://github.com/maaaaz/webscreenshot)
  - [OPTIONALLY] [Eyeballer](https://github.com/bishopfox/eyeballer)
@@ -37,6 +37,8 @@ cat httprobe-* > urls-all.txt
 Identifying web-based services (from previous scans):
 
 ```
+cat pscans/all-rawrPN.gnmap | cut -d' ' -f2 | grep -v Nmap | sort -u | ./httpx -ports $(rawrPorts) | tee urls-rawr.txt
+
 TODO: nparser.py
 ```
 

@@ -190,7 +190,9 @@ Discovery:
 
 ```
 # from the wire:
-nmap -sS -Pn -n -p1433 -iL IP-ranges.txt -oG - --open | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee mssqlServices.txt
+nmap -sS -Pn -n -T4 -p1433 -iL IP-ranges.txt --open -oA pscans/mssql-discovery
+cat pscans/mssql-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee mssqlServices.txt
+
 udp-proto-scanner.pl --probe_name ms-sql <IPs> | tee udpprobe-mssql.out | extractIPs >> mssqlServices.txt
 sort -u mssqlServices.txt -o mssqlServices.txt
 
@@ -202,11 +204,7 @@ python nparser.py -f vscans/vscanlatest -p1433 -l | cut -d: -f1 |tee mssqlServic
 
 Enumeration:
 
-    nmap -sS -Pn -n -p1433 -iL mssqlServices.txt --script ms-sql-info,ms-sql-ntlm-info
-
-Check for empty passwords:
-
-    nmap -p 1433 --script=ms-sql-empty-password,ms-sql-dump-hashes -iL mssqlServices.txt -v
+    nmap -n -sS -sV -p1433 --script=ms-sql-info,ms-sql-ntlm-info,ms-sql-empty-password,ms-sql-dump-hashes -iL mssqlServices.txt -d -oA vscans/mssql-enum
 
 Brute force attack (default creds):
 
