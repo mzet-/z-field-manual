@@ -37,9 +37,7 @@ cat httprobe-* > urls-all.txt
 Identifying web-based services (from previous scans):
 
 ```
-cat pscans/all-rawrPN.gnmap | cut -d' ' -f2 | grep -v Nmap | sort -u | ./httpx -ports $(rawrPorts) | tee urls-rawr.txt
-
-TODO: nparser.py
+python ~/bin/nparser.py -p$(rawrPorts) -f pscans/all-rawrPN -l | ./httpx -silent | tee urls-rawr.txt
 ```
 
 ### Fingerprinting

