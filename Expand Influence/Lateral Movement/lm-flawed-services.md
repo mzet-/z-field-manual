@@ -35,8 +35,8 @@ python scripts/nparser.py -f vscanlatest -p445 -l | tee smbServices.txt
 Additional enumeration: SMB protocol versions
 
 ```
-nmap -n -PN -sS -sV -T4 --open --script=smb-protocols -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoVersions
-nmap -n -PN -sS -sV -T4 --open --script=smb-security-mode -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoSigning
+nmap -n -PN -sS -T4 --open --script=smb-protocols -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoVersions --max-hostgroup 128
+nmap -n -PN -sS -T4 --open --script=smb-security-mode -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoSigning --max-hostgroup 128
 ```
 
 Additional enumeration: SMB general info
@@ -668,6 +668,7 @@ python scripts/nparser.py -f vscanlatest -p515,631,9100 -l | tee printersService
 Ports:
 
     TCP (Java Debug Wire Protocol): 3999,5000,5005,8000,8453,8787-8788,9001,18000
+    Java RMI registry: 1098,1099
 
 Overview:
 
@@ -679,11 +680,19 @@ Discovery (directly from the wire):
     nmap -sS -Pn -n -T4 -p3999,5000,5005,8000,8453,8787-8788,9001,18000 -iL IP-ranges.txt --open -oA pscans/java-wire-debugger-discovery
     cat pscans/java-wire-debugger-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee java-wire-debugger-discoveryServices.txt
 
+    # Java RMI registry:
+    nmap -sS -Pn -n -T4 -p1098,1099 -iL IP-ranges.txt --open -oA pscans/java-rmi
+    cat pscans/java-rmi.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee java-rmiServices.txt
+ 
+
 Discovery (from previous scans):
 
 ```
 # Java Debug Wire Protocol:
 python scripts/nparser.py -f vscanlatest -p3999,5000,5005,8000,8453,8787-8788,9001,18000 -l | tee printersServices.txt
+
+# Java RMI:
+python scripts/nparser.py -f vscanlatest -p1098,1099 -l | tee java-rmiServices.txt
 ```
 
 ### VNC
@@ -706,7 +715,7 @@ Discovery (from previous scans):
 
 ```
 # Java Debug Wire Protocol:
-python scripts/nparser.py -f vscanlatest -p3999,5000,5005,8000,8453,8787-8788,9001,18000 -l | tee printersServices.txt
+python scripts/nparser.py -f vscanlatest -p3999,5000,5005,8000,8453,8787-8788,9001,18000 -l | tee java-wire-debugger-discoveryServices.txt
 ```
 
 ### Oracle
