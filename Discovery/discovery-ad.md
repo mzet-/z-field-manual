@@ -36,21 +36,21 @@ mDNS
 DHCPv6
 ```
 
-**NBT (NetBIOS over TCP/IP)**
+NBT (NetBIOS over TCP/IP):
 
-   tcpdump -i eth0 udp port 137
+    tcpdump -i eth0 udp port 137
 
-**LMNR**
+LLMNR:
 
-   socat -u UDP4-RECV:5355,ip-add-membership=224.0.0.252:eth0 /dev/null &
-   tcpdump -i eth0 udp port 5355
+    socat -u UDP4-RECV:5355,ip-add-membership=224.0.0.252:eth0 /dev/null &
+    tcpdump -i eth0 udp port 5355
 
-**mDNS**
+mDNS:
 
-   socat -u UDP4-RECV:5353,ip-add-membership=224.0.0.251:eth0 /dev/null &
-   tcpdump -i eth0 udp port 5353
+    socat -u UDP4-RECV:5353,ip-add-membership=224.0.0.251:eth0 /dev/null &
+    tcpdump -i eth0 udp port 5353
 
-**DHCPv6**
+DHCPv6:
 
    TODO
 
