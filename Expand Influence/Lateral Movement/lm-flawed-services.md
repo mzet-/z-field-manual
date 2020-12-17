@@ -620,18 +620,37 @@ Ports:
     TCP: 623
 
 
-Overview:
+**Overview**
 
-    -
+Characteristics:
+
+ - BMCs are often implemented as embedded ARM systems, running Linux and connected directly to the southbridge of the host system's motherboard. 
+ - Network access is obtained either via 'sideband' access to an existing network card or through a dedicated interface.
+ - Ports are directly exposed by this embedded system (so there are not visible via netstat on the host OS) (?)
+
+Used for:
+
+Out-of band host management / emulation of physical access to the machine (i.e. access to grub)
+
+**Testing**
 
 Discovery (directly from the wire):
 
+    # UDP:
+    nmap -n -sU -T4 -iL IP-ranges.txt -p623 --open -oA vscans/udp623
+    cat vscans/udp623.gnmap | grep 'Ports: 623/open/udp/' | cut -d' ' -f2 | tee ipmiServices.txt
+
+    # TCP:
     nmap -sS -Pn -n -T4 -p623 -iL IP-ranges.txt --open -oA pscans/ipmi-tcp-discovery
     cat pscans/ipmi-tcp-discovery.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee ipmi-tcpServices.txt
 
 Discovery (from previous scans):
 
 ```
+# UDP-based:
+TODO
+
+# TCP-based:
 python scripts/nparser.py -f vscanlatest -p623 -l | tee ipmi-tcpServices.txt
 ```
 

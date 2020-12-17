@@ -7,7 +7,7 @@
             - [LLMNR/mDNS/NBNS poisonning and SMB relay](Credential%20Access/ca-1.md) (T1557.001)
             - [DNS Poisoning via DHCPv6 and SMB Relay](Credential%20Access/ca-2.md)
             - [ARP + DNS Poisoning and SMB Relay](Credential%20Access/ca-3.md)
-    - Move Laterally
+    - Lateral Movement (TA0008)
          - [Flawed Network Equipment](Lateral%20Movement/lm-flawed-network-equipment.md)
          - [Flawed Remote Services](Lateral%20Movement/lm-flawed-services.md) (T1210)
              - [SMB](Lateral%20Movement/lm-flawed-services.md#smb-service)
@@ -24,18 +24,18 @@
              - [NTP](Lateral%20Movement/lm-flawed-services.md#ntp-service)
              - [SSH](Lateral%20Movement/lm-flawed-services.md#ssh)
              - [Legacy remote shells](Lateral%20Movement/lm-flawed-services.md#legacy-remote-shells)
-             - [BMC/IPMI](Lateral%20Movement/lm-flawed-services.md#bmc-ipmi)
+             - [BMC/IPMI](Lateral%20Movement/lm-flawed-services.md#bmcipmi)
              - [Printers](Lateral%20Movement/lm-flawed-services.md#printers)
              - [Java-based services](Lateral%20Movement/lm-flawed-services.md#java-based-services)
-             - [VNC](Lateral%20Movement/lm-flawed-services.md#vnc)
-             - [Oracle](Lateral%20Movement/lm-flawed-services.md#oracle)
+             - [VNC services](Lateral%20Movement/lm-flawed-services.md#vnc)
+             - [Oracle DBs](Lateral%20Movement/lm-flawed-services.md#oracle)
          - [Flawed HTTP Remote Services](Lateral%20Movement/lm-flawed-http-services.md)
              - [Web vulnerability discovery](Lateral%20Movement/lm-flawed-http-services.md#web-vulnerability-discovery)
              - [Web-based authentication panels](Lateral%20Movement/lm-flawed-http-services.md#web-based-authentication-panels)
              - [Apache Tomcat: default/weak credentials](Lateral%20Movement/lm-flawed-http-services.md#apache-tomcat-defaultweak-credentials)
          - Flawed embedded devices
          - Feature Abuse
-    - Escalate
+    - Privilege Escalation (TA0004)
 
 <!-- /MarkdownTOC -->
 
