@@ -632,6 +632,18 @@ Used for:
 
 Out-of band host management / emulation of physical access to the machine (i.e. access to grub)
 
+BMC/IPMI solutions by various vendors:
+
+HP iLO, Dell DRAC, Sun ILOM, Fujitsu iRMC, IBM IMM, and Supermicro IPMI.
+
+Typical exposure:
+
+```
+Web panel
+IPMI protocol implementation (ports: 623 UDP; sometimes 623 TCP)
+Telnet/SSH access
+```
+
 **Testing**
 
 Discovery (directly from the wire):
@@ -659,6 +671,35 @@ Enumeration (Nmap):
 ```
 nmap -sU -p 623 --script ipmi-version <ip>
 ```
+
+Grabbing hashes (possible due to design flaw in IPMI 2.0 protocol specification):
+
+```
+use auxiliary/scanner/ipmi/ipmi_dumphashes
+set RHOSTS file:ipmiServices.txt
+run
+```
+
+**References**
+
+A Penetration Tester's Guide to IPMI and BMCs:
+
+    https://blog.rapid7.com/2013/07/02/a-penetration-testers-guide-to-ipmi/
+
+BMC practical exploitation (rebooting -> changing kernel boot params via grub: init=/bin/bash -> booting to root):
+
+```
+https://medium.com/bugbountywriteup/how-a-badly-configured-db-allowed-us-to-own-an-entire-cloud-of-over-25k-hosts-part-1-2-8846beab691e
+https://medium.com/bugbountywriteup/how-a-badly-configured-db-allowed-us-to-own-an-entire-cloud-of-over-25k-hosts-part-2-2-5a63da194bc1
+```
+
+SuperMicro IPMI (additional) default password:
+
+    https://packetstormsecurity.com/files/105730/Supermicro-IPMI-Default-Accounts.html
+
+Exploit: Dell iDRAC7 and iDRAC8 Devices Code Injection Vulnerability (RCE) (firmware: <  2.52.52.52):
+
+    https://github.com/KraudSecurity/Exploits/blob/master/CVE-2018-1207/CVE-2018-1207.py
 
 ### Printers
 
