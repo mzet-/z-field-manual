@@ -14,6 +14,7 @@
              - [RDP](Lateral%20Movement/lm-flawed-services.md#rdp-service)
              - [MS-SQL](Lateral%20Movement/lm-flawed-services.md#ms-sql-service)
              - [WinRM](Lateral%20Movement/lm-flawed-services.md#winrm)
+             - [Windows Kerberos](Lateral%20Movement/lm-flawed-services.md#windowskerberos)
              - [Other Windows services](Lateral%20Movement/lm-flawed-services.md#other-windows-services)
              - [SNMP](Lateral%20Movement/lm-flawed-services.md#snmp-service)
              - [SMTP](Lateral%20Movement/lm-flawed-services.md#smtp-service)

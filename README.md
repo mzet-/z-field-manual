@@ -5,16 +5,33 @@ Introduction and purpose.
 
 # Operational Considerations
 
-## Goals
-
-List of possible goals.
-
 ## Operation Planning
 
 ```
-1. Set goal(s): objectives to accomplish
-2. Combine various tactics to achieve your operational goal(s)
-3. Select appropriate tachniques (and choose suitable tools) to achieve your tactical goals
+1. Identify biggest risks for your target
+2. Set goal(s): objectives to accomplish based on identified risks
+```
+
+## Goals
+
+```
+TODO
+```
+
+## Operation Preparation
+
+```
+1. Consider level of OPS-SEC required
+2. Preapre attack infrastructure
+3. Launch an operation
+```
+
+## Running an Operation
+
+```
+1. Determine a set of tactical objectives required to achieve your operational goal(s)
+2. Achieve required tactical objective(s)
+3. Choose feasible technique(s) to achieve given tactical objective
 ```
 
 # Tactical Objectives
@@ -23,9 +40,13 @@ List of possible goals.
 
 Collection of discovery techniques and associated procedures commonly used during various stages of intrusion lifecycle.
 
-[External Recon](Intelligence%20Gathering/README.md)
+[OSINT Discovery](Intelligence%20Gathering/README.md)
 
-[Discovery](Discovery/README.md)
+[Network Discovery](Discovery/README.md)
+
+[Active Directory (AD) Discovery](Discovery/discovery-ad.md)
+
+[ Cloud Discovery ]
 
 ## Getting Foothold
 

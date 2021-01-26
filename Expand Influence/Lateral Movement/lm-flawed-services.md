@@ -219,6 +219,41 @@ Brute force attack (weak passwords):
 
 ### WinRM service
 
+### Windows Kerberos
+
+Ports:
+
+```
+TCP: 88
+```
+
+**Testing**
+
+Discovery (directly from the wire):
+
+```
+nmap -sS -Pn -n -p88 -iL IP-ranges.txt -oG - --open -oA pscans/kerberos88
+cat pscans/kerberos88.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee kerberos88Services.txt
+```
+
+Discovery (from previous scans):
+
+```
+python scripts/nparser.py -f vscanlatest -p88 -l | tee kerberos88Services.txt
+```
+
+**Notable vulnerabilities**
+
+Zerologon (CVE-2020-1472)
+
+```
+Reference: https://www.secura.com/blog/zero-logon
+
+git clone https://github.com/SecuraBV/CVE-2020-1472
+cd CVE-2020-1472
+python3 zerologon_tester.py -h
+```
+
 ### Other Windows services
 
 Background:
@@ -340,6 +375,7 @@ Useful links:
 
 ```
 https://www.blackhillsinfosec.com/how-to-test-for-open-mail-relays/
+https://luemmelsec.github.io/Pentest-Everything-SMTP/
 ```
 
 ### POP3 / IMAP
