@@ -184,6 +184,7 @@ Reference:
 ```
 https://nmap.org/nsedoc/lib/mssql.html
 http://travisaltman.com/pen-test-and-hack-microsoft-sql-server-mssql/
+https://research.nccgroup.com/2021/01/21/mssql-lateral-movement/
 ```
 
 Discovery:
