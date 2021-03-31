@@ -21,6 +21,12 @@ MITRE ATT&CK mapping: N/A
 Identifying web-based services (directly from the wire):
 
 ```
+cat hostsUp.txt | ./httpx -silent -ports $(cat res/rawr-ports-long.txt | tr '\n' ',') | tee urls.txt
+```
+
+OR:
+
+```
 # ports 80 and 443 only:
 cat hostsUp.txt | ./httprobe -c 17 | tee httprobe-hostsUp-80-443.out
 

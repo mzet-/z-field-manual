@@ -35,6 +35,11 @@ python scripts/nparser.py -f vscanlatest -p445 -l | tee smbServices.txt
 Additional enumeration: SMB protocol versions
 
 ```
+# for SMBv2+:
+nmap -n -PN -sS -T4 --open --script=smb2-capabilities -p445 -T4 -iL smbServices.txt -oA vscans/smb2ProtoVersions --max-hostgroup 128
+nmap -n -PN -sS -T4 --open --script=smb2-security-mode -p445 -T4 -iL smbServices.txt -oA vscans/smb2ProtoSigning --max-hostgroup 128
+
+# for SMBv1:
 nmap -n -PN -sS -T4 --open --script=smb-protocols -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoVersions --max-hostgroup 128
 nmap -n -PN -sS -T4 --open --script=smb-security-mode -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoSigning --max-hostgroup 128
 ```

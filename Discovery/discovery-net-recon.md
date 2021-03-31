@@ -79,6 +79,10 @@ nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -p- -oA pscans/all-full-rand-job-1 
 # scan 'rawr' ports (where 'rawrPorts' is Bash function returning list of rawr ports):
 nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(rawrPorts) -oA pscans/all-rawrPN -T4 --max-hostgroup 16
 
+# extended (i.e. more ports) 'rawr' scanning:
+wget https://raw.githubusercontent.com/mzet-/z-field-manual/master/res/rawr-ports-long.txt -O res/rawr-ports-long.txt
+nmap -n -Pn -sS --open -iL IP-ranges.txt $(cat res/rawr-ports-long.txt | tr '\n' ',') -oA pscans/all-rawrPN-long -T4 --max-hostgroup 16
+
 # full scope - next top 3000 ports (in batches of 100 ports):
 screen /bin/bash -c 'for i in $(seq 1 30); do masscan -iL IP-ranges.txt -p$(topNports 100 $((i*100))) --rate 1000 -oX pscans/masscan-offset$((i*100))-top100.xml; done'
 
