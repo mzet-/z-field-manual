@@ -25,6 +25,15 @@ https://pentestlab.blog/2018/05/28/situational-awareness/
 
 ### Discovering AD name
 
+Passively listen for DHCP broadcasts:
+
+   tcpdump -i eth0 port 67 or port 68 -e -X
+
+Broadcasting DHCP/DHCPv6 request:
+
+   nmap --script broadcast-dhcp-discover -d
+   nmap -6 --script broadcast-dhcp6-discover 
+
 ### Sniffing for abusable protocols 
 
 Broadcast/multicast protocols that could be abused (via poisoning/spoofing) by the attacker to impersonate as other nodes in the network:

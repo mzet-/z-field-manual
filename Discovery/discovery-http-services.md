@@ -21,23 +21,23 @@ MITRE ATT&CK mapping: N/A
 Identifying web-based services (directly from the wire):
 
 ```
-cat hostsUp.txt | ./httpx -silent -ports $(cat res/rawr-ports-long.txt | tr '\n' ',') | tee urls.txt
+cat hostsUp.txt | ./httpx -silent -ports $(cat res/rawr-ports-long.txt | tr '\n' ',') | tee urls-long.txt
 ```
 
 OR:
 
 ```
-# ports 80 and 443 only:
-cat hostsUp.txt | ./httprobe -c 17 | tee httprobe-hostsUp-80-443.out
+# rawr ports
+cat IP-ranges.txt | ./httpx -silent -ports $(rawrPorts) | tee urls-rawr.txt
 
 # ports 8080 and 8000 and 8443:
-cat hostsUp.txt | ./httprobe -s -c 17 -p http:8080 -p http:8000 -p https:8443 | tee httprobe-hostsUp-8080-8000-8443.out
+cat IP-ranges.txt | ./httpx -silent -ports 8080,8000,8443 | tee urls-8080-8000-8443.txt
 
 # additional ports:
-cat hostsUp.txt | ./httprobe -s -c 17 -p http:81 -p http:591 -p http:2082 -p http:2087 -p http:2095 -p http:2096 -p http:3000 -p http:8001 -p http:8008 -p http:8083 -p http:8834 -p http:8888 | tee httprobe-hostsUp-large.out
+cat IP-ranges.txt | ./httpx -silent -ports 81,591,2082,2087,2095,2096,3000,8001,8008,8083,8834,8888 | tee urls-commonports.txt
 
 # merge results:
-cat httprobe-* > urls-all.txt
+cat urls-* > urls-all.txt
 ```
 
 Identifying web-based services (from previous scans):
