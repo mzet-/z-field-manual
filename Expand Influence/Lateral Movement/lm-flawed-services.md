@@ -37,11 +37,29 @@ Additional enumeration: SMB protocol versions
 ```
 # for SMBv2+:
 nmap -n -PN -sS -T4 --open --script=smb2-capabilities -p445 -T4 -iL smbServices.txt -oA vscans/smb2ProtoVersions --max-hostgroup 128
-nmap -n -PN -sS -T4 --open --script=smb2-security-mode -p445 -T4 -iL smbServices.txt -oA vscans/smb2ProtoSigning --max-hostgroup 128
 
 # for SMBv1:
 nmap -n -PN -sS -T4 --open --script=smb-protocols -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoVersions --max-hostgroup 128
+
+# get IPs of machines supporting SMBv1:
+grep -B10 SMBv1 vscans/smbProtoVersions.nmap | extractIPs
+```
+
+Additional enumeration: SMB signing
+
+```
+
+# for SMBv2+:
+nmap -n -PN -sS -T4 --open --script=smb2-security-mode -p445 -T4 -iL smbServices.txt -oA vscans/smb2ProtoSigning --max-hostgroup 128
+
+# for SMBv1:
 nmap -n -PN -sS -T4 --open --script=smb-security-mode -p445 -T4 -iL smbServices.txt -oA vscans/smbProtoSigning --max-hostgroup 128
+
+# extract hosts that do not require message signing (i.e., hosts that are vulnerable to MitM/SMB-relay attack:
+# SMBv1:
+grep -B 12 -E 'message_signing: disabled|message_signing: supported' pscans/smbProtoSigning.nmap | extractIPs
+# SMBv2+:
+grep -B10 -E 'Message signing enabled but not required|Message signing is disabled and not required!|Message signing is disabled!' vscans/smb2ProtoSigning.nmap |extractIPs
 ```
 
 Additional enumeration: SMB general info

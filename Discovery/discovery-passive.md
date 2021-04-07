@@ -9,7 +9,13 @@ Atomic Red Team test: [T1040 - Network Sniffing](https://github.com/redcanaryco/
 
 ## Procedures
 
-Sniffing:
+Live sniffing in Wireshark via SSH:
+
+```
+ssh -o ProxyCommand="ssh -W %h:%p -i $HOME/ssh_key proxy_user@proxy_host" user@host "sudo /usr/sbin/tcpdump -i eth0 -U -s0 -w - '<FILTER> and not port 22'" | sudo wireshark -k -i -
+```
+
+Capturing traffic for later review:
 
 ```
 # {broad,multi}cast traffic excluding ARP:
@@ -51,6 +57,9 @@ cat /usr/share/responder/logs/Responder-Session.log | extractIPs | sort -u
 
 # IPs seen by tcpdump:
 tcpdump -nn -r <SESSION_FILE> -l | grep -o -E '[0-9]+(\.[0-9]+){3}' | sort -u
+
+# with Nmap:
+nmap -sL --script=targets-sniffer --script-args=newtargets,targets-sniffer.timeout=5s,targets-sniffer.iface=eth0
 
 # verify if it is already in discovered hosts ('hostsUp.txt') file:
 grep -v -f hostsUp.txt <(process returning IP list)

