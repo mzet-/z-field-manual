@@ -14,6 +14,7 @@ In-depth domain recon:
 ```
 https://adsecurity.org/?p=2535
 https://speakerdeck.com/ropnop/fun-with-ldap-kerberos-and-msrpc-in-ad-environments?slide=96
+https://book.hacktricks.xyz/windows/active-directory-methodology#recon-active-directory-no-creds-sessions
 ```
 
 Domain recon (from Windows box):
@@ -43,6 +44,7 @@ NBT (NetBIOS over TCP/IP)
 LLMNR
 mDNS
 DHCPv6
+SSDP
 ```
 
 NBT (NetBIOS over TCP/IP):
@@ -62,6 +64,11 @@ mDNS:
 DHCPv6:
 
     TODO
+
+SSDP:
+
+    socat -u UDP4-RECV:1900,ip-add-membership=239.255.255.250:eth0 /dev/null &
+    tcpdump -i eth0 udp port 1900
 
 ## OPSEC considerations
 
