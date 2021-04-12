@@ -9,7 +9,7 @@ MITRE ATT&CK mapping: [T1040](https://attack.mitre.org/techniques/T1040/)
 
 Atomic Red Team test: [T1040 - Network Sniffing](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1040/T1040.md)
 
-## Procedures
+## Procedure: observe broadcast traffic
 
 Live sniffing in Wireshark via SSH:
 
@@ -17,7 +17,7 @@ Live sniffing in Wireshark via SSH:
 ssh -o ProxyCommand="ssh -W %h:%p -i $HOME/ssh_key proxy_user@proxy_host" user@host "sudo /usr/sbin/tcpdump -i eth0 -U -s0 -w - '<FILTER> and not port 22'" | sudo wireshark -k -i -
 ```
 
-Capturing traffic for later review:
+Capturing broadcast traffic for later review:
 
 ```
 # {broad,multi}cast traffic excluding ARP:
@@ -38,6 +38,18 @@ tcpdump -i eth0 -w session1-all-ipv6.pcap -nn ip6
 tcpdump -i eth0 -w session1-all-ipv6-full-content.pcap -nn ip6
 ```
 
+## Procedure: observe src and dst IPs
+
+```
+# IPs seen by tcpdump:
+tcpdump -nn -r <SESSION_FILE> -l | extractIPs
+
+# with Nmap:
+nmap -n -sL --script=targets-sniffer --script-args=newtargets,targets-sniffer.timeout=5s,targets-sniffer.iface=eth0
+```
+
+## Procedure: conduct passive OS fingerprinting of broadcast traffic
+
 OS fingerprinting:
 
 ```
@@ -57,14 +69,14 @@ Discovery of 'hidden' (i.e. all ports filtered, no ping replies) hosts:
 # IPs seen be responder:
 cat /usr/share/responder/logs/Responder-Session.log | extractIPs | sort -u
 
-# IPs seen by tcpdump:
-tcpdump -nn -r <SESSION_FILE> -l | grep -o -E '[0-9]+(\.[0-9]+){3}' | sort -u
-
-# with Nmap:
-nmap -sL --script=targets-sniffer --script-args=newtargets,targets-sniffer.timeout=5s,targets-sniffer.iface=eth0
-
 # verify if it is already in discovered hosts ('hostsUp.txt') file:
 grep -v -f hostsUp.txt <(process returning IP list)
+```
+
+## Procedure: achieve Layer-2 MitM position against selected target
+
+```
+TODO
 ```
 
 ## OPSEC considerations
