@@ -5,6 +5,8 @@
 
 MITRE ATT&CK mapping: [T1040](https://attack.mitre.org/techniques/T1040/)
 
+[NSA/CSS Cyber Threat Framework](https://media.defense.gov/2019/Jul/16/2002158108/-1/-1/0/CTR_NSA-CSS-TECHNICAL-CYBER-THREAT-FRAMEWORK_V2.PDF) mapping: `Presence:Sniff network`
+
 Atomic Red Team test: [T1040 - Network Sniffing](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1040/T1040.md)
 
 ## Procedures
