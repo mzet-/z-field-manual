@@ -9,7 +9,7 @@ MITRE ATT&CK mapping: [T1040](https://attack.mitre.org/techniques/T1040/)
 
 Atomic Red Team test: [T1040 - Network Sniffing](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1040/T1040.md)
 
-## Procedure: observe broadcast traffic
+## Procedure: observe traffic
 
 Live sniffing in Wireshark via SSH:
 
@@ -48,7 +48,7 @@ tcpdump -nn -r <SESSION_FILE> -l | extractIPs
 nmap -n -sL --script=targets-sniffer --script-args=newtargets,targets-sniffer.timeout=5s,targets-sniffer.iface=eth0
 ```
 
-## Procedure: conduct passive OS fingerprinting of broadcast traffic
+## Procedure: conduct passive OS fingerprinting of incoming traffic
 
 OS fingerprinting:
 
@@ -73,7 +73,13 @@ cat /usr/share/responder/logs/Responder-Session.log | extractIPs | sort -u
 grep -v -f hostsUp.txt <(process returning IP list)
 ```
 
-## Procedure: achieve Layer-2 MitM position against selected target
+## Procedure: just listen for credentials
+
+```
+https://github.com/atredispartners/flamingo
+```
+
+## Procedure: targeted ARP poisoning for gathering plain text credentials
 
 ```
 TODO
