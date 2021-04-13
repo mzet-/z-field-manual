@@ -82,4 +82,6 @@ Collection of techniques and associated procedures (from following categories: P
 
 [Metasploit](cheat-sheets/metasploit.md)
 
+[SSH](cheat-sheets/ssh.md)
+
 ## Toolbox
