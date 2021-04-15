@@ -36,6 +36,8 @@
              - [Web vulnerability discovery](Lateral%20Movement/lm-flawed-http-services.md#web-vulnerability-discovery)
              - [Web-based authentication panels](Lateral%20Movement/lm-flawed-http-services.md#web-based-authentication-panels)
              - [Apache Tomcat: default/weak credentials](Lateral%20Movement/lm-flawed-http-services.md#apache-tomcat-defaultweak-credentials)
+         - [Flawed Technology](Lateral%20Movement/lm-flawed-services.md) (T1210)
+             - [VMware](Lateral%20Movement/lm-flawed-services.md#vmware)
          - Flawed embedded devices
          - Feature Abuse
     - Privilege Escalation (TA0004)

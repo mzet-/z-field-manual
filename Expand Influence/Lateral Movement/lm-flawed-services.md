@@ -263,7 +263,7 @@ cat pscans/kerberos88.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee ker
 Discovery (from previous scans):
 
 ```
-python scripts/nparser.py -f vscanlatest -p88 -l | tee kerberos88Services.txt
+python3 $HOME/bin/nparser.py -f vscanlatest -p88 -l | cut -d':' -f1 | tee kerberos88Services.txt
 ```
 
 **Notable vulnerabilities**
@@ -861,6 +861,7 @@ Discovery (from previous scans):
 python scripts/nparser.py -f vscanlatest -p3999,5000,5005,8000,8453,8787-8788,9001,18000 -l | tee printersServices.txt
 ```
 
+### VMware
 
 ## OPSEC considerations
 

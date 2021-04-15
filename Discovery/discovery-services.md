@@ -21,8 +21,10 @@ vscan-1/base-vscan.{nmap,gnmap,xml} - nmap's initial enumeration (`-A`) of all s
 Vuln scan snapshot:
 
 ```
-mkdir vscan-1; cp hostsUp.txt vscan-1/; cp allPorts.txt vscan-1/;
-nmap -n -PN -sS -A --script=vulners --open -iL vscan-1/hostsUp.txt -p$(cat vscan-1/allPorts.txt | tr '\n' ',') -oA vscan-1/base-vscan -T4 --max-hostgroup 24
+DIR_NAME="vscan-1" mkdir $DIR_NAME; cp hostsUp.txt $DIR_NAME/; cp allPorts.txt $DIR_NAME/;
+DIR_NAME="vscan-1" nmap --traceroute -n -PN -sS -sV --script="(default or discovery or safe)" --open -iL $DIR_NAME/hostsUp.txt -p$(cat $DIR_NAME/allPorts.txt | tr '\n' ',') -oA $DIR_NAME/base-vscan -T4 --max-hostgroup 24
+# OR (much faster):
+DIR_NAME="vscan-1" nmap --traceroute -n -PN -sS -sV --script="(default or discovery or safe) and not http-*" --open -iL $DIR_NAME/hostsUp.txt -p$(cat $DIR_NAME/allPorts.txt | tr '\n' ',') -oA $DIR_NAME/base-vscan -T4 --max-hostgroup 24
 ```
 
 Additional scans after discovering new hosts:
