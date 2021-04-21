@@ -46,6 +46,13 @@ Identifying web-based services (from previous scans):
 python ~/bin/nparser.py -p$(rawrPorts) -f pscans/all-rawrPN -l | ./httpx -silent | tee urls-rawr.txt
 ```
 
+OR:
+
+```
+python3 ~/bin/nparser.py -f vscan-1/base-vscan -s ssl -l | grep -v -E '47001|5985|3389' | ./httpx -silent | tee urls.txt
+python3 ~/bin/nparser.py -f vscan-1/base-vscan -s http -l | grep -v -E '47001|5985|3389' | ./httpx -silent | tee -a urls.txt
+```
+
 ### Fingerprinting
 
 Visual discovery of interesting web-based applications:

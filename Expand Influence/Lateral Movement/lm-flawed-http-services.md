@@ -69,8 +69,12 @@ wget https://raw.githubusercontent.com/nnposter/nndefaccts/master/http-default-a
 # transform URL list to hosts (http-ips.txt) and ports (http-ports.txt) lists:
 cat urls-all.txt | tee >(awk -F '//' '{print $2}' | cut -d':' -f1 > http-ips.txt) >(awk -F '//' '{print $2}' | awk -F':' '{print $2}' | grep . | sort -u > http-ports.txt)
 
+# change portrule in http-default-accounts script to contain all ports seen in http-ports.txt:
+cp /usr/share/nmap/scripts/http-default-accounts.nse ./http-default-accounts-mod.nse
+echo "portrule = shortport.portnumber({$(cat http-ports.txt | tr '\n' ',')})"
+
 # check for default web-based accounts:
-nmap -n -PN -sS -sV --open --version-intensity 2 --script http-default-accounts --script-args http-default-accounts.fingerprintfile=./http-default-accounts-fingerprints-nndefaccts.lua -T4 -iL http-ips.txt -p80,443,$(cat http-ports.txt | tr '\n' ',') -oA vscans/http-def-accounts
+nmap -n -PN -sS -sV --open --version-intensity 2 --script=./http-default-accounts-mod.nse --script-args http-default-accounts.fingerprintfile=./http-default-accounts-fingerprints-nndefaccts.lua -T4 -iL http-ips.txt -p$(cat http-ports.txt | tr '\n' ',') -oA vscans/http-def-accounts
 ```
 
 Default credentials: changeme
