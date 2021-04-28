@@ -223,12 +223,14 @@ sort -u mssqlServices.txt -o mssqlServices.txt
 nmap --script broadcast-ms-sql-discover
 
 # from previous scans:
-python nparser.py -f vscans/vscanlatest -p1433 -l | cut -d: -f1 |tee mssqlServices.txt
+python nparser.py -f vscans/vscanlatest -sms-sql -l | cut -d: -f1 |tee mssqlServices.txt
+# ports:
+python nparser.py -f vscans/vscanlatest -sms-sql -l | cut -d: -f2 | tr '\n' ','
 ```
 
 Enumeration:
 
-    nmap -n -sS -sV -p1433 --script=ms-sql-info,ms-sql-ntlm-info,ms-sql-empty-password,ms-sql-dump-hashes -iL mssqlServices.txt -d -oA vscans/mssql-enum
+    nmap -n -sS -sV -p<ports> --script=ms-sql-info,ms-sql-ntlm-info,ms-sql-empty-password,ms-sql-dump-hashes --script-args mssql.instance-port=<ports> -iL mssqlServices.txt -d -oA vscans/mssql-enum
 
 Brute force attack (default creds):
 

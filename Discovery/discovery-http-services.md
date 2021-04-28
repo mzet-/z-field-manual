@@ -10,11 +10,12 @@ MITRE ATT&CK mapping: N/A
 ### Additional tools
 
  - Arch / Kali: `extra/xorg-server-xvfb / xvfb` package
- - [httprobe](https://github.com/tomnomnom/httprobe/releases/latest), [meg](https://github.com/tomnomnom/meg), [httpx](https://github.com/projectdiscovery/httpx/releases/latest)
+ - [httprobe](https://github.com/tomnomnom/httprobe/releases/latest), [meg](https://github.com/tomnomnom/meg/releases/latest), [httpx](https://github.com/projectdiscovery/httpx/releases/latest)
  - [webintel.py](https://github.com/danamodio/webintel)
  - [Aquatone](https://github.com/michenriksen/aquatone/releases/latest) OR [webscreenshot.py](https://github.com/maaaaz/webscreenshot)
+ - [Gobuster](https://github.com/OJ/gobuster/releases/latest)
  - [OPTIONALLY] [Eyeballer](https://github.com/bishopfox/eyeballer)
- - [OPTIONALLY] [ffuf](https://github.com/ffuf/ffuf)
+ - [OPTIONALLY] [ffuf](https://github.com/ffuf/ffuf/releases/latest)
 
 ### Discovery
 
