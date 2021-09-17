@@ -3,6 +3,24 @@
 
 Introduction and purpose.
 
+## Glossary
+
+For the purpose of this publication following terms are used:
+
+CNE - Computer Network Exploitation
+
+Field manual -
+
+Attack trees -
+
+Attack graphs -
+
+[MITRE ATT&CK](https://attack.mitre.org/) -
+
+[NSA/CSS Cyber Threat Framework](https://www.dni.gov/index.php/cyber-threat-framework) -
+
+Tactic - 
+
 # Operational Considerations
 
 ## Operation Planning

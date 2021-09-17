@@ -50,6 +50,13 @@ python ~/bin/nparser.py -p$(rawrPorts) -f pscans/all-rawrPN -l | ./httpx -silent
 OR:
 
 ```
+for i in $(python ~/bin/nparser.py -f vscan-1/base-vscan -s 'http' -l); do echo "http://$i" | grep -v -E '47001|5985|3389' | tee -a urls-nmap.txt; done
+for i in $(python ~/bin/nparser.py -f vscan-1/base-vscan -s 'ssl\|http' -l); do echo "https://$i" | grep -v -E '47001|5985|5986|3389' | tee -a urls-nmap.txt; done
+```
+
+OR:
+
+```
 python3 ~/bin/nparser.py -f vscan-1/base-vscan -s ssl -l | grep -v -E '47001|5985|3389' | ./httpx -silent | tee urls.txt
 python3 ~/bin/nparser.py -f vscan-1/base-vscan -s http -l | grep -v -E '47001|5985|3389' | ./httpx -silent | tee -a urls.txt
 ```

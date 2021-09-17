@@ -620,6 +620,13 @@ https://raw.githubusercontent.com/redcode-labs/medusa_combo_files/master/ssh_def
 medusa -C ssh_default_131.txt -M ssh -H sshServices.txt -F -t 1 -T 8 -O medusa-ssh.out
 ```
 
+Reference:
+
+```
+SSH Lateral Movement Cheat Sheet:
+https://highon.coffee/blog/ssh-lateral-movement-cheat-sheet/
+```
+
 
 ### Legacy remote shells
 
@@ -864,6 +871,27 @@ python scripts/nparser.py -f vscanlatest -p3999,5000,5005,8000,8453,8787-8788,90
 ```
 
 ### VMware
+
+Overview
+
+```
+-
+```
+
+Discovery (directly from the wire): via SLP (service location protocol) endpoints
+
+    # looking for SLP (service location protocol):
+    nmap -n -sU -T4 -iL IP-ranges.txt -p427 --open -oA vscans/srvloc427
+    cat vscans/srvloc427.gnmap | grep 'Ports: 427/open/udp/' | cut -d' ' -f2 | tee srvlocServices.txt
+
+Vulnerability: in OpenSLP as used by ESXi (CVE-2020-3992 / CVE-2021-21974)
+
+```
+# use Nmap 7.80 as 7.90 and 7.91 have broken UDP scanning):
+https://nmap.org/dist/?C=M&O=D
+https://raw.githubusercontent.com/nmap/nmap/124ad9a4339f01e06d882afbab3f1e9f3d62f49c/nselib/srvloc.lua
+https://raw.githubusercontent.com/nmap/nmap/124ad9a4339f01e06d882afbab3f1e9f3d62f49c/scripts/vmware-svrloc-vulns.nse
+```
 
 ## OPSEC considerations
 

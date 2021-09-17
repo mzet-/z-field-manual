@@ -33,9 +33,13 @@
              - [VNC services](Lateral%20Movement/lm-flawed-services.md#vnc)
              - [Oracle DBs](Lateral%20Movement/lm-flawed-services.md#oracle)
          - [Flawed HTTP Services](Lateral%20Movement/lm-flawed-http-services.md)
-             - [Web vulnerability discovery](Lateral%20Movement/lm-flawed-http-services.md#web-vulnerability-discovery)
+             - [Generic web vulnerability discovery](Lateral%20Movement/lm-flawed-http-services.md#web-vulnerability-discovery)
              - [Web-based authentication panels](Lateral%20Movement/lm-flawed-http-services.md#web-based-authentication-panels)
              - [Apache Tomcat: default/weak credentials](Lateral%20Movement/lm-flawed-http-services.md#apache-tomcat-defaultweak-credentials)
+             - COTS web apps
+                - [Wordpress](Lateral%20Movement/lm-flawed-http-services.md#wordpress)
+                - [Atlassian Confluence](Lateral%20Movement/lm-flawed-http-services.md#atlassian-confluence)
+                - Jira
          - [Flawed Technology](Lateral%20Movement/lm-flawed-services.md) (T1210)
              - [VMware](Lateral%20Movement/lm-flawed-services.md#vmware)
          - Flawed embedded devices
