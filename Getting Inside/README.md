@@ -32,10 +32,10 @@
          - [AND] Build trust relationship with the target
              - Work as a contractor for the target
              - Exploit the trust that was built
-    - Close Access Operations
-         - Wireless network compromise
+    - [Close Access Operations](close-access-ops.md)
+         - [Wireless network compromise](close-access-ops.md#procedures-hacking-into-wifi-network)
          - USB drive drops (T1091)
-         - Plant drop-in device in target's network (T1200)
+         - [Planting drop-in device in target's network](close-access-ops.md#procedures-planting-rogue-network-device) (T1200)
              - Breach physical perimeter to get access to network
              - "Task" insider to plant the device
 
