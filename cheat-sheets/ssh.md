@@ -137,5 +137,9 @@ Poor's man VPN solution over SSH tunnel (no server-side modifications are needed
     # reverse sshfs solution:
     https://superuser.com/questions/616182/how-to-mount-local-directory-to-remote-like-sshfs/918708#918708
 
+### Metasploit via jump host
+
+    https://www.ryanwendel.com/2020/02/02/forwarding-shells-through-a-jump-box-using-ssh/
+
    
 

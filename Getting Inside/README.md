@@ -2,7 +2,7 @@
 <!-- MarkdownTOC depth=3 autolink=true -->
 
 - [Getting Inside](#getting-inside)
-    - Attacking Perimeter
+    - Attacking a Perimeter
          - Exploit public-facing application (T1190)
              - Exploit common-of-the-shelf application
              - Exploit custom-written web service
@@ -23,7 +23,7 @@
          - Dirve-by Compromise (T1189)
          - Supply Chain Compromise (T1195)
              - Compromise Software Dependencies and Development Tools (T1195.001) 
-             - Compromise Software Supply Chain (T1195.002)
+             - [Compromise Software Supply Chain](supply-chain-attacks.md#procedures-software-supply-chain-compromise) (T1195.002)
              - Compromise Hardware Supply Chain (T1195.003)
          - Exploit relationship with a 3rd party (T1199)
          - [AND] Compromise "to be acquired" company

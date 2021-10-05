@@ -131,6 +131,11 @@ while read line; do echo -n "$line : "; for i in $(cat PAYLOADS/tomcat-defaults-
 
 ### Atlassian Confluence
 
+### Jenkins
+
+   https://book.hacktricks.xyz/pentesting/pentesting-web/jenkins
+   https://github.com/gquere/pwn_jenkins
+
 ## OPSEC considerations
 
 ## Counter-countermeasures

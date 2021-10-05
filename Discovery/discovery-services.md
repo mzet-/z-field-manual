@@ -21,22 +21,24 @@ vscan-1/base-vscan.{nmap,gnmap,xml} - nmap's initial enumeration (`-A`) of all s
 Vuln scan snapshot:
 
 ```
+screen
+source ~/bin/hacking-helpers.inc
 DIR_NAME="vscan-1"; mkdir $DIR_NAME; cp hostsUp.txt $DIR_NAME/; cp allPorts.txt $DIR_NAME/;
-DIR_NAME="vscan-1" nmap --traceroute -n -PN -sS -sV --script="(default or discovery or safe or vuln) and not (intrusive or broadcast-* or targets-*)" --open -iL $DIR_NAME/hostsUp.txt -p$(cat $DIR_NAME/allPorts.txt | tr '\n' ',') -oA $DIR_NAME/base-vscan -T4 --max-hostgroup 24
+export DIR_NAME="vscan-1"; nmap -O --osscan-limit --traceroute -n -PN -sS -sV --script="(default or discovery or safe or vuln) and not (intrusive or broadcast-* or targets-*)" --open -iL $DIR_NAME/hostsUp.txt -p$(cat $DIR_NAME/allPorts.txt | tr '\n' ',')$(topNports 50 tcp 8000) -oA $DIR_NAME/base-vscan -T4 --max-hostgroup 24
 # OR (much faster):
-DIR_NAME="vscan-1" nmap --traceroute -n -PN -sS -sV --script="(default or discovery or safe or vuln) and not (intrusive or broadcast-* or targets-* or http-* or ssl-*)" --open -iL $DIR_NAME/hostsUp.txt -p$(cat $DIR_NAME/allPorts.txt | tr '\n' ',') -oA $DIR_NAME/base-vscan -T4 --max-hostgroup 24
+export DIR_NAME="vscan-1"; nmap -O --osscan-limit --traceroute -n -PN -sS -sV --script="(default or discovery or safe or vuln) and not (intrusive or broadcast-* or targets-* or http-* or ssl-*)" --open -iL $DIR_NAME/hostsUp.txt -p$(cat $DIR_NAME/allPorts.txt | tr '\n' ',')$(topNports 50 tcp 8000) -oA $DIR_NAME/base-vscan -T4 --max-hostgroup 24
 ```
 
-Additional scans after discovering new hosts:
+Additional (incremental) scans after discovering new ports:
 
 ```
-nmap -n -PN -sS -A --script=vulners --open -iL vscans/delta-hosts-* -p$(cat allPorts.txt | tr '\n' ',') -oA vscans/base-delta-hosts-$(date +%F_%H-%M) -T4
+PREV_SCAN_PORTS="vscan-1/allPorts.txt" grep -x -v -f "$PREV_SCAN_PORTS" allPorts.txt > vscan-2/allPorts-delta.txt
 ```
 
-Additional scans after discovering new ports:
+Additional (incremental) scans after discovering new hosts:
 
 ```
-nmap -n -Pn -sUS -A --script=vulners --open -iL IP-ranges.txt -p$(cat vscans/delta-ports-* | tr '\n' ',') -oA vscans/base-delta-ports-$(date +%F_%H-%M) -T4
+PREV_SCAN_HOSTS="vscan-1/hostsUp.txt" grep -x -v -f "$PREV_SCAN_HOSTS" hostsUp.txt > vscan-2/hostsUp-delta.txt
 ```
 
 Merge results:

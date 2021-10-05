@@ -39,6 +39,7 @@
              - COTS web apps
                 - [Wordpress](Lateral%20Movement/lm-flawed-http-services.md#wordpress)
                 - [Atlassian Confluence](Lateral%20Movement/lm-flawed-http-services.md#atlassian-confluence)
+                - [Jenkins](Lateral%20Movement/lm-flawed-http-services.md#jenkins)
                 - Jira
          - [Flawed Technology](Lateral%20Movement/lm-flawed-services.md) (T1210)
              - [VMware](Lateral%20Movement/lm-flawed-services.md#vmware)
