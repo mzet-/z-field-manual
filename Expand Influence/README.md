@@ -17,7 +17,7 @@
              - [WinRM](Lateral%20Movement/lm-flawed-services.md#winrm)
              - [MSRPC](Lateral%20Movement/lm-flawed-services.md#msrpc)
              - [MSMQ](Lateral%20Movement/lm-flawed-services.md#msmq)
-             - [Remote Administration for II](Lateral%20Movement/lm-flawed-services.md#remote-administration-for-iis)
+             - [Remote Administration for IIS](Lateral%20Movement/lm-flawed-services.md#remote-administration-for-iis)
              - [Windows Kerberos](Lateral%20Movement/lm-flawed-services.md#windows-kerberos)
              - [Other Windows services](Lateral%20Movement/lm-flawed-services.md#other-windows-services)
          - [Flawed Services](Lateral%20Movement/lm-flawed-services.md) (T1210)
