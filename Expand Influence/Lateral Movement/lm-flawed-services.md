@@ -245,6 +245,29 @@ Brute force attack (weak passwords):
 
 ### WinRM service
 
+Ports:
+
+```
+TCP: 5985, 5986, 47001
+```
+
+**Testing**
+
+Discovery (directly from the wire):
+
+```
+nmap -sS -Pn -n -p5985,5986,47001 -iL IP-ranges.txt -oG - --open -oA pscans/winrmMachines
+cat pscans/winrmMachines.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee winrmServices.txt
+```
+
+Discovery (from previous scans):
+
+```
+python3 $HOME/bin/nparser.py -f vscanlatest -p88 -l | cut -d':' -f1 | tee winrmServices.txt
+```
+
+
+
 ### Windows Kerberos
 
 Ports:
@@ -280,17 +303,53 @@ cd CVE-2020-1472
 python3 zerologon_tester.py -h
 ```
 
+### MSRPC
+
+Background:
+
+    TODO
+
+Discovery:
+
+```
+nmap -n -sU -sS -Pn -pT:135 -T4 --open
+```
+
+### MSMQ
+
+Background:
+
+    TODO
+
+Discovery:
+
+```
+nmap -n -sU -sS -Pn -pT:1801 -T4 --open
+```
+
+Ports:
+
+    https://docs.microsoft.com/en-US/troubleshoot/windows-server/networking/service-overview-and-network-port-requirements#message-queuing
+
+### Remote Administration for IIS
+
+Background:
+
+    https://docs.microsoft.com/en-us/iis/manage/remote-administration/remote-administration-for-iis-manager
+
+Discovery:
+
+```
+nmap -n -sS -Pn -p8172 -T4 --open
+```
+
+
 ### Other Windows services
 
 Background:
 
     https://support.microsoft.com/en-us/help/832017/service-overview-and-network-port-requirements-for-windows
 
-Discovery:
-
-```
-nmap -n -sU -sS -Pn -pT:135,139,445,5985,5986,47001,U:137 -T4 --open
-```
 
 ### SNMP service
 
@@ -880,6 +939,9 @@ Overview
 
 Discovery (directly from the wire): via SLP (service location protocol) endpoints
 
+    # use Nmap 7.80 as 7.90 and 7.91 have broken UDP scanning):
+    wget https://nmap.org/dist/nmap-7.92.tar.bz2
+
     # looking for SLP (service location protocol):
     nmap -n -sU -T4 -iL IP-ranges.txt -p427 --open -oA vscans/srvloc427
     cat vscans/srvloc427.gnmap | grep 'Ports: 427/open/udp/' | cut -d' ' -f2 | tee srvlocServices.txt
@@ -887,10 +949,14 @@ Discovery (directly from the wire): via SLP (service location protocol) endpoint
 Vulnerability: in OpenSLP as used by ESXi (CVE-2020-3992 / CVE-2021-21974)
 
 ```
-# use Nmap 7.80 as 7.90 and 7.91 have broken UDP scanning):
-https://nmap.org/dist/?C=M&O=D
 https://raw.githubusercontent.com/nmap/nmap/124ad9a4339f01e06d882afbab3f1e9f3d62f49c/nselib/srvloc.lua
 https://raw.githubusercontent.com/nmap/nmap/124ad9a4339f01e06d882afbab3f1e9f3d62f49c/scripts/vmware-svrloc-vulns.nse
+
+# display versions:
+./nmap-7.92/nmap -n -sU -p427 -script=./vmware-svrloc-vulns.nse -iL srvlocServices.txt -sV -oG - | grep -v 'Status: Up'
+
+# check:
+./nmap-7.92/nmap -sU -p427 --script=./vmware-svrloc-vulns.nse -iL srvlocServices.txt
 ```
 
 ## OPSEC considerations
