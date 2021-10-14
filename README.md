@@ -7,9 +7,11 @@ Introduction and purpose.
 
 For the purpose of this publication following terms are used:
 
-CNE - Computer Network Exploitation
+CNE - Computer Network Exploitation. Term adopted from US DoD. Types of enabling operations and intelligence collection capabilities conducted through the use of computer networks to gather data from target or adversary information systems or networks.
 
-Field manual -
+Field manual - term adopted from US Military. Field manuals contain detailed information and how-tos for procedures important to soldiers serving in the field.
+
+Z Field manual - field manual developed and maintained by [Z-Labs](https://z-labs.eu) that contains detailed information and how-tos for precedures important to red team operators / penetration testers serving / working in the field of cyber security.
 
 Attack trees -
 
@@ -101,5 +103,7 @@ Collection of techniques and associated procedures (from following categories: P
 [Metasploit](cheat-sheets/metasploit.md)
 
 [SSH](cheat-sheets/ssh.md)
+
+[Arch Linux](cheat-sheets/arch.md)
 
 ## Toolbox
