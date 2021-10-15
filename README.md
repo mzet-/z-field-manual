@@ -100,6 +100,8 @@ Collection of techniques and associated procedures (from following categories: P
 
 ## Cheat Sheets
 
+[What goes wrong in software?](cheat-sheets/vulns.md)
+
 [Metasploit](cheat-sheets/metasploit.md)
 
 [SSH](cheat-sheets/ssh.md)
