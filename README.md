@@ -1,7 +1,7 @@
 
 # CNE Field Manual
 
-Introduction and purpose.
+Introduction and purpose of this guide.
 
 ## Glossary
 
