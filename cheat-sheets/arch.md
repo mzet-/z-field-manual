@@ -73,6 +73,12 @@ TODO
 TODO
 ```
 
+### deployment: VM (ova)
+
+```
+TODO
+```
+
 ### Preparation: toolbox
 
 ```
@@ -93,11 +99,12 @@ $ sudo ./strap.sh
 mkdir {bin,res,LOGS,pscans,vscans}; mkdir -p PAYLOADS/{PASSWD,MISC}; mkdir -p IMPORTS/{TOOLS,MISC}
 
 provisioning (from base machine):
-scp ~/bin/hacking-helpers.inc <ip>:bin
+scp ~/bin/hacking-helpers.inc arch@<ip>:bin
 
 # tooling:
-pacman -Syu
-reboot
+sudo pacman -Syu
+sudo reboot
+sudo -E bash
 pacman -S gobuster dnsutils speedtest-cli wfuzz git screen p0f nmap certbot jq wget dnsrecon
 pacman -S gau ffuf httpx hakrawler unfurl linkfinder secretfinder altdns massdns sublist3r amass
 source ~/bin/hacking-helpers.inc

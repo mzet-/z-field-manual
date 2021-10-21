@@ -100,7 +100,9 @@ Collection of techniques and associated procedures (from following categories: P
 
 ## Cheat Sheets
 
-[What goes wrong in software?](cheat-sheets/vulns.md)
+[ What goes wrong in software: Native applications ]
+
+[What goes wrong in software: Web-based applications](cheat-sheets/vulns.md)
 
 [Metasploit](cheat-sheets/metasploit.md)
 
