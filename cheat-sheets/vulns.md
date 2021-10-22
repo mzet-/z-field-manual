@@ -28,6 +28,7 @@ Holly Grail:
 
 ```
 RCE (popping a shell)
+https://rosettacode.org/wiki/Execute_a_system_command
 ```
 
 Other:
@@ -72,10 +73,26 @@ https://portswigger.net/blog/7-burp-suite-professional-exclusive-features-to-hel
 https://portswigger.net/burp/pro/video-tutorials
 https://portswigger.net/solutions/penetration-testing/penetration-testing-tools
 
-# Scanner:
+# Session handling via HTTP header:
+https://github.com/portswigger/add-custom-header
+
+# File upload scanner:
+https://github.com/portswigger/upload-scanner
+```
+
+## Burp Suite Scanner
+
+```
+# Scanner usage tips & tricks:
 https://portswigger.net/web-security/reference/augmenting-your-manual-testing-with-burp-scanner
 
-# Scanner's essential extensions:
+# Active scanner's essential extensions:
+https://github.com/portswigger/scan-manual-insertion-point
+https://github.com/portswigger/backslash-powered-scanner
+https://github.com/portswigger/j2ee-scan
+
+# Passive scanner's essential extensions:
+https://github.com/portswigger/retire-js
 ```
 
 ## API Testing
@@ -94,8 +111,6 @@ understanding application (triad: functionality; technology; data entry points)
 
 # Crawling:
 https://portswigger.net/blog/browser-powered-scanning-in-burp-suite
-
-https://portswigger.net/solutions/penetration-testing/penetration-testing-tools
 ```
 
 ## Authentication and session mgmt
