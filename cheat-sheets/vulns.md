@@ -49,6 +49,12 @@ More:
 https://portswigger.net/kb/issues
 ```
 
+## Inspiration
+
+```
+https://www.agarri.fr/blog/archives/2021/04/23/a_recap_of_the_q_ampa_session_on_twitter/index.html
+```
+
 ## Possible architecture flaws
 
 ```
