@@ -79,9 +79,6 @@ https://portswigger.net/blog/7-burp-suite-professional-exclusive-features-to-hel
 https://portswigger.net/burp/pro/video-tutorials
 https://portswigger.net/solutions/penetration-testing/penetration-testing-tools
 
-# Session handling via HTTP header:
-https://github.com/portswigger/add-custom-header
-
 # File upload scanner:
 https://github.com/portswigger/upload-scanner
 ```
@@ -120,6 +117,17 @@ https://portswigger.net/blog/browser-powered-scanning-in-burp-suite
 ```
 
 ## Authentication and session mgmt
+
+Handy Burp extensions:
+
+```
+# Session handling via HTTP header:
+https://github.com/portswigger/add-custom-header
+
+# JWT:
+https://github.com/portswigger/json-web-tokens
+https://github.com/portswigger/json-web-token-attacker
+```
 
 ## Authorization
 

@@ -934,7 +934,7 @@ python scripts/nparser.py -f vscanlatest -p3999,5000,5005,8000,8453,8787-8788,90
 Overview
 
 ```
--
+https://esxi-patches.v-front.de/
 ```
 
 Discovery (directly from the wire): via SLP (service location protocol) endpoints
@@ -949,8 +949,8 @@ Discovery (directly from the wire): via SLP (service location protocol) endpoint
 Vulnerability: in OpenSLP as used by ESXi (CVE-2020-3992 / CVE-2021-21974)
 
 ```
-https://raw.githubusercontent.com/nmap/nmap/124ad9a4339f01e06d882afbab3f1e9f3d62f49c/nselib/srvloc.lua
-https://raw.githubusercontent.com/nmap/nmap/124ad9a4339f01e06d882afbab3f1e9f3d62f49c/scripts/vmware-svrloc-vulns.nse
+wget https://raw.githubusercontent.com/mzet-/Nmap-for-Pen-Testers/master/scripts/vmware-svrloc-vulns.nse -O scripts/vmware-svrloc-vulns.nse
+wget https://raw.githubusercontent.com/mzet-/Nmap-for-Pen-Testers/master/nselib/srvloc.lua -O nselib/srvloc.lua
 
 # display versions:
 ./nmap-7.92/nmap -n -sU -p427 -script=./vmware-svrloc-vulns.nse -iL srvlocServices.txt -sV -oG - | grep -v 'Status: Up'
