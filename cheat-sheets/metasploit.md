@@ -27,6 +27,32 @@ $ msfconsole
 > db_import vscans/vscan.xml
 ```
 
+Init on Arch:
+
+```
+# install/update metasploit package:
+
+# create postgres user ('msf') and empty db ('msf'):
+sudo bash
+su -l postgres
+createuser --interactive
+(username): msf
+createdb msf
+
+# init metasploit:
+$ msfdb init
+# make sure that port is 5432 in:
+$ vim $HOME/.msf4/database.yml
+$ msfconsole
+> db_status
+> workspace -a <name>
+> db_import vscans/vscan.xml
+
+# In case of issues see:
+https://wiki.archlinux.org/title/PostgreSQL#Initial_configuration
+https://wiki.archlinux.org/title/Metasploit_Framework#Setting_up_the_database
+```
+
 Basic usage:
 
 ```

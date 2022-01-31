@@ -24,6 +24,8 @@ Vuln scan snapshot:
 screen
 source ~/bin/hacking-helpers.inc
 DIR_NAME="vscan-1"; mkdir $DIR_NAME; cp hostsUp.txt $DIR_NAME/; cp allPorts.txt $DIR_NAME/;
+OR (with specific prefix):
+prefix="net1"; DIR_NAME="vscan-1-$prefix"; mkdir $DIR_NAME; cp $prefix-hostsUp.txt $DIR_NAME/hostsUp.txt; cp $prefix-allPorts.txt $DIR_NAME/allPorts.txt
 
 export DIR_NAME="vscan-1"; nmap -O --osscan-limit --traceroute -n -PN -sS -sV --script="(default or discovery or safe or vuln) and not (intrusive or broadcast-* or targets-*)" --open -iL $DIR_NAME/hostsUp.txt -p$(cat $DIR_NAME/allPorts.txt | tr '\n' ',')$(topNports 50 tcp 8000) -oA $DIR_NAME/base-vscan -T4 --max-hostgroup 24
 
