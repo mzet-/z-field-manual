@@ -29,7 +29,7 @@ Self-signed:
 
 Let's encrypt:
 
-    Manually create cert (DNS for the domain name to be certified needs to be already set up), then:
+Manually create cert (DNS for the domain name to be certified needs to be already set up), then:
 
 ```
 certbot certonly --manual --register-unsafely-without-email
