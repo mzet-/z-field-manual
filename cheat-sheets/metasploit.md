@@ -31,6 +31,7 @@ Init on Arch:
 
 ```
 # install/update metasploit package:
+TODO
 
 # create postgres user ('msf') and empty db ('msf'):
 sudo bash
@@ -38,6 +39,8 @@ su -l postgres
 createuser --interactive
 (username): msf
 createdb msf
+sudo systemctl status postgresql
+sudo systemctl start postgresql
 
 # init metasploit:
 $ msfdb init

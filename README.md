@@ -110,4 +110,6 @@ Collection of techniques and associated procedures (from following categories: P
 
 [Arch Linux](cheat-sheets/arch.md)
 
+[HTTP service deployments](cheat-sheets/http-srv.md)
+
 ## Toolbox
