@@ -3,6 +3,8 @@
 
 ## HTTP server
 
+### Simplest
+
 Use burp (see [here](https://blog.z-labs.eu/2019/09/09/burp-suite-pro-rltandt-collaborator-presistence.html) for Persistent Access to Collaborator):
 
     Burp -> Burp Collaborator client
@@ -20,6 +22,31 @@ Python2 builtin:
 Python3 builtin:
 
     python3 -m http.server --bind 0.0.0.0 8080
+
+### HTTPS server as code in Python3
+
+```
+cat > https-srv.py << EOF
+#! /usr/bin/env python3
+
+import http.server
+import socketserver
+import ssl
+
+# certificate generation:
+# $ openssl req -new -x509 -keyout localhost.pem -out localhost.pem -days 365 -nodes
+
+PORT = 4443 
+
+if __name__ == '__main__':
+
+    Handler = http.server.SimpleHTTPRequestHandler
+
+    httpd = socketserver.TCPServer(("", PORT), Handler)
+    httpd.socket = ssl.wrap_socket(httpd.socket, certfile='./localhost.pem', server_side=True)
+    httpd.serve_forever()
+EOF
+```
 
 ## Certificates
 
