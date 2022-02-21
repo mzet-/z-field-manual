@@ -3,7 +3,7 @@
 
 ## HTTP server
 
-Use burp:
+Use burp (see [here](https://blog.z-labs.eu/2019/09/09/burp-suite-pro-rltandt-collaborator-presistence.html) for Persistent Access to Collaborator):
 
     Burp -> Burp Collaborator client
 
