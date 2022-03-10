@@ -19,6 +19,10 @@ sshaws <IP>
 attack-fleet ec2kill us-east-1 <id>
 ```
 
+### Setting DNS record
+
+    attack-fleet dnsset domain.com abc.domain.com <IP> A
+
 ### Elastic IP confuguration
 
 ```

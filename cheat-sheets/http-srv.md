@@ -44,6 +44,7 @@ if __name__ == '__main__':
 
     httpd = socketserver.TCPServer(("", PORT), Handler)
     httpd.socket = ssl.wrap_socket(httpd.socket, certfile='./localhost.pem', server_side=True)
+    #httpd.socket = ssl.wrap_socket(httpd.socket, keyfile='./key.pem', certfile='./cert.pem', server_side=True)
     httpd.serve_forever()
 EOF
 ```

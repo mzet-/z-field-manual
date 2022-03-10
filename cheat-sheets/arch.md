@@ -27,10 +27,12 @@ pacman -Syu
 ### Arch keyring ops
 
 ```
-# refresching keyring:
+# refreshing keyring:
 pacman-key --init
 pacman-key --populate
 pacman-key --refresh-keys
+# OR (faster):
+pacman -S archlinux-keyring
 
 # adding new key to the keyring:
 # pacman-key -r keyid
@@ -43,8 +45,11 @@ $ pacman-key -f keyid
 Manually:
 
 ```
-TODO
+Since late 2021 Uplink Labs does not prepare new Arch AMIs:
 https://www.uplinklabs.net/projects/arch-linux-on-ec2/
+
+Instruction on how to prepare your own Arch AMI:
+http://mathcom.com/arch.aws.ami.html#_final_set_up
 ```
 
 Automation:

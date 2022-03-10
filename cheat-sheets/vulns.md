@@ -1,6 +1,8 @@
 
 # What goes wrong in software: Web-based applications
 
+<!-- MarkdownTOC depth=3 autolink=true -->
+
 ## Abstract model of the target
 
 *System is secure if it does what it should and nothing more*
@@ -71,7 +73,7 @@ How can you characterize UI (standard / "one|few page style" / flash / thick)?
 Is a web service (REST / SOAP) present?
 ```
 
-## Burp Suite
+## Burp Suite: Misc
 
 ```
 # General usage:
@@ -83,7 +85,7 @@ https://portswigger.net/solutions/penetration-testing/penetration-testing-tools
 https://github.com/portswigger/upload-scanner
 ```
 
-## Burp Suite Scanner
+## Burp Suite: Scanner
 
 ```
 # Scanner usage tips & tricks:
@@ -151,7 +153,13 @@ https://portswigger.net/web-security/file-path-traversal
 https://afinepl.medium.com/practical-strategies-for-exploiting-file-read-vulnerabilities-272abe792078
 ```
 
-## Open redirect
+## File inclusions
+
+```
+LFI/RFI
+```
+
+## Open redirects
 
 ```
 typical scenario (affected parameter needs to be in GET to use it as a phising vector):
@@ -163,3 +171,22 @@ https://security.stackexchange.com/questions/42168/exploiting-an-open-redirect-i
 
 https://devcraft.io/2020/10/19/github-gist-account-takeover.html
 ```
+
+## HTTP Host header attacks
+
+Reference:
+
+    https://portswigger.net/research/cracking-the-lens-targeting-https-hidden-attack-surface
+    https://portswigger.net/web-security/host-header
+    https://portswigger.net/web-security/host-header/exploiting
+
+Problems:
+
+
+## SSRF
+
+Reference:
+
+    https://www.blackhat.com/docs/us-17/thursday/us-17-Tsai-A-New-Era-Of-SSRF-Exploiting-URL-Parser-In-Trending-Programming-Languages.pdf
+
+<!-- /MarkdownTOC -->

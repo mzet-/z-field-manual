@@ -1,6 +1,8 @@
 
 # CNE Field Manual
 
+Computer Network Exploitation Field Guide
+
 Introduction and purpose of this guide.
 
 ## Glossary
@@ -23,7 +25,15 @@ Attack graphs -
 
 Tactic - 
 
+# Strategic Assumptions
+
+On strategical level we're usually thinking about **cyber security** in terms of a **risk**.
+
+    Risk = threat actor x vulnerability x asset
+
 # Operational Considerations
+
+Threat modeling.
 
 ## Operation Planning
 
