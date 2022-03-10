@@ -18,7 +18,8 @@
 - Directory traversal / file read
 - File inclusions
 - Open redirects
-- HTTP Host header attacks
+- [HTTP Host header attacks](#http-host-header-attacks)
+- [DOM issues](#dom-issues)
 - SSRF
 
 <!-- /MarkdownTOC -->
@@ -202,6 +203,7 @@ Reference:
 
 Problems:
 
+## DOM issues
 
 ## SSRF
 
