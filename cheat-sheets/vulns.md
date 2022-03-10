@@ -3,6 +3,26 @@
 
 <!-- MarkdownTOC depth=3 autolink=true -->
 
+- [Abstract model of the target](#abstract-model-of-the-target)
+- Possible consequences
+- Inspiration
+- Possible architecture flaws
+- Burp Suite: Misc
+- Burp Suite: Scanner
+- API Testing
+- Recon
+- Authentication and session mgmt
+- Authorization
+- XSS
+- SQLi
+- Directory traversal / file read
+- File inclusions
+- Open redirects
+- HTTP Host header attacks
+- SSRF
+
+<!-- /MarkdownTOC -->
+
 ## Abstract model of the target
 
 *System is secure if it does what it should and nothing more*
@@ -188,5 +208,3 @@ Problems:
 Reference:
 
     https://www.blackhat.com/docs/us-17/thursday/us-17-Tsai-A-New-Era-Of-SSRF-Exploiting-URL-Parser-In-Trending-Programming-Languages.pdf
-
-<!-- /MarkdownTOC -->
