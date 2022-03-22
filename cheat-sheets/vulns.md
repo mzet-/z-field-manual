@@ -6,7 +6,7 @@
 - [Abstract model of the target](#abstract-model-of-the-target)
 - Possible consequences
 - Inspiration
-- Possible architecture flaws
+- Possible architectural flaws
 - Burp Suite: Misc
 - Burp Suite: Scanner
 - API Testing
@@ -19,6 +19,7 @@
 - File inclusions
 - Open redirects
 - [HTTP Host header attacks](#http-host-header-attacks)
+- [Server misconfigurations](#server-misconfigurations)
 - [DOM issues](#dom-issues)
 - SSRF
 
@@ -78,7 +79,7 @@ https://portswigger.net/kb/issues
 https://www.agarri.fr/blog/archives/2021/04/23/a_recap_of_the_q_ampa_session_on_twitter/index.html
 ```
 
-## Possible architecture flaws
+## Possible architectural flaws
 
 ```
 Can you identify arch type: internal | zero-trust style | hybrid
@@ -205,8 +206,30 @@ Problems:
 
 ## DOM issues
 
+Reference:
+
+    https://portswigger.net/web-security/dom-based
+    https://portswigger.net/web-security/dom-based/dom-clobbering
+    https://bughunters.google.com/learn/presentations/4899501820870656
+
+Issues:
+
+Drills:
+
+    https://portswigger.net/web-security/all-labs#dom-based-vulnerabilities
+
 ## SSRF
 
 Reference:
 
     https://www.blackhat.com/docs/us-17/thursday/us-17-Tsai-A-New-Era-Of-SSRF-Exploiting-URL-Parser-In-Trending-Programming-Languages.pdf
+
+## Server misconfigurations
+
+```
+# HTTP 403 Forbidden Bypass
+https://hackerone.com/reports/991717
+
+# Cloudflare bypass
+https://hackerone.com/reports/360825
+```
