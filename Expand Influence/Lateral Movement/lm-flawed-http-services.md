@@ -58,6 +58,16 @@ nmap -n -PN -sS -sV --open --script=http-vulners-regex,vulners -p$(cat http-port
 TODO
 ```
 
+### Web vulnerability discovery 2
+
+Web scanner of choice:
+
+    https://github.com/detectify/ugly-duckling
+
+### Web RCEs
+
+[CVE-2019-11510](cheat-sheets/rce-collection.md#cve-2019-11510) - Pre-auth Arbitrary File Reading from Pulse Secure SSL VPNs.
+
 ### Web-based authentication panels
 
 Default credentials: Nmap
