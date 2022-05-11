@@ -9,6 +9,10 @@ MITRE ATT&CK mapping: [T1040](https://attack.mitre.org/techniques/T1040/)
 
 Atomic Red Team test: [T1040 - Network Sniffing](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1040/T1040.md)
 
+## Reference
+
+Broadcast traffic: `https://github.com/netspooky/protocols/tree/main/broadcast_brujeria`
+
 ## Procedure: observe traffic
 
 Live sniffing in Wireshark via SSH:

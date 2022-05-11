@@ -44,9 +44,9 @@ Threat modeling.
 
 ## Goals
 
-```
-TODO
-```
+List of typical goals (typically affecting victim's data CIA triad):
+
+[Goals](Goals/README.md)
 
 ## Operation Preparation
 
