@@ -124,4 +124,31 @@ Collection of techniques and associated procedures (from following categories: P
 
 [HTTP service deployments](cheat-sheets/http-srv.md)
 
-## Toolbox
+
+## Toolbox: custom implemented tools
+
+```
+TODO
+```
+
+## Toolbox: 3rd party tools
+
+### snallygaster
+
+About:
+
+Looks for secret files on HTTP servers.
+
+Get:
+
+    wget https://raw.githubusercontent.com/hannob/snallygaster/main/snallygaster
+
+### weak_passwords
+
+About:
+
+Generates set of typical passwords based on provided word (e.g. company name).
+
+Get:
+
+    wget https://raw.githubusercontent.com/averagesecurityguy/scripts/master/passwords/weak_passwords.py
