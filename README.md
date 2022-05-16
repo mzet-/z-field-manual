@@ -19,6 +19,8 @@ Attack trees -
 
 Attack graphs -
 
+Kill Chain -
+
 [MITRE ATT&CK](https://attack.mitre.org/) -
 
 [NSA/CSS Cyber Threat Framework](https://www.dni.gov/index.php/cyber-threat-framework) -
@@ -78,6 +80,8 @@ Collection of discovery techniques and associated procedures commonly used durin
 
 [ Cloud Discovery ]
 
+Services Discovery: [HTTP-based](Discovery/discovery-http-services.md) | [All other](Discovery/discovery-services.md)
+
 ## Getting Foothold
 
 Repository of techniques and associated procedures (in a form of attack trees) used for gaining initial foothold in target network environment.
@@ -113,6 +117,8 @@ Collection of techniques and associated procedures (from following categories: P
 [ What goes wrong in software: Native applications ]
 
 [What goes wrong in software: Web-based applications](cheat-sheets/vulns.md)
+
+[Known RCE collection](cheat-sheets/rce-collection.md)
 
 [Metasploit](cheat-sheets/metasploit.md)
 

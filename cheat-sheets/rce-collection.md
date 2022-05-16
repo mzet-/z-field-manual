@@ -1,4 +1,11 @@
 
+## Web-based software: discovery
+
+```
+https://github.com/detectify/ugly-duckling
+https://github.com/projectdiscovery/nuclei
+```
+
 ## Web-based software
 
 ### CVE-2019-11510
