@@ -13,7 +13,7 @@
 - Recon
 - Authentication and session mgmt
 - Authorization
-- XSS
+- [XSS](#xss)
 - SQLi
 - Directory traversal / file read
 - File inclusions
@@ -158,8 +158,16 @@ https://github.com/portswigger/json-web-token-attacker
 ## XSS
 
 ```
-https://portswigger.net/blog/introducing-dom-invader
+# Web Technology for developers:
+https://developer.mozilla.org/en-US/docs/Web
+
+https://portswigger.net/web-security/cross-site-scripting
 https://portswigger.net/web-security/cross-site-scripting/cheat-sheet
+
+https://portswigger.net/blog/introducing-dom-invader
+
+# Investigating:
+https://security.stackexchange.com/questions/256268/xss-in-span-where-only-and-are-encoded
 ```
 
 ## SQLi
