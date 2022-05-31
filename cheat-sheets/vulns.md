@@ -164,6 +164,8 @@ https://developer.mozilla.org/en-US/docs/Web
 https://portswigger.net/web-security/cross-site-scripting
 https://portswigger.net/web-security/cross-site-scripting/cheat-sheet
 
+# More about DOM-based XSSes:
+https://portswigger.net/web-security/cross-site-scripting/dom-based
 https://portswigger.net/blog/introducing-dom-invader
 
 # Investigating:

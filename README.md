@@ -139,6 +139,23 @@ TODO
 
 ## Toolbox: 3rd party tools
 
+```
+https://github.com/projectdiscovery/uncover/releases/latest
+https://github.com/zmap/zmap/releases/latest
+https://github.com/zmap/zgrab2/releases/latest
+
+https://github.com/projectdiscovery/httpx/releases/latest
+https://github.com/michenriksen/aquatone/releases/latest
+
+https://github.com/ffuf/ffuf/releases/latest
+https://github.com/OJ/gobuster/releases/latest
+
+https://github.com/tomnomnom/meg/releases/latest
+https://github.com/projectdiscovery/nuclei/releases/latest
+
+https://github.com/zmap/zannotate
+```
+
 ### snallygaster
 
 About:
