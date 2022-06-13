@@ -18,6 +18,7 @@
 - Directory traversal / file read
 - File inclusions
 - Open redirects
+- [XXE](#xxe)
 - [HTTP Host header attacks](#http-host-header-attacks)
 - [Server misconfigurations](#server-misconfigurations)
 - [DOM issues](#dom-issues)
@@ -202,6 +203,14 @@ https://0xnanda.github.io/Open-Redirects-Everything-That-You-Should-Know/
 https://security.stackexchange.com/questions/42168/exploiting-an-open-redirect-in-post-body
 
 https://devcraft.io/2020/10/19/github-gist-account-takeover.html
+```
+
+## XXE
+
+```
+# Payloads:
+https://web-in-security.blogspot.com/2016/03/xxe-cheat-sheet.html
+https://github.com/EdOverflow/bugbounty-cheatsheet/blob/master/cheatsheets/xxe.md
 ```
 
 ## HTTP Host header attacks

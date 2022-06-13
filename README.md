@@ -31,7 +31,12 @@ Tactic -
 
 On strategical level we're usually thinking about **cyber security** in terms of a **risk**.
 
-    Risk = threat actor x vulnerability x asset
+    Risk = threats x vulnerabilities x assets
+
+1. We study the behavior of various threat actors to know and understand the threats they colud pose.
+2. Understanding the customer's environment we decide what threats are applicable.
+3. Simulating attacks (attack vectors, attack trees) associated with this threats in customer's environment,
+4. We can more practically assess and discover overall cyber risks for the given customer.
 
 # Operational Considerations
 

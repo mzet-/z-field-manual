@@ -134,12 +134,25 @@ Poor's man VPN solution over SSH tunnel (no server-side modifications are needed
 ### mounting directories over SSH
 
     https://github.com/libfuse/sshfs
-    # reverse sshfs solution:
-    https://superuser.com/questions/616182/how-to-mount-local-directory-to-remote-like-sshfs/918708#918708
+
+    # reverse directory mount (https://superuser.com/questions/616182/how-to-mount-local-directory-to-remote-like-sshfs/918708#918708):
+    ncat -l -p 34567 -e "/usr/lib/ssh/sftp-server" & ssh -t -R 34568:localhost:34567 -i key.pem user@IP "sudo -E sshfs localhost: DIRNAME -o directport=34568; sudo -E bash"
 
 ### Metasploit via jump host
 
     https://www.ryanwendel.com/2020/02/02/forwarding-shells-through-a-jump-box-using-ssh/
+
+### Other interesting
+
+
+```
+https://github.com/sshuttle/sshuttle
+https://github.com/stealth/sshttp
+# rescue when "ssh -D" is not supported by the sshd:
+https://github.com/TarlogicSecurity/SaSSHimi
+# blending your SSH traffic:
+https://github.com/dsnezhkov/SSHoRTY
+```
 
    
 
