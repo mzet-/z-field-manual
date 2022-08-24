@@ -125,6 +125,10 @@ Collection of techniques and associated procedures (from following categories: P
 
 [Known RCE collection](cheat-sheets/rce-collection.md)
 
+Command line fu: [ UNIX cli ] | [Windows cli](cheat-sheets/windows.md)
+
+[ Network pivoting ]
+
 [Metasploit](cheat-sheets/metasploit.md)
 
 [SSH](cheat-sheets/ssh.md)
