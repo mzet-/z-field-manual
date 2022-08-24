@@ -340,7 +340,8 @@ Background:
 Discovery:
 
 ```
-nmap -n -sS -Pn -p8172 -T4 --open
+nmap -sS -Pn -n -p8172 -iL IP-ranges.txt -oG - --open -oA pscans/iis-manager8172
+cat pscans/iis-manager8172.gnmap | grep -E -v 'Nmap|Status' | cut -d' ' -f2 | tee iisManagerServices.txt
 ```
 
 
@@ -461,6 +462,7 @@ Useful links:
 ```
 https://www.blackhillsinfosec.com/how-to-test-for-open-mail-relays/
 https://luemmelsec.github.io/Pentest-Everything-SMTP/
+https://cert.pl/posts/2021/10/mechanizmy-weryfikacji-nadawcy-wiadomosci/
 ```
 
 ### POP3 / IMAP
@@ -675,7 +677,7 @@ TODO
 Brute forcing:
 
 ```
-https://raw.githubusercontent.com/redcode-labs/medusa_combo_files/master/ssh_default_131.txt
+wget https://raw.githubusercontent.com/redcode-labs/meducat/master/medusa-combo-files/ssh_default_131.txt
 medusa -C ssh_default_131.txt -M ssh -H sshServices.txt -F -t 1 -T 8 -O medusa-ssh.out
 ```
 
@@ -856,11 +858,27 @@ python scripts/nparser.py -f vscanlatest -p515,631,9100 -l | tee printersService
 Ports:
 
     TCP (Java Debug Wire Protocol): 3999,5000,5005,8000,8453,8787-8788,9001,18000
-    Java RMI registry: 1098,1099
+    Java RMI registry: 1098,1099,8901,8902,8903
+    Java JMX default ports used by various or commonly seen in the wild: 1090,1050,1100,9999...
+    See (TODO):
+    https://github.com/rapid7/metasploit-framework/blob/04e8752b9b74cbaad7cb0ea6129c90e3172580a2/lib/msf/core/exploit/remote/java/rmi/util.rb
+    https://github.com/eclipse/jetty.project/blob/cb127793e5d8b5c5730b964392a9a905ba49191d/jetty-jmx/src/test/java/org/eclipse/jetty/jmx/ConnectorServerTest.java
+    https://www.redtimmy.com/jmx-rmi-multiple-applications-rce/
+    https://tomcat.apache.org/tomcat-7.0-doc/monitoring.html
+    https://docs.vmware.com/en/VMware-vRealize-Operations-for-Horizon/6.7/com.vmware.vrealize.horizon.admin.doc/GUID-1467821F-F3F9-458C-A9DE-3EFA517C44DF.html
+    https://www.ibm.com/docs/en/mpf/8.0.0?topic=prerequisites-configuring-jmx-connection-apache-tomcat
+    https://svn.nmap.org/nmap/scripts/rmi-dumpregistry.nse
 
-Overview:
+Overview: RMI
 
-    -
+    # very consie but good overview of the technology and available attack vectors:
+    https://book.hacktricks.xyz/network-services-pentesting/1099-pentesting-java-rmi
+
+Overview: JMX
+
+    https://mogwailabs.de/en/blog/2019/04/attacking-rmi-based-jmx-services/
+
+Overview: Java Debug Wire Protocol
 
 Discovery (directly from the wire):
 

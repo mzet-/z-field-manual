@@ -19,35 +19,36 @@ MITRE ATT&CK mapping: N/A
 
 ### Discovery
 
-Identifying web-based services (directly from the wire):
+Scanning for web-based services: on known hosts using `rawr-ports-long.txt` or `rawrPorts` collections
 
 ```
-cat hostsUp.txt | ./httpx -silent -ports $(cat res/rawr-ports-long.txt | tr '\n' ',') | tee urls-long.txt
+# fast:
+cat hostsUp.txt | httpx -silent -ports $(rawrPorts) | tee -a urls-long.txt
+
+# more ports, slower:
+cat hostsUp.txt | httpx -silent -ports $(cat res/rawr-ports-long.txt | tr '\n' ',') | tee -a urls-long.txt
 ```
 
-OR:
+Scanning for web-based services: on whole IP range
 
 ```
-# rawr ports
-cat IP-ranges.txt | ./httpx -silent -ports $(rawrPorts) | tee urls-rawr.txt
+# on most common ports: 8080 and 8000 and 8443:
+cat IP-ranges.txt | httpx -silent -ports 8080,8000,8443 | tee urls-range-commonPorts.txt
 
-# ports 8080 and 8000 and 8443:
-cat IP-ranges.txt | ./httpx -silent -ports 8080,8000,8443 | tee urls-8080-8000-8443.txt
+# on additional common ports:
+cat IP-ranges.txt | httpx -silent -ports 81,591,2082,2087,2095,2096,3000,8001,8008,8083,8834,8888 | tee -a urls-range-commonPorts.txt
 
-# additional ports:
-cat IP-ranges.txt | ./httpx -silent -ports 81,591,2082,2087,2095,2096,3000,8001,8008,8083,8834,8888 | tee urls-commonports.txt
-
-# merge results:
-cat urls-* > urls-all.txt
+# on rawr ports:
+cat IP-ranges.txt | httpx -silent -ports $(rawrPorts) | tee urls-range-rawr.txt
 ```
 
-Identifying web-based services (from previous scans):
+Scanning for web-based services on known hosts (`hostsUp.txt`) on opened ports (`allPorts.txt`):
 
 ```
-python ~/bin/nparser.py -p$(rawrPorts) -f pscans/all-rawrPN -l | ./httpx -silent | tee urls-rawr.txt
+cat hostsUp.txt | httpx -silent -ports $(cat allPorts.txt | tr '\n' ',') | tee urls-hostsUp-allPorts.txt
 ```
 
-OR:
+Offline discovery of http(s) based services (from previous namp scans):
 
 ```
 for i in $(python ~/bin/nparser.py -f vscan-1/base-vscan -s 'http' -l); do echo "http://$i" | grep -v -E '47001|5985|3389' | tee -a urls-nmap.txt; done
