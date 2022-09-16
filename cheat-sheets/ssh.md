@@ -1,4 +1,9 @@
 
+### misc
+
+    https://marcusedmondson.com/2022/01/28/pivoting-with-ssh-tunnels-and-plink/
+    https://github.com/opsdisk/the_cyber_plumbers_handbook
+
 ### local port forwarding
 
 requires: 'AllowTcpForwarding yes' on SSHD

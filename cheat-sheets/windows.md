@@ -10,6 +10,10 @@ tasklist
 systeminfo
 # show services
 sc query state=all
+
+# name of AV detection:
+Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct
+get-wmiobject -class "Win32_Product" -namespace "root\cimv2" -filter "Name like '%YOUR_FILTER_HERE%'"
 ```
 
 ### net/domain commands

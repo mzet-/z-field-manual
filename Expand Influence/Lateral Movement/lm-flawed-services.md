@@ -861,6 +861,7 @@ Ports:
     Java RMI registry: 1098,1099,8901,8902,8903
     Java JMX default ports used by various or commonly seen in the wild: 1090,1050,1100,9999...
     See (TODO):
+    https://github.com/qtc-de/remote-method-guesser/blob/eb265338f6012b64c7590ec0eb66712e3b035994/src/config.properties
     https://github.com/rapid7/metasploit-framework/blob/04e8752b9b74cbaad7cb0ea6129c90e3172580a2/lib/msf/core/exploit/remote/java/rmi/util.rb
     https://github.com/eclipse/jetty.project/blob/cb127793e5d8b5c5730b964392a9a905ba49191d/jetty-jmx/src/test/java/org/eclipse/jetty/jmx/ConnectorServerTest.java
     https://www.redtimmy.com/jmx-rmi-multiple-applications-rce/

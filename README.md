@@ -21,26 +21,31 @@ Attack graphs -
 
 Kill Chain -
 
+Tactic - 
+
+TTP -
+
 [MITRE ATT&CK](https://attack.mitre.org/) -
 
 [NSA/CSS Cyber Threat Framework](https://www.dni.gov/index.php/cyber-threat-framework) -
 
-Tactic - 
+TIBER EU -
 
 # Strategic Assumptions
 
-On strategical level we're usually thinking about **cyber security** in terms of a **risk**.
+On strategical level we're usually communicating with the stakeholders (e.g. organization's executives) regarding **cyber security** in terms of a **risk**.
 
     Risk = threats x vulnerabilities x assets
 
-1. We study the behavior of various threat actors to know and understand the threats they colud pose.
-2. Understanding the customer's environment we decide what threats are applicable.
-3. Simulating attacks (attack vectors, attack trees) associated with this threats in customer's environment,
-4. We can more practically assess and discover overall cyber risks for the given customer.
+Conceptually breaking down red teaming process:
+
+1. We study the behavior of known cyber threat actors to understand the threats they colud pose.
+2. We study the customer's environment (people, processes, technology) to understand under what threat model they operate.
+3. We analyze, adapt, refine and design the TTPs (tactics, techniques, procedures) that could be used by our customer's adversaries.
+4. We develop and run adversarial operations to simulate highly probable, sophisticated and realistic attacks tailored for the target organization.
 
 # Operational Considerations
 
-Threat modeling.
 
 ## Operation Planning
 
@@ -184,3 +189,13 @@ Generates set of typical passwords based on provided word (e.g. company name).
 Get:
 
     wget https://raw.githubusercontent.com/averagesecurityguy/scripts/master/passwords/weak_passwords.py
+
+### namemash
+
+About:
+
+Generates combinations of username based on privided name and surname tuples.
+
+Get:
+
+    wget https://gist.githubusercontent.com/superkojiman/11076951/raw/74f3de7740acb197ecfa8340d07d3926a95e5d46/namemash.py

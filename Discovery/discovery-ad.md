@@ -12,16 +12,23 @@ MITRE ATT&CK mapping: N/A
 In-depth domain recon:
 
 ```
-https://adsecurity.org/?p=2535
+https://book.hacktricks.xyz/windows-hardening/ntlm
+https://book.hacktricks.xyz/windows/active-directory-methodology
 https://speakerdeck.com/ropnop/fun-with-ldap-kerberos-and-msrpc-in-ad-environments?slide=96
-https://book.hacktricks.xyz/windows/active-directory-methodology#recon-active-directory-no-creds-sessions
 ```
 
 Domain recon (from Windows box):
 
 ```
+https://adsecurity.org/?p=2535
 https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1
 https://pentestlab.blog/2018/05/28/situational-awareness/
+```
+
+Kerberos attacks:
+
+```
+https://www.tarlogic.com/blog/how-kerberos-works/
 ```
 
 ### Discovering AD name
