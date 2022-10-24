@@ -48,6 +48,9 @@ Manually:
 Since late 2021 Uplink Labs does not prepare new Arch AMIs:
 https://www.uplinklabs.net/projects/arch-linux-on-ec2/
 
+Links for current AWS AMIs can be found here:
+https://wiki.archlinux.org/title/Arch_Linux_AMIs_for_Amazon_Web_Services
+
 Instruction on how to prepare your own Arch AMI:
 http://mathcom.com/arch.aws.ami.html#_final_set_up
 ```
@@ -87,6 +90,12 @@ TODO
 ### Preparation: toolbox
 
 ```
+# pacman-key --init
+# pacman-key --populate
+# select fastest mirror:
+# reflector [--country <country>] --protocol https --score 20 --sort rate --save /etc/pacman.d/mirrorlist
+# pacman -Syu
+
 # Run https://blackarch.org/strap.sh as root and follow the instructions.
 $ curl -O https://blackarch.org/strap.sh
 

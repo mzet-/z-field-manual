@@ -47,11 +47,11 @@ nmap -n -sn == ICMP echo request,
                TCP ACK to port 80,
                ICMP timestamp request
 nmap -n -sn -T4 -iL IP-ranges.txt
-nmap -n -sn -T4 -iL IP-ranges.txt -oG - | grep -v Nmap | cut -d' ' -f2 | tee hostsUp.txt hostsPings.txt
+nmap -n -sn -T4 -iL IP-ranges.txt -oG - | grep -v Nmap | cut -d' ' -f2 | tee -a hostsUp.txt hostsPings.txt
 
 # comprehensive (can be slow for huge networks) (could add: --source-port 53):
 nmap -n -sn -T4 -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -iL IP-ranges.txt
-nmap -n -sn -T4 -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -iL IP-ranges.txt -oG - | grep -v Nmap | cut -d' ' -f2 | tee hostsUp.txt hostsPings.txt
+nmap -n -sn -T4 -PE -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -iL IP-ranges.txt -oG - | grep -v Nmap | cut -d' ' -f2 | tee -a hostsUp.txt hostsPings.txt
 ```
 
 ### Scanning: TCP
@@ -84,7 +84,7 @@ wget https://raw.githubusercontent.com/mzet-/z-field-manual/master/res/rawr-port
 nmap -n -Pn -sS --open -iL IP-ranges.txt $(cat res/rawr-ports-long.txt | tr '\n' ',') -oA pscans/all-rawrPN-long -T4 --max-hostgroup 16
 
 # full scope - next top 3000 ports (in batches of 100 ports):
-screen /bin/bash -c 'for i in $(seq 1 30); do masscan -iL IP-ranges.txt -p$(topNports 100 $((i*100))) --rate 1000 -oX pscans/masscan-offset$((i*100))-top100.xml; done'
+screen /bin/bash -c 'for i in $(seq 1 30); do masscan -iL IP-ranges.txt -p$(topNports 100 tcp $((i*100))) --rate 1000 -oX pscans/masscan-offset$((i*100))-top100.xml; done'
 
 # full port range scan of already discovered hosts:
 nmap -n -sS --open -iL hostsUp.txt -p- -oA pscans/hostsUp-all -T4 --max-hostgroup 16

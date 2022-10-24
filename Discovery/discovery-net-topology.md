@@ -39,6 +39,10 @@ nmap -n -T4 -PN -sn --traceroute -iL 5hosts-persubnet.txt -oX netTopologyICMP.xm
 nmap -n -T4 -PN -sn --traceroute -iL hostsPings.txt -oX netTopologyICMP.xml --script targets-traceroute --script-args newtargets
 
 zenmap netTopologyICMP.xml
+OR:
+wget https://gist.githubusercontent.com/B0073D/5079801/raw/bd5ccbd5f287813d71b4bc310f3f70dfaed106d0/nmap_trace_extract.py
+python2 nmap_trace_extract.py
+gephi -> layout:AtlasForce
 ```
 
 Alternatives (TCP or UDP based) tracerouting:
