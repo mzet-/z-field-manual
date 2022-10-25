@@ -31,6 +31,7 @@
 # https://github.com/averagesecurityguy/scripts/blob/54660525f36e3e97d23fbd259ceb9b10823f2ee2/passwords/weak_passwords.py
 
 import argparse
+import datetime
 
 #------------------------------------------------------------------------------
 # Functions
@@ -70,14 +71,14 @@ def combos(word):
     adds.extend(['33', '44', '55', '66', '77', '88', '1977', '1978', '1979'])
     adds.extend(['1234', '4321', '007', '2112', '!', '@', '#', ])
 
-    for i in xrange(0, 10):
+    for i in range(0, 10):
         adds.append(str(i))
         adds.append("0" + str(i))
 
-    for i in xrange(10, 23):
+    for i in range(10, 23):
         adds.append(str(i))
 
-    for i in xrange(2000, 2019):
+    for i in range(2000, int(datetime.date.today().strftime("%Y"))+1):
         adds.append(str(i))
 
     yield word
