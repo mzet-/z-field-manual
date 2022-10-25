@@ -61,6 +61,9 @@ Automation:
 # creating new instance:
 attack-fleet ec2new us-east-1
 attack-fleet ec2show us-east-1
+
+# stopping the instance:
+attack-fleet ec2ops stop us-east-1 <instance-id> 
 ```
 
 ### deployment: Pi
