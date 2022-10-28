@@ -902,6 +902,13 @@ python scripts/nparser.py -f vscanlatest -p3999,5000,5005,8000,8453,8787-8788,90
 python scripts/nparser.py -f vscanlatest -p1098,1099 -l | tee java-rmiServices.txt
 ```
 
+```
+nmap --script=rmi-dumpregistry 192.168.10.97 -p1099
+
+https://github.com/qtc-de/remote-method-guesser/releases/latest
+java -jar rmg-4.3.1-jar-with-dependencies.jar -h
+```
+
 ### VNC
 
 Ports:

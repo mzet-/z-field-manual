@@ -134,6 +134,8 @@ Command line fu: [ oneliners ] | [ UNIX cli ] | [Windows cli](cheat-sheets/windo
 
 [Scripting building blocks](cheat-sheets/scripting.md)
 
+[Payloads](res/README.md)
+
 [ Network pivoting ]
 
 [SSH](cheat-sheets/ssh.md)
@@ -152,6 +154,8 @@ TODO
 ```
 
 ## Toolbox: 3rd party tools
+
+Shortcuts:
 
 ```
 https://github.com/projectdiscovery/uncover/releases/latest
