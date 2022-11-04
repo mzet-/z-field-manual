@@ -122,26 +122,9 @@ Discovery:
 nmap -sS -sU --script smb-vuln-ms10-061.nse -pT:445,139,U:137 -iL smbServices.txt --open -d | tee smb-vuln-ms10-061.out
 ```
 
-Vulnerability: ms17-01
+Other noteworthy vulnerabilities:
 
-```
-Notes:
-EternalBlue (exploited by WannaCry)
-Prereq:
-  SMBv1 needs to be supported
-  Needs connection to IPC$ share
-Tested on Windows XP, 2003, 7, 8, 8.1, 10, 2008, 2012 and 2016
-Reference:
-  https://nmap.org/nsedoc/scripts/smb-vuln-ms17-010.html
-  https://github.com/cldrn/nmap-nse-scripts/wiki/Notes-about-smb-vuln-ms17-010
-
-Discovery:
-nmap -sS --script smb-vuln-ms17-010 --max-hostgroup 3 -p445 -iL smbServices.txt --open -d -v | tee smb-vuln-ms17-010.out
-nmap -sS -sU --script smb-vuln-ms17-010 --max-hostgroup 3 -pT:445,139,U:137 -iL smbServices.txt --open -d -v | tee smb-vuln-ms17-010.out
-
-# if anonymous access to IPC$ is not allowed:
-nmap -sS --script smb-vuln-ms17-010 --script-args='smbdomain="<domain>",smbusername="<user>",smbpassword=<passwd>' -pT:445 -iL smbServices.txt --open -v | tee smb-vuln-ms10-061.out
-```
+[CVE-2017-0143 (EternalBlue)](cheat-sheets/rce-collection.md#cve-2017-0143)
 
 ### RDP service
 
@@ -184,15 +167,10 @@ set RHOSTS file:rdpServices.txt
 run
 ```
 
-Vulnerability: CVE-2019-0708 aka 'Bluekeep'
+Other noteworthy vulnerabilities:
 
-```
-use auxiliary/scanner/rdp/cve_2019_0708_bluekeep
-set RDP_CLIENT_IP <my-IP>
-set RHOSTS file:hostsUp.txt
-set THREADS 7
-run
-```
+[CVE-2019-0708 (BlueKeep)](cheat-sheets/rce-collection.md#cve-2019-0708)
+
 
 ### MS-SQL service
 
