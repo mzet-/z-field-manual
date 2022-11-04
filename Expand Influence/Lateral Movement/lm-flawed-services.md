@@ -169,7 +169,7 @@ run
 
 Other noteworthy vulnerabilities:
 
-[CVE-2019-0708 (BlueKeep)](cheat-sheets/rce-collection.md#cve-2019-0708)
+[CVE-2019-0708 (BlueKeep)](../../cheat-sheets/rce-collection.md#cve-2019-0708)
 
 
 ### MS-SQL service

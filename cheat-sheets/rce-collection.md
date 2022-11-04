@@ -33,9 +33,10 @@ Exploited in the wild: `curl -s https://www.cisa.gov/sites/default/files/feeds/k
 
 ### CVE-2017-0143
 
-Aka: `ms17-01, EternalBlue (exploited by WannaCry)`
+Notes:
 
 ```
+Aka: ms17-01, EternalBlue (exploited by WannaCry)
 Prereq:
   SMBv1 needs to be supported
   Needs connection to IPC$ share
@@ -65,7 +66,9 @@ Exploitation:
 
 Notes:
 
-Aka: `Bluekeep`
+```
+Aka: Bluekeep
+```
 
 Discovery/Exploitation:
 
