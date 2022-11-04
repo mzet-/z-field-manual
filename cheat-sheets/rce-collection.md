@@ -19,15 +19,13 @@ https://github.com/projectdiscovery/nuclei
 
 ### CVE-2019-11510
 
-**IDs**: CVE-2019-11510
-
+Notes:
+    
+    Pre-auth Arbitrary File Reading from Pulse Secure SSL VPNs.
     https://devco.re/blog/2019/09/02/attacking-ssl-vpn-part-3-the-golden-Pulse-Secure-ssl-vpn-rce-chain-with-Twitter-as-case-study/
 
-Pre-auth Arbitrary File Reading from Pulse Secure SSL VPNs.
+Discovery:
 
-### CVE-2020-1938
-
-Exploited in the wild: `curl -s https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json | grep -B 1 -A 9 'CVE-2020-1938'`
 
 ## Native software (Windows)
 
@@ -81,5 +79,28 @@ run
 ```
 
 ## Native software
+
+### CVE-2020-1938
+
+Notes:
+
+```
+Affected product: Apache Tomcat (Apache JServ Protocol)
+Versions: Apache Tomcat 9.0.0.M1 to 9.0.0.30, 8.5.0 to 8.5.50 and 7.0.0 to 7.0.99
+```
+
+Exploited in the wild: `curl -s https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json | grep -B 1 -A 9 'CVE-2020-1938'`
+
+Discovery:
+
+```
+?
+```
+
+Exploitation:
+
+```
+?
+```
 
 ## Client-side software
