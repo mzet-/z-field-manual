@@ -124,7 +124,7 @@ nmap -sS -sU --script smb-vuln-ms10-061.nse -pT:445,139,U:137 -iL smbServices.tx
 
 Other noteworthy vulnerabilities:
 
-[CVE-2017-0143 (EternalBlue)](cheat-sheets/rce-collection.md#cve-2017-0143)
+[CVE-2017-0143 (EternalBlue)](../../cheat-sheets/rce-collection.md#cve-2017-0143)
 
 ### RDP service
 
