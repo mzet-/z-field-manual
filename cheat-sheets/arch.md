@@ -93,38 +93,43 @@ TODO
 ### Preparation: toolbox
 
 ```
+## Directory structure prep and provisioning:
+attack-fleet ec2show us-east-1
+export IP=<ip>; export user=arch
+ssh -i $HOME/.ssh/key.pem "$user"@"$ip" 'mkdir {bin,res,LOGS,pscans,vscans}; mkdir -p PAYLOADS/{PASSWD,MISC}; mkdir -p IMPORTS/{TOOLS,MISC}'
+scp -i $HOME/.ssh/key.pem $HOME/bin/hacking-helpers.inc "$user"@"$ip":bin
+
+## jump to the machine
+ssh -i $HOME/.ssh/key.pem "$user"@"$ip"
+
+## Refresh keys and update
 # pacman-key --init
 # pacman-key --populate
 # select fastest mirror:
 # reflector [--country <country>] --protocol https --score 20 --sort rate --save /etc/pacman.d/mirrorlist
 # pacman -Syu
+# reboot
 
+## Deploy BlackArch
 # Run https://blackarch.org/strap.sh as root and follow the instructions.
 $ curl -O https://blackarch.org/strap.sh
-
 # The SHA1 sum should match:
 $ curl -s https://blackarch.org/downloads.html | grep 'strap.sh | sha1sum -c'
 $ sha1sum strap.sh
-
 # Set execute bit
 $ chmod +x strap.sh
-
 # Run strap.sh
 $ sudo ./strap.sh 
 
-# directory structure:
-mkdir {bin,res,LOGS,pscans,vscans}; mkdir -p PAYLOADS/{PASSWD,MISC}; mkdir -p IMPORTS/{TOOLS,MISC}
-
-provisioning (from base machine):
-scp ~/bin/hacking-helpers.inc arch@<ip>:bin
-
-# tooling:
+## Deploy baseline toolbox
 sudo pacman -Syu
-sudo reboot
 sudo -E bash
+# from Arch:
 pacman -S gobuster dnsutils speedtest-cli wfuzz git screen p0f nmap certbot jq wget dnsrecon
-pacman -S gau ffuf httpx hakrawler unfurl linkfinder secretfinder altdns massdns sublist3r amass
+# hacking helpers include:
 source ~/bin/hacking-helpers.inc
+# from Blackarch:
+pacman -S gau ffuf httpx hakrawler unfurl linkfinder secretfinder altdns massdns sublist3r amass gobuster dnsrecon
 ```
 
 ### Preparation: hardening
