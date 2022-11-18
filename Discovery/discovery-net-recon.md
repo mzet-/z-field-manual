@@ -64,10 +64,6 @@ nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -F -oA pscans/all-fast-onetime
 
 # alternative for larger networks:
 nmap -n -PN -sS -iL IP-ranges.txt -T4 --open --top-ports 50 --max-hostgroup 128 -oA pscans/all-fast-onetime
-
-# store initial list of alive hosts and ports that have been observed as opened:
-./gnxparse.py -p pscans/all-fast-onetime.xml | grep -v 'Port' > allPorts.txt
-./gnxparse.py -ips pscans/all-fast-onetime.xml | grep -v 'IPv4' > hostsUp.txt
 ```
 
 Long-run "scanning jobs" with frequent updates of results at `pscans/`:
@@ -78,6 +74,13 @@ nmap -n -PN -sS -iL IP-ranges.txt -T4 --open -p- -oA pscans/all-full-rand-job-1 
 
 # scan 'rawr' ports (where 'rawrPorts' is Bash function returning list of rawr ports):
 nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(rawrPorts) -oA pscans/all-rawrPN -T4 --max-hostgroup 16
+```
+
+Other typical scans:
+
+```
+# scan 500 ports from nmap's top ports between 1000-1500 ports:
+nmap -n -PN -sS -iL hostsUp.txt -T4 --open -p$(topNports 500 tcp 1000) -oA pscans/hostsUp-top1000-1500
 
 # extended (i.e. more ports) 'rawr' scanning:
 wget https://raw.githubusercontent.com/mzet-/z-field-manual/master/res/rawr-ports-long.txt -O res/rawr-ports-long.txt
@@ -94,7 +97,7 @@ Periodical runs based on the (incremental) findings at `pscans/`:
 
 ```
 # fetch newly discovered ports and hosts from 'pscans/':
-./observer.sh pscans/
+./nobserver.sh pscans/
 
 # full IP space scan of previously seen (and not yet 'horizontally' scanned) ports:
 nmap -n -Pn -sS --open -iL IP-ranges.txt -p$(cat allPorts.txt | tr '\n' ',') -oA pscans/all-deltaPorts-$(date +%F_%H-%M) -T4

@@ -29,6 +29,53 @@ Discovery:
 
 ## Native software (Windows)
 
+### CVE-2020-1472
+
+Notes:
+
+```
+Aka: Zerologon
+Reference: https://www.secura.com/blog/zero-logon
+```
+
+Discovery/Exploitation:
+
+```
+git clone https://github.com/SecuraBV/CVE-2020-1472
+cd CVE-2020-1472
+python3 zerologon_tester.py -h
+```
+
+
+### CVE-2020-0796
+
+```
+Aka: SMBGhost
+Prereq:
+  SMBv3 needs to be supported
+Reference:
+  https://github.com/ZecOps/CVE-2020-0796-RCE-POC
+  https://github.com/psc4re/NSE-scripts/blob/master/cve-2020-0796.nse
+```
+
+### CVE-2019-0708
+
+Notes:
+
+```
+Aka: Bluekeep
+```
+
+Discovery/Exploitation:
+
+```
+use auxiliary/scanner/rdp/cve_2019_0708_bluekeep
+set RDP_CLIENT_IP <my-IP>
+set RHOSTS file:hostsUp.txt
+set THREADS 7
+run
+```
+
 ### CVE-2017-0143
 
 Notes:
@@ -60,25 +107,8 @@ Exploitation:
     # for 32-bits machines:
     https://www.lmgsecurity.com/manually-exploiting-ms17-010/
 
-### CVE-2019-0708
 
-Notes:
-
-```
-Aka: Bluekeep
-```
-
-Discovery/Exploitation:
-
-```
-use auxiliary/scanner/rdp/cve_2019_0708_bluekeep
-set RDP_CLIENT_IP <my-IP>
-set RHOSTS file:hostsUp.txt
-set THREADS 7
-run
-```
-
-## Native software
+## Native software (Non-Windows)
 
 ### CVE-2020-1938
 
