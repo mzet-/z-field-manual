@@ -29,6 +29,20 @@ Discovery:
 
 ## Native software (Windows)
 
+### CVE-2021-1675
+
+```
+Aka: PrintNightmare
+Reference: 
+```
+
+Detecting potentially vulnerable machines:
+
+```
+wget https://raw.githubusercontent.com/SecureAuthCorp/impacket/master/examples/rpcdump.py
+while read host; do echo "Checking: $host"; python3 rpcdump.py @$host | egrep 'MS-RPRN|MS-PAR'; done < smbServices.txt | tee printNightmare.out
+```
+
 ### CVE-2020-1472
 
 Notes:
@@ -124,13 +138,13 @@ Exploited in the wild: `curl -s https://www.cisa.gov/sites/default/files/feeds/k
 Discovery:
 
 ```
-?
+nmap -sS -p8009 --script ajp-request 192.168.3.33 -sV -d
 ```
 
 Exploitation:
 
 ```
-?
+wget https://raw.githubusercontent.com/00theway/Ghostcat-CNVD-2020-10487/master/ajpShooter.py
 ```
 
 ## Client-side software
