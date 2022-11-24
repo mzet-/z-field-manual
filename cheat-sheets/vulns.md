@@ -4,25 +4,36 @@
 <!-- MarkdownTOC depth=3 autolink=true -->
 
 - [Abstract model of the target](#abstract-model-of-the-target)
-- Possible consequences
+- Possible consequences (goals)
 - Inspiration
 - Possible architectural flaws
-- Burp Suite: Misc
-- Burp Suite: Scanner
-- API Testing
+- Know your toolbox: Burp Suite Scanner
+- Know your toolbox: API Testing
+- Know your toolbox: Burp Suite tips and tricks
 - Recon
+
+Server-side issues:
+
+- Account takeover(#account-takeover)
 - Authentication and session mgmt
 - Authorization
-- [XSS](#xss)
 - SQLi
 - Directory traversal / file read
 - File inclusions
 - Open redirects
 - [XXE](#xxe)
-- [HTTP Host header attacks](#http-host-header-attacks)
 - [Server misconfigurations](#server-misconfigurations)
-- [DOM issues](#dom-issues)
+- [JWT](#jwt)
+
+Issues on transit:
+
 - SSRF
+- [HTTP Host header attacks](#http-host-header-attacks)
+
+Client-side issues:
+
+- [XSS](#xss)
+- [DOM issues](#dom-issues)
 
 <!-- /MarkdownTOC -->
 
@@ -141,6 +152,19 @@ understanding application (triad: functionality; technology; data entry points)
 https://portswigger.net/blog/browser-powered-scanning-in-burp-suite
 ```
 
+## Account takeover
+
+Cases of account takeover (via forgot password functionality):
+
+```
+https://thezerohack.com/how-i-might-have-hacked-any-microsoft-account
+https://infosecwriteups.com/unauthenticated-account-takeover-through-forget-password-c120b4c1141d
+https://www.pentagrid.ch/en/blog/password-reset-code-brute-force-vulnerability-in-AWS-Cognito/
+https://blog.assetnote.io/2021/06/27/uber-account-takeover-voicemail/
+https://infosecwriteups.com/account-takeovers-believe-the-unbelievable-bb98a0c251a4
+https://sekurak.pl/jak-czasem-mozna-latwo-oszukac-mechanizm-przypominania-hasla-vulnz/
+```
+
 ## Authentication and session mgmt
 
 Handy Burp extensions:
@@ -251,4 +275,24 @@ https://hackerone.com/reports/991717
 
 # Cloudflare bypass
 https://hackerone.com/reports/360825
+```
+
+## JWT
+
+Attacking JWT:
+
+```
+https://mazinahmed.net/blog/breaking-jwt/
+https://research.securitum.com/jwt-json-web-token-security/
+https://github.com/ticarpi/jwt_tool/wiki
+https://www.nccgroup.com/ae/about-us/newsroom-and-events/blogs/2019/january/jwt-attack-walk-through/
+```
+
+Cracking JWT:
+
+```
+(put JWT token in jwt.txt)
+./hashcat-5.1.0/hashcat -m 16500 PrimePhoenix/jwt.txt wordlists/Top2Billion-probable-v2.txt -O
+For more see:
+https://github.com/ticarpi/jwt_tool/wiki/Attack-Methodology#weak-hmac-secret-used-as-a-key
 ```
