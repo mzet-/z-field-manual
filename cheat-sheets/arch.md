@@ -20,6 +20,7 @@ pacman -Syu
 # Search for a package containing a file, e.g.: 
 # pacman -Fy
 # pacman -Fs ls
+
 # clear pacman cache (saves lot of disk space):
 # pacman -Sc
 ```
@@ -38,6 +39,9 @@ pacman -S archlinux-keyring
 # pacman-key -r keyid
 $ pacman-key -f keyid
 # pacman-key --lsign-key keyid
+
+# wiping out whole trustdb and recreating it:
+https://bbs.archlinux.org/viewtopic.php?pid=1837082#p1837082
 ```
 
 ### deployment: AWS

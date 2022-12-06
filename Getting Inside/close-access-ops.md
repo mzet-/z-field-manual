@@ -13,6 +13,7 @@ Atomic Red Team test: `N/A`
 Noteworthy real-life cases:
 
 ```
+https://english.defensie.nl/downloads/publications/2018/10/04/gru-close-access-cyber-operation-against-opcw
 https://www.businessinsider.com/russia-gru-caught-hacking-into-opcw-via-wifi-dutch-intelligence-says-2018-10
 ```
 

@@ -35,12 +35,20 @@ https://www.tarlogic.com/blog/how-kerberos-works/
 
 Passively listen for DHCP broadcasts:
 
-   tcpdump -i eth0 port 67 or port 68 -e -X
+    tcpdump -i eth0 port 67 or port 68 -e -X
 
 Broadcasting DHCP/DHCPv6 request:
 
-   nmap --script broadcast-dhcp-discover -d
-   nmap -6 --script broadcast-dhcp6-discover 
+    nmap --script broadcast-dhcp-discover -d
+    nmap -6 --script broadcast-dhcp6-discover
+
+Other techniques:
+
+```
+https://blog.quickbreach.io/blog/finding-the-domain-controllers/
+# externally:
+https://www.komodosec.com/post/github-the-red-teamer-s-cheat-sheet
+```
 
 ### Sniffing for abusable protocols 
 
@@ -76,6 +84,12 @@ SSDP:
 
     socat -u UDP4-RECV:1900,ip-add-membership=239.255.255.250:eth0 /dev/null &
     tcpdump -i eth0 udp port 1900
+
+### Exploring AD: unauthenticated user
+
+### Exploring AD: authenticated (unprivileged) user
+
+### Exploring AD: Domain Admin
 
 ## OPSEC considerations
 
