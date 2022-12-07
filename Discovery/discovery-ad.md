@@ -87,6 +87,22 @@ SSDP:
 
 ### Exploring AD: unauthenticated user
 
+Collecting valid usernames:
+
+```
+People (username candidates):
+source ~/.venv/CrossLinked/bin/activate
+# Bob and Bob Company
+crosslinked -f {f}.{last}@domain.com 'BoB+%26+Bob Company'
+alternatively:
+https://github.com/insidetrust/statistically-likely-usernames
+wget https://gist.githubusercontent.com/superkojiman/11076951/raw/74f3de7740acb197ecfa8340d07d3926a95e5d46/namemash.py
+wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Usernames/Names/names.txt
+
+# query:
+nmap -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm='ad.domain',userdb=/home/tester/names.txt <DC-IP>
+```
+
 ### Exploring AD: authenticated (unprivileged) user
 
 ### Exploring AD: Domain Admin
