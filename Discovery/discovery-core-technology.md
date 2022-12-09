@@ -5,6 +5,28 @@
 
 MITRE ATT&CK mapping: N/A
 
+## References
+
+### Secure network architecture
+
+```
+Enterprise access model:
+https://docs.microsoft.com/en-us/security/compass/privileged-access-access-model
+
+Zero-trust principles:
+https://www.microsoft.com/security/blog/2021/01/19/using-zero-trust-principles-to-protect-against-sophisticated-attacks-like-solorigate/
+https://beyondcorp.com/
+
+Defense in depth principle:
+https://risk-engineering.org/concept/defence-in-depth
+https://www.fortinet.com/resources/cyberglossary/defense-in-depth
+https://www.cisa.gov/uscert/bsi/articles/knowledge/principles/defense-in-depth
+https://www.imperva.com/learn/application-security/defense-in-depth/
+
+Example mitigations:
+https://blog.scrt.ch/2020/12/28/state-of-pentesting-2020/
+```
+
 ## Procedures
 
 Reference:
