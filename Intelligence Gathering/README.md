@@ -15,7 +15,36 @@ people
 organization details
 ```
 
-## Techniques
+## Organization details
+
+Manual review:
+
+```
+https://www.crunchbase.com/
+https://opencorporates.com/
+https://clutch.co/
+
+Country specific:
+https://pkt.pl (PL)
+```
+
+## Infrastructure recon
+
+## People
+
+```
+https://linkedin.com
+https://hunter.io/
+```
+
+Automated:
+
+```
+https://github.com/initstring/linkedin2username/releases/latest
+linkedin2username.py -u <li-user> -c <company-name> -p <li-passwd>
+
+https://github.com/m8sec/CrossLinked
+```
 
 ### Transformation: domain to nameservers
 
