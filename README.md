@@ -130,6 +130,8 @@ Collection of techniques and associated procedures (from following categories: P
 
 [Known RCE collection](cheat-sheets/rce-collection.md)
 
+[Auditing code](cheat-sheets/src-code-review.md)
+
 Command line fu: [ oneliners ] | [ UNIX cli ] | [Windows cli](cheat-sheets/windows.md)
 
 [Scripting building blocks](cheat-sheets/scripting.md)

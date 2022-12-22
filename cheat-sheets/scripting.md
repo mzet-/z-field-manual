@@ -1,4 +1,10 @@
 
+### Reference
+
+[Python 3 cheat sheet](../res/thirdparty/python3-cheatsheet.pdf)
+
+[Bash redirections cheat sheet](../res/thirdparty/bash-redirections-cheat-sheet.txt)
+
 ### installing to virtualenv
 
 ```
