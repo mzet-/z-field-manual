@@ -9,7 +9,7 @@
  
  [CERT C Secure Coding Standard](https://www.securecoding.cert.org/confluence/display/c/SEI+CERT+C+Coding+Standard) | [SEI CERT C++ Coding Standard](https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=637)
 
- [libc reference](../res/thirdparty/libc-reference.pdf) | [C Reference Card](../res/thirdparty/c-ref-card.pdf) [C specification](../res/thirdparty/c-specification.pdf)
+ [libc reference](../res/thirdparty/libc-reference.pdf) | [C Reference Card](../res/thirdparty/c-ref-card.pdf) | [C specification](../res/thirdparty/c-specification.pdf)
 
  [C++ Developer Guidance for Speculative Execution Side Channels](https://docs.microsoft.com/en-us/cpp/security/developer-guidance-speculative-execution)
 
