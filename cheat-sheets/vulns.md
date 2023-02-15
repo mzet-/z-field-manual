@@ -3,7 +3,8 @@
 
 <!-- MarkdownTOC depth=3 autolink=true -->
 
-- [Abstract model of the target](#abstract-model-of-the-target)
+- [Abstract model of the target 1](#abstract-model-of-the-target-1)
+- [Abstract model of the target 2](#abstract-model-of-the-target-2)
 - Possible consequences (goals)
 - Inspiration
 - Possible architectural flaws
@@ -32,12 +33,13 @@ Issues on transit:
 
 Client-side issues:
 
+- [HTML markup injection](#html-markup-injection)
 - [XSS](#xss)
 - [DOM issues](#dom-issues)
 
 <!-- /MarkdownTOC -->
 
-## Abstract model of the target
+## Abstract model of the target 1
 
 *System is secure if it does what it should and nothing more*
 
@@ -57,6 +59,12 @@ Optionally to consider in the model:
 	IMPLEMENTATION:
 
     - low-level native code used (e.g. for parsing) on the backend
+
+## Abstract model of the target 2
+
+```
+client side ------- [ request/response transit ] -------> server side
+```
 
 ## Possible consequences
 
@@ -179,6 +187,10 @@ https://github.com/portswigger/json-web-token-attacker
 ```
 
 ## Authorization
+
+## HTML markup injection
+
+    https://lcamtuf.coredump.cx/postxss/
 
 ## XSS
 
