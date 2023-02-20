@@ -35,3 +35,63 @@ wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/
 wget https://raw.githubusercontent.com/danielmiessler/RobotsDisallowed/master/top1000.txt -O ~/PAYLOADS/robotsDissallowed-top1000.txt
 wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/raft-small-directories.txt -O ~/PAYLOADS/raft-small-directories.txt
 ```
+
+## Custom implemented tools
+
+```
+TODO
+``
+
+## Thirdparty tools
+
+```
+https://gchq.github.io/CyberChef/CyberChef_v9.55.0.zip
+https://raw.githubusercontent.com/psypanda/hashID/master/hashid.py
+https://github.com/reyammer/shellnoob
+
+https://github.com/projectdiscovery/uncover/releases/latest
+https://github.com/zmap/zmap/releases/latest
+https://github.com/zmap/zgrab2/releases/latest
+
+https://github.com/projectdiscovery/httpx/releases/latest
+https://github.com/michenriksen/aquatone/releases/latest
+
+https://github.com/ffuf/ffuf/releases/latest
+https://github.com/OJ/gobuster/releases/latest
+
+https://github.com/tomnomnom/meg/releases/latest
+https://github.com/projectdiscovery/nuclei/releases/latest
+
+https://github.com/zmap/zannotate
+```
+
+### snallygaster
+
+About:
+
+Looks for secret files on HTTP servers.
+
+Get:
+
+    wget https://raw.githubusercontent.com/hannob/snallygaster/main/snallygaster
+
+### weak_passwords
+
+About:
+
+Generates set of typical passwords based on provided word (e.g. company name).
+
+Get:
+
+    wget https://raw.githubusercontent.com/averagesecurityguy/scripts/master/passwords/weak_passwords.py
+
+### namemash
+
+About:
+
+Generates combinations of username based on privided name and surname tuples.
+
+Get:
+
+    wget https://gist.githubusercontent.com/superkojiman/11076951/raw/74f3de7740acb197ecfa8340d07d3926a95e5d46/namemash.py
+
