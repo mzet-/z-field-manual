@@ -130,6 +130,9 @@ https://github.com/portswigger/upload-scanner
 ## Burp Suite: Scanner
 
 ```
+# under the hood:
+https://portswigger.net/blog/web-application-cartography-mapping-out-burp-suites-crawler
+
 # Scanner usage tips & tricks:
 https://portswigger.net/web-security/reference/augmenting-your-manual-testing-with-burp-scanner
 
@@ -212,7 +215,9 @@ https://security.stackexchange.com/questions/256268/xss-in-span-where-only-and-a
 ## SQLi
 
 ```
-TODO
+https://portswigger.net/web-security/sql-injection
+https://portswigger.net/web-security/sql-injection/cheat-sheet
+https://sqlwiki.netspi.com/
 ```
 
 ## Directory traversal / file read
