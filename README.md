@@ -40,9 +40,9 @@ On strategical level we're usually communicating with the stakeholders (e.g. org
 Conceptually breaking down red teaming process:
 
 1. We study the behavior of known cyber threat actors to understand the threats they colud pose.
-2. We study the customer's environment (people, processes, technology) to understand under what threat model they operate.
+2. We study the customer's environment (people, processes, technology) and business to understand under what threat model they operate.
 3. We analyze, adapt, refine and design the TTPs (tactics, techniques, procedures) that could be used by our customer's adversaries.
-4. We develop and run adversarial operations to simulate highly probable, sophisticated and realistic attacks tailored for the target organization.
+4. We develop and run adversarial operations to simulate highly probable, sophisticated and realistic attacks tailored specifically for the target organization.
 
 # Operational Considerations
 
@@ -63,17 +63,25 @@ List of typical goals (typically affecting victim's data CIA triad):
 ## Operation Preparation
 
 ```
-1. Consider level of OPS-SEC required
+1. Consider level of OPSSEC required
 2. Preapre attack infrastructure
-3. Launch an operation
+3. Initiate preliminary research on your target (adhering to required OPSEC level)
 ```
+
+Infrastructure preparation:
+
+[Red team infrastructure](cheat-sheets/testing-infra.md) - preparing and managing cloud-based attack infrstructure.
+
+[Arch Linux](cheat-sheets/arch.md) - preparation and deployment of universal computing node (Arch Linux) on various platforms.
+
+[Service deployments](cheat-sheets/http-srv.md) - deploying disposable HTTP services for the purpose of attack operation.
 
 ## Running an Operation
 
 ```
 1. Determine a set of tactical objectives required to achieve your operational goal(s)
 2. Achieve required tactical objective(s)
-3. Choose feasible technique(s) to achieve given tactical objective
+3. Choose feasible combination of techniques to achieve given tactical objective
 ```
 
 # Tactical Objectives
@@ -124,9 +132,9 @@ Collection of techniques and associated procedures (from following categories: P
 
 ## Cheat Sheets
 
-[ What goes wrong in software: Native applications ]
-
 [What goes wrong in software: Web-based applications](cheat-sheets/vulns.md)
+
+[ What goes wrong in software: Native applications ]
 
 [Known RCE collection](cheat-sheets/rce-collection.md)
 
@@ -143,8 +151,3 @@ Command line fu: [ oneliners ] | [ UNIX cli ] | [Windows cli](cheat-sheets/windo
 [SSH](cheat-sheets/ssh.md)
 
 [Metasploit](cheat-sheets/metasploit.md)
-
- - [Red team infrastructure](cheat-sheets/testing-infra.md)
-     - [Arch Linux](cheat-sheets/arch.md)
-     - [Service deployments](cheat-sheets/http-srv.md)
-

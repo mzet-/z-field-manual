@@ -107,6 +107,8 @@ scp -i $HOME/.ssh/key.pem $HOME/bin/hacking-helpers.inc "$user"@"$ip":bin
 ssh -i $HOME/.ssh/key.pem "$user"@"$ip"
 
 ## Refresh keys and update
+# pacman -S archlinux-keyring
+# OR:
 # pacman-key --init
 # pacman-key --populate
 # select fastest mirror:
@@ -129,7 +131,7 @@ $ sudo ./strap.sh
 sudo pacman -Syu
 sudo -E bash
 # from Arch:
-pacman -S gobuster dnsutils speedtest-cli wfuzz git screen p0f nmap certbot jq wget dnsrecon
+pacman -S net-tools gobuster dnsutils speedtest-cli wfuzz git screen p0f nmap certbot jq wget dnsrecon
 # hacking helpers include:
 source ~/bin/hacking-helpers.inc
 # from Blackarch:
