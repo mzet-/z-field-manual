@@ -99,8 +99,9 @@ TODO
 ```
 ## Directory structure prep and provisioning:
 attack-fleet ec2show us-east-1
-export IP=<ip>; export user=arch
+export ip=<ip>; export user=arch
 ssh -i $HOME/.ssh/key.pem "$user"@"$ip" 'mkdir {bin,res,LOGS,pscans,vscans}; mkdir -p PAYLOADS/{PASSWD,MISC}; mkdir -p IMPORTS/{TOOLS,MISC}'
+ssh -i $HOME/.ssh/key.pem "$user"@"$ip" 'wget https://raw.githubusercontent.com/mzet-/z-field-manual/master/scripts/nobserver.sh; wget https://bitbucket.org/memoryresident/gnxtools/raw/fde3449ff2756686e001ac4f7a45849a187f3710/gnxparse.py; chmod +x nobserver.sh; chmod +x gnxparse.py'
 scp -i $HOME/.ssh/key.pem $HOME/bin/hacking-helpers.inc "$user"@"$ip":bin
 
 ## jump to the machine
