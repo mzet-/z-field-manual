@@ -37,3 +37,10 @@ aws --region us-east-1 --profile <profile> ec2 disassociate-address --associatio
 release-address (https://docs.aws.amazon.com/cli/latest/reference/ec2/release-address.html)
 aws --region us-east-1 --profile <profile> ec2 release-address --allocation-id <alloc-ID>
 ```
+
+### Deploy OpenVPN node
+
+```
+https://labs.withsecure.com/tools/rapid-openvpn-certificate-and-configuration-deployment
+https://github.com/stufus/openvpn-rapid-config
+```

@@ -40,7 +40,7 @@ wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/
 
 ```
 TODO
-``
+```
 
 ## Thirdparty tools
 
@@ -49,9 +49,15 @@ https://gchq.github.io/CyberChef/CyberChef_v9.55.0.zip
 https://raw.githubusercontent.com/psypanda/hashID/master/hashid.py
 https://github.com/reyammer/shellnoob
 
+https://github.com/projectdiscovery/mapcidr/releases/latest
 https://github.com/projectdiscovery/uncover/releases/latest
 https://github.com/zmap/zmap/releases/latest
 https://github.com/zmap/zgrab2/releases/latest
+
+https://github.com/projectdiscovery/subfinder/releases/latest
+https://github.com/projectdiscovery/shuffledns/releases/latest
+
+https://github.com/punk-security/dnsReaper
 
 https://github.com/projectdiscovery/httpx/releases/latest
 https://github.com/michenriksen/aquatone/releases/latest

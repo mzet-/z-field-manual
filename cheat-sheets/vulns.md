@@ -194,6 +194,7 @@ https://github.com/portswigger/json-web-token-attacker
 ## HTML markup injection
 
     https://lcamtuf.coredump.cx/postxss/
+    https://portswigger.net/research/stealing-passwords-from-infosec-mastodon-without-bypassing-csp
 
 ## XSS
 
