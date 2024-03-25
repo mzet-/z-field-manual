@@ -314,3 +314,5 @@ Cracking JWT:
 For more see:
 https://github.com/ticarpi/jwt_tool/wiki/Attack-Methodology#weak-hmac-secret-used-as-a-key
 ```
+
+## NoSQL
